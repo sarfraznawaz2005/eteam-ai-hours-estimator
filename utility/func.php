@@ -114,6 +114,7 @@ function getSystemPrompt() {
     - You will not calculate total hours.
     - Your estimates must never be zero.
     - You must indent headings automatically and smartly.
+    - You response must be polite, professional and easy to understand.
     - You may search over the internet if you like.
     
     Your output must be exactly like this:
