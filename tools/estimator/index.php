@@ -5,9 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap 5 Hero Page</title>
+    <title>eTeam Project Estimator</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="/assets/favicon.ico">
+    
     <style>
         body {margin-bottom:50px;}
     </style>
@@ -34,9 +38,12 @@
                         </li>
                     </ul>
                 </div>
+
+                <hr>
             </div>
         </div>
     </div>
+
     
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -44,12 +51,12 @@
                 <form method="post" action="">
                     <div class="mb-3">
                         <label for="descriptionTextarea" class="form-label">Project Description</label>
-                        <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#descriptionModal"></i>
+                        <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#descriptionModal" title="See Example"></i>
                         <textarea class="form-control" id="descriptionTextarea" name="descriptionTextarea" rows="10" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="featuresTextarea" class="form-label">Project Features</label>
-                        <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#featuresModal"></i>
+                        <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#featuresModal" title="See Example"></i>
                         <textarea class="form-control" id="featuresTextarea" name="featuresTextarea" rows="10" required></textarea>
                     </div>
                     <div class="text-center">

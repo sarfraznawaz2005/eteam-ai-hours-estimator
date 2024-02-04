@@ -1,8 +1,8 @@
 <?php
 
-//require_once 'Parsedown.php';
+require_once 'Parsedown.php';
 
-function generateContent($prompt): string
+function generateContent($prompt, $useParseDown = false): string
 {
     $config = require_once '../../config.php';
 
@@ -12,7 +12,6 @@ function generateContent($prompt): string
 
     $requestPrompt = getSystemPrompt() . $prompt;
     //echo $requestPrompt;exit;
-
 
     // TODO: Customize params such as top_k, temparature, etc for ideal results.
 
@@ -63,29 +62,28 @@ function generateContent($prompt): string
 
         $text = $text . "<hr><strong>Total Rough Estimate: $total</strong>";
 
-        /*
-        // convert it into markdown
-        $pd = new Parsedown();
+        if ($useParseDown) {
+            $pd = new Parsedown();
 
-        $pd->setSafeMode(true);
-        $pd->setBreaksEnabled(true);
-        $pd->setMarkupEscaped(true);
-        $pd->setUrlsLinked(true);
-
-        return $pd->text($text);
-        */
+            $pd->setSafeMode(true);
+            $pd->setBreaksEnabled(true);
+            $pd->setMarkupEscaped(true);
+            $pd->setUrlsLinked(true);
+    
+            return $pd->text($text);
+        }
 
         return $text;
     }
 }
 
-function generateContentWithRetry($prompt): string
+function generateContentWithRetry($prompt, $useParseDown = false): string
 {
     $retryCount = 0;
     $text = '';
 
     do {
-        $text = generateContent($prompt);
+        $text = generateContent($prompt, $useParseDown);
 
         if (strpos($text, "Error or no response") !== false) {
             $retryCount++;
@@ -116,6 +114,7 @@ function getSystemPrompt() {
     - You will not calculate total hours.
     - Your estimates must never be zero.
     - You must indent headings automatically and smartly.
+    - You may search over the internet if you like.
     
     Your output must be exactly like this:
     
