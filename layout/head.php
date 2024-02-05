@@ -37,6 +37,7 @@
     pre p {
         margin: 0;
         padding: 0;
+        line-height: 1.5rem;
     }
 
     pre {
@@ -45,8 +46,6 @@
         border: 1px solid #aeb6b6;
         background-image: radial-gradient(#eee, #bbbbbb);
         padding: 25px;
-        font-size: 0.9rem;
-        font-family: Arial, Helvetica, sans-serif;
     }
 
     pre p {
