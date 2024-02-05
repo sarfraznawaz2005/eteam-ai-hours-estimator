@@ -1,5 +1,5 @@
-<?php require_once './utility/ai.php';?>
-<?php require_once './layout/head.php'; ?>
+<?php require_once './setup.php';?>
+<?php require_once './layout/head.php';?>
 
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
@@ -26,19 +26,19 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="font-size:14px;">
-            <?=$pd->text("* **Follows Company Guidelines:** Unlike ChatGPT, the output can be customized to tailor company's needs.");?>
-            <?=$pd->text("* **Easily Available:** Provide seamless access to AI tools for all authorized users, fostering collaboration and streamlining workflows.");?>
-            <?=$pd->text("* **No Complex AI Prompting:** No need to learn complex AI prompt-engineering to get desired output.");?>
-            <?=$pd->text("* **Add More Tools As Needed:** Scale and expand AI capabilities over time, integrating new tools and services to meet evolving business requirements.");?>
-            <?=$pd->text("* **Increased Efficiency & Productivity:** Team can eliminate the need for manual and repetitive tasks, freeing up employee's time to focus on more strategic and creative projects.");?>
-            <?=$pd->text("* **Enhanced Decision-Making:** AI-powered tools can provide data-driven insights, allowing company to make informed and timely decisions.");?>
-            <?=$pd->text("* **Foster Innovation:** AI tools can help the company explore new opportunities, identify trends, and develop innovative products and services.");?>
-            <?=$pd->text("* **Competitive Advantage:** By leveraging AI, the company can gain a competitive edge by responding quickly to market changes, optimizing operations, and developing differentiated products and services.");?>
-            <?=$pd->text("* **Improved Customer Service:** AI-powered chatbots and virtual assistants can provide 24/7 customer support, answering questions, resolving issues, and scheduling appointments.");?>
-            <?=$pd->text("* **Real-Time Insights:** AI tools can monitor data in real time, providing up-to-date insights that can help businesses make informed decisions and respond to changing market conditions.");?>
+            <?=Parsedown::instance()->text("* **Follows Company Guidelines:** Unlike ChatGPT, the output can be customized to tailor company's needs.");?>
+            <?=Parsedown::instance()->text("* **Easily Available:** Provide seamless access to AI tools for all authorized users, fostering collaboration and streamlining workflows.");?>
+            <?=Parsedown::instance()->text("* **No Complex AI Prompting:** No need to learn complex AI prompt-engineering to get desired output.");?>
+            <?=Parsedown::instance()->text("* **Add More Tools As Needed:** Scale and expand AI capabilities over time, integrating new tools and services to meet evolving business requirements.");?>
+            <?=Parsedown::instance()->text("* **Increased Efficiency & Productivity:** Team can eliminate the need for manual and repetitive tasks, freeing up employee's time to focus on more strategic and creative projects.");?>
+            <?=Parsedown::instance()->text("* **Enhanced Decision-Making:** AI-powered tools can provide data-driven insights, allowing company to make informed and timely decisions.");?>
+            <?=Parsedown::instance()->text("* **Foster Innovation:** AI tools can help the company explore new opportunities, identify trends, and develop innovative products and services.");?>
+            <?=Parsedown::instance()->text("* **Competitive Advantage:** By leveraging AI, the company can gain a competitive edge by responding quickly to market changes, optimizing operations, and developing differentiated products and services.");?>
+            <?=Parsedown::instance()->text("* **Improved Customer Service:** AI-powered chatbots and virtual assistants can provide 24/7 customer support, answering questions, resolving issues, and scheduling appointments.");?>
+            <?=Parsedown::instance()->text("* **Real-Time Insights:** AI tools can monitor data in real time, providing up-to-date insights that can help businesses make informed decisions and respond to changing market conditions.");?>
             </div>
         </div>
     </div>
 </div>
 
-<?php require_once './layout/foot.php'; ?>
+<?php require_once './layout/foot.php';?>

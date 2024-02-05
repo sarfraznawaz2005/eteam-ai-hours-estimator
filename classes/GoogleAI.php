@@ -1,0 +1,98 @@
+<?php
+
+class GoogleAI extends AI
+{
+    public static function generateContent($prompt, $useParseDown = false): string
+    {
+        $apiKey = getConfig()['GOOGLE_API_KEY'];
+
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$apiKey";
+
+        $requestPrompt = static::getSystemPrompt() . $prompt;
+        //echo $requestPrompt;exit;
+
+        // TODO: Customize params such as top_k, temparature, etc for ideal results.
+
+        $data = [
+            'contents' => [
+                [
+                    'parts' => [
+                        [
+                            'text' => $requestPrompt,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
+
+        if ($error || empty($response)) {
+            return "Error or no response, please try again!";
+        } else {
+
+            $response = json_decode($response, true);
+            $text = '';
+
+            foreach ($response['candidates'] as $candidate) {
+                if (!isset($candidate['content'])) {
+                    return "No response, please try again!";
+                }
+
+                foreach ($candidate['content']['parts'] as $part) {
+                    $text .= $part['text'] . "\n";
+                }
+            }
+
+            // calculate total estimate manually since AI is weak in maths
+            $pattern = '/\d+(?= hours)/';
+            preg_match_all($pattern, $text, $matches);
+
+            $total = array_sum($matches[0]);
+
+            $text = $text . "<hr><strong>Total Rough Estimate: $total</strong>";
+
+            if ($useParseDown) {
+                Parsedown::instance()->setSafeMode(true);
+                Parsedown::instance()->setBreaksEnabled(true);
+                Parsedown::instance()->setMarkupEscaped(true);
+                Parsedown::instance()->setUrlsLinked(true);
+
+                return Parsedown::instance()->text($text);
+            }
+
+            return $text;
+        }
+    }
+
+    public static function generateContentWithRetry($prompt, $useParseDown = false): string
+    {
+        $retryCount = 0;
+        $text = '';
+
+        do {
+            $text = static::generateContent($prompt, $useParseDown);
+
+            if (strpos($text, "Error or no response") !== false) {
+                $retryCount++;
+
+                if ($retryCount < 3) {
+                    sleep(3);
+                } else {
+                    return "No response after 3 retries, please try again!";
+                }
+            } else {
+                return $text;
+            }
+
+        } while ($retryCount < 3);
+    }
+}

@@ -1,4 +1,4 @@
-<?php require_once '../../layout/head.php'; ?>
+<?php require_once '../../layout/head.php';?>
 
 <div class="row justify-content-center">
     <div class="col-md-8 text-center">
@@ -6,4 +6,4 @@
     </div>
 </div>
 
-<?php require_once '../../layout/foot.php'; ?>
+<?php require_once '../../layout/foot.php';?>
