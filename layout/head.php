@@ -19,6 +19,12 @@
     body {
         margin-bottom: 50px;
     }
+
+    a {
+        text-decoration: none;
+        color: #0d84cc;
+    }
+
     </style>
 </head>
 

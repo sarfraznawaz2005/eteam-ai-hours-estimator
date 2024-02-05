@@ -2,6 +2,8 @@
 
 require_once 'Parsedown.php';
 
+$pd = new Parsedown();
+
 function generateContent($prompt, $useParseDown = false): string
 {
     $config = require_once '../../config.php';
@@ -63,8 +65,6 @@ function generateContent($prompt, $useParseDown = false): string
         $text = $text . "<hr><strong>Total Rough Estimate: $total</strong>";
 
         if ($useParseDown) {
-            $pd = new Parsedown();
-
             $pd->setSafeMode(true);
             $pd->setBreaksEnabled(true);
             $pd->setMarkupEscaped(true);
