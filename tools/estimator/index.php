@@ -51,9 +51,12 @@
             </div>
         </form>
 
-        <?php require_once __DIR__ . '../../../layout/common.php' ?>
-        
     </div>
+
+    <div class="row justify-content-center">
+        <?php require_once __DIR__ . '../../../layout/common.php'?>
+    </div>
+
 </div>
 
 

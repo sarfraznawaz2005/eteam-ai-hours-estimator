@@ -6,6 +6,6 @@
 </div>
 
 <div class="mt-5 success"
-    style="background: #eee; padding:20px 20px 0px 20px; border: 1px solid #ddd; border-radius:15px; display:none;">
+    style="display:none; width: fit-content; margin: 0 auto;">
     <pre></pre>
 </div>

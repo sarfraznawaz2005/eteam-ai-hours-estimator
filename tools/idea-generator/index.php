@@ -7,22 +7,25 @@
             <p class="lead">Please click below buttons on how you want to generate a project idea.</p>
             <hr class="my-4">
             <p class="lead">
-                <div class="btn-group" role="group">
-                    <a class="btn btn-success rounded" role="button" data-bs-toggle="modal" data-bs-target="#ideaModal">
-                        <i class="bi bi-person-fill"></i> Generate My Idea
-                    </a>
+            <div class="btn-group" role="group">
+                <a class="btn btn-success rounded" role="button" data-bs-toggle="modal" data-bs-target="#ideaModal">
+                    <i class="bi bi-person-fill"></i> Generate My Idea
+                </a>
 
-                    <form action="" method="post">
-                        <button type="submit" class="btn btn-primary" style="margin-left: 1rem;">
-                            <i class="bi bi-magic"></i> Generate Random Idea
-                        </button>
-                    </form>
-                </div>
+                <form action="" method="post">
+                    <button type="submit" class="btn btn-primary" style="margin-left: 1rem;">
+                        <i class="bi bi-magic"></i> Generate Random Idea
+                    </button>
+                </form>
+            </div>
             </p>
         </div>
+    </div>
 
+    <div class="row justify-content-center">
         <?php require_once __DIR__ . '../../../layout/common.php'?>
     </div>
+
 </div>
 
 <div class="modal fade" id="ideaModal" tabindex="-1" aria-labelledby="ideaModal" aria-hidden="true">

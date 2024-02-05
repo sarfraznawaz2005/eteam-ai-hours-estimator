@@ -32,7 +32,7 @@ PROMPT;
 
         GoogleAI::SetSystemPrompt(file_get_contents('prompt.txt'));
 
-        $response = GoogleAI::GenerateContentWithRetry($prompt);
+        $response = GoogleAI::GenerateContentWithRetry($prompt, true);
 
         // calculate total estimate manually since AI is weak in maths
         $pattern = '/\d+(?= hours)/';

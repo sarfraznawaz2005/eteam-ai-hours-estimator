@@ -68,15 +68,15 @@ class GoogleAI extends AI
             }
 
             if ($useParseDown) {
-                Parsedown::instance()->setSafeMode(true);
+                Parsedown::instance()->setSafeMode(false);
                 Parsedown::instance()->setBreaksEnabled(false);
-                Parsedown::instance()->setMarkupEscaped(true);
+                Parsedown::instance()->setMarkupEscaped(false);
                 Parsedown::instance()->setUrlsLinked(true);
 
                 return Parsedown::instance()->text($text);
             }
 
-            return $text;
+            return mb_convert_encoding($text, 'UTF-8');
         }
     }
 }
