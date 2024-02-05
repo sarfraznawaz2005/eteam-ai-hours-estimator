@@ -1,4 +1,3 @@
-<?php require_once '../../utility/func.php';?>
 <?php require_once '../../layout/head.php'; ?>
 
 <div class="row justify-content-center">
@@ -52,9 +51,9 @@
             </div>
         </form>
 
-        <div class="alert alert-danger" role="alert" style="display:none;"></div>
+        <div class="mt-5 alert alert-danger" role="alert" style="display:none;"></div>
 
-        <div class="loading" style="text-align: center; display:none;">
+        <div class="mt-3 loading" style="text-align: center; display:none;">
             <br>
             <img src="" id="loadingImg" alt="Loading..." width="300" height="300">
         </div>

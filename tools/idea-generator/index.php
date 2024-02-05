@@ -1,4 +1,3 @@
-<?php require_once '../../utility/func.php';?>
 <?php require_once '../../layout/head.php'; ?>
 
 <div class="row justify-content-center">

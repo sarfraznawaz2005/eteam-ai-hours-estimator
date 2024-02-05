@@ -1,4 +1,4 @@
-<?php require_once './utility/func.php';?>
+<?php require_once './utility/ai.php';?>
 <?php require_once './layout/head.php'; ?>
 
 <div class="row justify-content-center mt-5">
