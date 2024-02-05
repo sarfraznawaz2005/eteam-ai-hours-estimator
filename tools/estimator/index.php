@@ -1,201 +1,192 @@
-<?php require_once '../../utility/func.php'; ?>
+<?php require_once '../../utility/func.php';?>
+<?php require_once '../../layout/head.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eTeam Project Estimator</title>
+<div class="row justify-content-center">
+    <div class="col-md-8">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <div class="mb-4" style="font-size: 0.9rem;">
+            <h5 class="mb-4">Helpful Tips</h5>
+            <ul class="list-unstyled">
+                <li class="mb-2">
+                    <i class="bi bi-check-circle-fill text-success"></i>
+                    By providing clear project description, AI will be able to understand requirements and
+                    estimate better.
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-heart-fill text-primary"></i>
+                    By providing project features, AI will understand features and build their estimates.
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-lightbulb-fill text-warning"></i>
+                    Once estimate is generated, developers/designers must be consulted to make any improvements
+                    or corrections.
+                </li>
+                <li>
+                    <i class="bi bi-exclamation-circle-fill text-danger"></i>
+                    Disclaimer: AI can make mistakes. Consider checking important information.
+                </li>
+            </ul>
+        </div>
 
-    <link rel="icon" type="image/png" href="/assets/favicon.ico">
-    
-    <style>
-        body {margin-bottom:50px;}
-    </style>
-</head>
-<body>
-
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div style="font-size: 0.9rem;">
-                    <h5 class="mb-4">Helpful Tips</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <i class="bi bi-check-circle-fill text-success"></i> By providing clear project description, AI will be able to understand requirements and estimate better.
-                        </li>
-                        <li class="mb-2">
-                            <i class="bi bi-heart-fill text-primary"></i> By providing project features, AI will understand features and build their estimates.
-                        </li>
-                        <li class="mb-2">
-                            <i class="bi bi-lightbulb-fill text-warning"></i> Once estimate is generated, developers/designers must be consulted to make any improvements or corrections.
-                        </li>
-                        <li>
-                            <i class="bi bi-exclamation-circle-fill text-danger"></i> Disclaimer: AI can make mistakes. Consider checking important information.
-                        </li>
-                    </ul>
-                </div>
-
-                <hr>
+        <form method="post" action="">
+            <div class="mb-3">
+                <label for="descriptionTextarea" class="form-label">Project Description</label>
+                <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#descriptionModal"
+                    title="See Example">
+                </i>
+                <textarea class="form-control" id="descriptionTextarea" name="descriptionTextarea" rows="8"
+                    required></textarea>
             </div>
+            <div class="mb-3">
+                <label for="featuresTextarea" class="form-label">Project Features</label>
+                <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#featuresModal"
+                    title="See Example">
+                </i>
+                <textarea class="form-control" id="featuresTextarea" name="featuresTextarea" rows="8"
+                    required></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-calculator-fill"></i> Get Estimate
+                </button>
+            </div>
+        </form>
+
+        <div class="alert alert-danger" role="alert" style="display:none;"></div>
+
+        <div class="loading" style="text-align: center; display:none;">
+            <br>
+            <img src="" id="loadingImg" alt="Loading..." width="300" height="300">
+        </div>
+
+        <div class="mt-5 success"
+            style="background: #eee; padding:20px 20px 0px 20px; border: 1px solid #ddd; border-radius:15px; display:none;">
+            <pre></pre>
         </div>
     </div>
+</div>
 
-    
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <form method="post" action="">
-                    <div class="mb-3">
-                        <label for="descriptionTextarea" class="form-label">Project Description</label>
-                        <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#descriptionModal" title="See Example"></i>
-                        <textarea class="form-control" id="descriptionTextarea" name="descriptionTextarea" rows="10" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="featuresTextarea" class="form-label">Project Features</label>
-                        <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#featuresModal" title="See Example"></i>
-                        <textarea class="form-control" id="featuresTextarea" name="featuresTextarea" rows="10" required></textarea>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-calculator-fill"></i> Get Estimate</button>
-                    </div>
-                </form>
+
+<!-- Project Description Modal -->
+<div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="descriptionModalLabel">Project Description Example</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-    </div>
-
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="alert alert-danger" role="alert" style="display:none;"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="loading" style="text-align: center; display:none;">
-        <br>
-        <img src="<?=getWaitingImage()?>" alt="Loading..." width="300" height="300">
-    </div>
-
-
-    <div class="container success" style="display:none;">
-        <div class="row justify-content-center">
-            <div class="col-md-8" style="background: #eee; padding:20px 20px 0px 20px; border: 1px solid #ddd; border-radius:15px;">
-                <pre></pre>
-            </div>
-        </div>
-    </div>
-
-    
-    <!-- Project Description Modal -->
-    <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="descriptionModalLabel">Project Description Example</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="font-size:14px;">
-                Welcome to OpinSync - the innovative QR-based feedback collection web portal. Designed for businesses of all sizes, 
-                OpinSync allows companies to effortlessly gather valuable insights from their customers or clients. The process is 
-                simple: businesses can sign in, create customized feedback forms, and generate unique QR codes for each form. 
-                These QR codes can be printed and strategically placed in locations where feedback is desired, enabling a seamless
+            <div class="modal-body" style="font-size:14px;">
+                Welcome to OpinSync - the innovative QR-based feedback collection web portal. Designed for
+                businesses of all sizes,
+                OpinSync allows companies to effortlessly gather valuable insights from their customers or clients.
+                The process is
+                simple: businesses can sign in, create customized feedback forms, and generate unique QR codes for
+                each form.
+                These QR codes can be printed and strategically placed in locations where feedback is desired,
+                enabling a seamless
                 and efficient data collection process.
-                Consider a scenario where a fitness enthusiast runs multiple gyms. 
-                With OpinSync, they can create tailored feedback forms for specific areas such as changing rooms, workout floors,
-                and cafes across all their branches. This targeted approach ensures that businesses receive feedback on the aspects
-                that matter most to them.The collected feedback is conveniently displayed on a dedicated dashboard, providing 
-                businesses with a comprehensive overview of customer sentiments. Additionally, OpinSync offers the flexibility to 
-                send standard email or SMS notifications in response to each feedback received, allowing businesses to engage with
+                Consider a scenario where a fitness enthusiast runs multiple gyms.
+                With OpinSync, they can create tailored feedback forms for specific areas such as changing rooms,
+                workout floors,
+                and cafes across all their branches. This targeted approach ensures that businesses receive feedback
+                on the aspects
+                that matter most to them.The collected feedback is conveniently displayed on a dedicated dashboard,
+                providing
+                businesses with a comprehensive overview of customer sentiments. Additionally, OpinSync offers the
+                flexibility to
+                send standard email or SMS notifications in response to each feedback received, allowing businesses
+                to engage with
                 their customers and address concerns promptly.
-                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Project Features Modal -->
-    <div class="modal fade" id="featuresModal" tabindex="-1" aria-labelledby="featuresModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="featuresModalLabel">Project Features Example</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="font-size:14px;">
-                1. Customizable Forms: Tailor feedback forms to suit the unique needs of your business or choose from a variety of templates.
+<!-- Project Features Modal -->
+<div class="modal fade" id="featuresModal" tabindex="-1" aria-labelledby="featuresModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="featuresModalLabel">Project Features Example</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="font-size:14px;">
+                1. Customizable Forms: Tailor feedback forms to suit the unique needs of your business or choose
+                from a variety of templates.
                 <br><br>
-                2. QR Code Generation: Generate QR codes for each feedback form, making it easy to collect responses from specific locations.
+                2. QR Code Generation: Generate QR codes for each feedback form, making it easy to collect responses
+                from specific locations.
                 <br><br>
-                3. Multi-Location Support: Ideal for businesses with multiple branches or locations, allowing them to gather feedback on a granular level.
+                3. Multi-Location Support: Ideal for businesses with multiple branches or locations, allowing them
+                to gather feedback on a granular level.
                 <br><br>
-                4. Centralized Dashboard: View and analyze feedback in one centralized dashboard for a holistic understanding of customer sentiments.
+                4. Centralized Dashboard: View and analyze feedback in one centralized dashboard for a holistic
+                understanding of customer sentiments.
                 <br><br>
-                5. Communication Tools: Respond to feedback efficiently by sending standard email or SMS notifications directly from the platform.
+                5. Communication Tools: Respond to feedback efficiently by sending standard email or SMS
+                notifications directly from the platform.
                 <br><br>
                 6. User-Friendly Interface: Intuitive design and easy navigation for a seamless user experience.
                 <br><br>
-                7. Data Security: Prioritize the security of customer data with robust encryption and privacy measures.
-                </div>
+                7. Data Security: Prioritize the security of customer data with robust encryption and privacy
+                measures.
             </div>
         </div>
     </div>
+</div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('form').on('submit', function(e) {
-            e.preventDefault();
+$(document).ready(function() {
+    $('form').on('submit', function(e) {
+        e.preventDefault();
 
-            var formData = $(this).serialize();
+        let formData = $(this).serialize();
 
-            $('div.alert-danger').hide();
-            $('div.success').hide();
-            
-            $("div.loading").show();
-            $('html, body').animate({
-                scrollTop: $("div.loading").offset().top + 500
-            }, 1000);
+        $('#loadingImg').attr('src', getRandomLoadingImage());
 
-            $("button[type='submit']").prop('disabled', true);
+        $('div.alert-danger').hide();
+        $('div.success').hide();
 
-            $.ajax({
-                type: 'POST',
-                url: 'process.php',
-                dataType: 'json',
-                data: formData,
-                success: function(response) {
+        $("div.loading").show();
+        $('html, body').animate({
+            scrollTop: $("div.loading").offset().top + 500
+        }, 1000);
 
-                    if(response.error) {
-                        $('div.alert-danger').text(response.error);
-                        $('div.alert-danger').show();
-                    } else {
-                        
-                        $("div.loading").hide();
-                        $('div.success pre').html(response.result);
-                        $('div.success').show('fast');
+        $("button[type='submit']").prop('disabled', true);
 
-                        $('html, body').animate({
-                            scrollTop: $("div.success").offset().top + 100
-                        }, 1000);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    $('div.alert-danger').text(error);
+        $.ajax({
+            type: 'POST',
+            url: 'process.php',
+            dataType: 'json',
+            data: formData,
+            success: function(response) {
+
+                if (response.error) {
+                    $('div.alert-danger').text(response.error);
                     $('div.alert-danger').show();
-                },
-                complete: function () {
-                    $("button[type='submit']").prop('disabled', false);
+                } else {
+
                     $("div.loading").hide();
+                    $('div.success pre').html(response.result);
+                    $('div.success').show(1500);
+
+                    $('html, body').animate({
+                        scrollTop: $("div.success").offset().top + 15
+                    }, 1000);
                 }
-            });
+            },
+            error: function(xhr, status, error) {
+                $('div.alert-danger').text(error);
+                $('div.alert-danger').show();
+            },
+            complete: function() {
+                $("button[type='submit']").prop('disabled', false);
+                $("div.loading").hide();
+            }
         });
     });
+});
 </script>
 
-</body>
-</html>
+<?php require_once '../../layout/foot.php'; ?>

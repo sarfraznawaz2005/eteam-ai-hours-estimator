@@ -3,6 +3,9 @@
 require_once '../../utility/func.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    //sleep(5); exit(json_encode(['result' => "All Good!"]));
+
     $projectDescription = $_POST['descriptionTextarea'] ?? '';
     $projectFeatures = $_POST['featuresTextarea'] ?? '';
 
@@ -33,4 +36,3 @@ PROMPT;
     echo json_encode(['error' => 'Invalid request method.']);
     http_response_code(405); // Method Not Allowed
 }
-

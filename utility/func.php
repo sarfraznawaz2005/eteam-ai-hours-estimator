@@ -152,10 +152,3 @@ function getSystemPrompt() {
     
     PROMPT;
 }
-
-function getWaitingImage() {
-    $gifs = ["giphy1.gif", "giphy2.gif", "giphy3.gif", "giphy4.gif"];
-    $randomGif = $gifs[array_rand($gifs)];
-
-    return '/assets/' . $randomGif;
-}
