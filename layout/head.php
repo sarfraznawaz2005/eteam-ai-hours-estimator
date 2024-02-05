@@ -38,17 +38,13 @@
         padding: 0;
     }
 
-
-    ul {
-        padding: 0;
-    }
-
     pre {
         background: #b6bdbd;
         border-radius: 15px;
         border: 1px solid #aeb6b6;
         background-image: radial-gradient(#eee, #bbbbbb);
-        padding: 30px;
+        padding: 25px;
+        font-size: 0.9rem;
     }
     </style>
 </head>
