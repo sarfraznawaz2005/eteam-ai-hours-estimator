@@ -28,6 +28,7 @@
     pre,
     pre p,
     pre strong,
+    pre ol,
     pre ul,
     pre li {
         line-height: 1rem;
@@ -45,6 +46,13 @@
         background-image: radial-gradient(#eee, #bbbbbb);
         padding: 25px;
         font-size: 0.9rem;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    pre p {
+        word-break: break-all !important;
+        white-space: normal !important;
+        width: 100%;
     }
     </style>
 </head>

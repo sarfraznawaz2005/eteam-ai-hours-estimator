@@ -7,7 +7,7 @@ Note that our skills are web and mobile development, therefore we would prefer i
 
 Rules you must follow:
 
-- You must provide startup idea only for sofware products.
+- You must provide idea only for sofware products.
 - You should try to give unique ideas preferably with low competition.
 - For cost of operation, Pakistani currency must be used. 
 - You must not give random costs instead you must give realistic cost estimate by breakdown and identifying each requirement and feature.

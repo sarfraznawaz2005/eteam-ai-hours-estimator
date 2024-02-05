@@ -5,10 +5,10 @@ require_once '../../setup.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $ideaInput = $_POST['ideaInput'] ?? '';
+    $niche = $_POST['niche'] ?? '';
 
     if (empty($ideaInput)) {
         $prompt = <<<PROMPT
-
 
 Please generate a random software product idea based on given instructions.
 
@@ -16,8 +16,15 @@ PROMPT;
     } else {
         $prompt = <<<PROMPT
 
-        
 My first request is "$ideaInput"
+
+PROMPT;
+    }
+
+    if (!empty($niche)) {
+        $prompt = <<<PROMPT
+
+        Keyword(s): "$niche"
 
 PROMPT;
     }
@@ -25,7 +32,11 @@ PROMPT;
     // send the request
     try {
 
-        GoogleAI::SetSystemPrompt(file_get_contents('prompt.txt'));
+        if (!empty($niche)) {
+            GoogleAI::SetSystemPrompt(file_get_contents('prompt_niche.txt'));
+        } else {
+            GoogleAI::SetSystemPrompt(file_get_contents('prompt.txt'));
+        }
 
         $response = GoogleAI::GenerateContentWithRetry($prompt, true);
 

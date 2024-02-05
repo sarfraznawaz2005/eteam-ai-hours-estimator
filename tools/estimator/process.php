@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $prompt = <<<PROMPT
 
-    
 Project Description:
 $projectDescription
 

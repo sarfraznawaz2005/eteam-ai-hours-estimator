@@ -58,7 +58,6 @@ function getRandomLoadingImage() {
         '/assets/giphy3.gif',
         '/assets/giphy4.gif',
         '/assets/giphy5.gif',
-        '/assets/giphy6.gif',
         '/assets/giphy7.gif',
         '/assets/giphy8.gif',
         '/assets/giphy9.gif',
