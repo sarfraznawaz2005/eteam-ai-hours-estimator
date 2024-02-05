@@ -18,11 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $prompt = <<<PROMPT
 
-    Project Description:
-    $projectDescription
+    
+Project Description:
+$projectDescription
 
-    Features:
-    $projectFeatures
+Features:
+$projectFeatures
 
 PROMPT;
 
@@ -32,6 +33,14 @@ PROMPT;
         GoogleAI::SetSystemPrompt(file_get_contents('prompt.txt'));
 
         $response = GoogleAI::GenerateContentWithRetry($prompt);
+
+        // calculate total estimate manually since AI is weak in maths
+        $pattern = '/\d+(?= hours)/';
+        preg_match_all($pattern, $response, $matches);
+
+        $total = array_sum($matches[0]);
+
+        $response = $response . "<hr><strong>Total Rough Estimate: $total</strong>";
 
         echo json_encode(['result' => $response]);
         http_response_code(200); // OK

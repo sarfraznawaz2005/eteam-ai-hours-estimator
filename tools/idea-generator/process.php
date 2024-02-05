@@ -4,34 +4,30 @@ require_once '../../setup.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    //sleep(5); exit(json_encode(['result' => "All Good!"]));
+    $ideaInput = $_POST['ideaInput'] ?? '';
 
-    $projectDescription = $_POST['descriptionTextarea'] ?? '';
-    $projectFeatures = $_POST['featuresTextarea'] ?? '';
+    if (empty($ideaInput)) {
+        $prompt = <<<PROMPT
 
-    // Validate the input
-    if (empty($projectDescription) || empty($projectFeatures)) {
-        echo json_encode(['error' => 'Project description and features are required.']);
-        http_response_code(400); // Bad Request
-        exit;
-    }
 
-    $prompt = <<<PROMPT
-
-    Project Description:
-    $projectDescription
-
-    Features:
-    $projectFeatures
+Please generate a random software product idea based on given instructions.
 
 PROMPT;
+    } else {
+        $prompt = <<<PROMPT
+
+        
+My first request is "$ideaInput"
+
+PROMPT;
+    }
 
     // send the request
     try {
 
         GoogleAI::SetSystemPrompt(file_get_contents('prompt.txt'));
 
-        $response = GoogleAI::GenerateContentWithRetry($prompt);
+        $response = GoogleAI::GenerateContentWithRetry($prompt, true);
 
         echo json_encode(['result' => $response]);
         http_response_code(200); // OK

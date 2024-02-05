@@ -25,6 +25,18 @@
         color: #0d84cc;
     }
 
+    pre,
+    pre p,
+    pre strong,
+    pre ul,
+    pre li {
+        line-height: 1rem;
+    }
+
+    pre p {
+        margin: 0;
+        padding: 0;
+    }
     </style>
 </head>
 

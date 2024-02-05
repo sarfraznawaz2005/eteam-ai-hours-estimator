@@ -9,9 +9,7 @@ class GoogleAI extends AI
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$apiKey";
 
         $requestPrompt = static::getSystemPrompt() . $prompt;
-        //echo $requestPrompt;exit;
-
-        // TODO: Customize params such as top_k, temparature, etc for ideal results.
+        //return $requestPrompt;
 
         $data = [
             'contents' => [
@@ -23,6 +21,23 @@ class GoogleAI extends AI
                     ],
                 ],
             ],
+            /*
+        'safetySettings' => [
+        [
+        'category' => 'HARM_CATEGORY_HARASSMENT',
+        'threshold' => 'BLOCK_ONLY_HIGH',
+        ],
+        ],
+        'generationConfig' => [
+        //'stopSequences' => [
+        //    'Title',
+        //],
+        //'temperature' => 1.0,
+        //'maxOutputTokens' => 800,
+        //'topP' => 0.8,
+        //'topK' => 10,
+        ],
+         */
         ];
 
         $ch = curl_init($url);
@@ -52,17 +67,9 @@ class GoogleAI extends AI
                 }
             }
 
-            // calculate total estimate manually since AI is weak in maths
-            $pattern = '/\d+(?= hours)/';
-            preg_match_all($pattern, $text, $matches);
-
-            $total = array_sum($matches[0]);
-
-            $text = $text . "<hr><strong>Total Rough Estimate: $total</strong>";
-
             if ($useParseDown) {
                 Parsedown::instance()->setSafeMode(true);
-                Parsedown::instance()->setBreaksEnabled(true);
+                Parsedown::instance()->setBreaksEnabled(false);
                 Parsedown::instance()->setMarkupEscaped(true);
                 Parsedown::instance()->setUrlsLinked(true);
 
@@ -71,28 +78,5 @@ class GoogleAI extends AI
 
             return $text;
         }
-    }
-
-    public static function generateContentWithRetry($prompt, $useParseDown = false): string
-    {
-        $retryCount = 0;
-        $text = '';
-
-        do {
-            $text = static::generateContent($prompt, $useParseDown);
-
-            if (strpos($text, "Error or no response") !== false) {
-                $retryCount++;
-
-                if ($retryCount < 3) {
-                    sleep(3);
-                } else {
-                    return "No response after 3 retries, please try again!";
-                }
-            } else {
-                return $text;
-            }
-
-        } while ($retryCount < 3);
     }
 }

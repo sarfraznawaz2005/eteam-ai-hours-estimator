@@ -16,5 +16,26 @@ abstract class AI
 
     abstract public static function generateContent($prompt, $useParseDown = false): string;
 
-    abstract public static function generateContentWithRetry($prompt, $useParseDown = false): string;
+    public static function generateContentWithRetry($prompt, $useParseDown = false): string
+    {
+        $retryCount = 0;
+        $text = '';
+
+        do {
+            $text = static::generateContent($prompt, $useParseDown);
+
+            if (strpos($text, "Error or no response") !== false) {
+                $retryCount++;
+
+                if ($retryCount < 3) {
+                    sleep(3);
+                } else {
+                    return "No response after 3 retries, please try again!";
+                }
+            } else {
+                return $text;
+            }
+
+        } while ($retryCount < 3);
+    }
 }

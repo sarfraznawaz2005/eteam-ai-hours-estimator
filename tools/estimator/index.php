@@ -51,17 +51,8 @@
             </div>
         </form>
 
-        <div class="mt-5 alert alert-danger" role="alert" style="display:none;"></div>
-
-        <div class="mt-3 loading" style="text-align: center; display:none;">
-            <br>
-            <img src="" id="loadingImg" alt="Loading..." width="300" height="300">
-        </div>
-
-        <div class="mt-5 success"
-            style="background: #eee; padding:20px 20px 0px 20px; border: 1px solid #ddd; border-radius:15px; display:none;">
-            <pre></pre>
-        </div>
+        <?php require_once __DIR__ . '../../../layout/common.php' ?>
+        
     </div>
 </div>
 
@@ -133,59 +124,5 @@
         </div>
     </div>
 </div>
-
-
-<script>
-$(document).ready(function() {
-    $('form').on('submit', function(e) {
-        e.preventDefault();
-
-        let formData = $(this).serialize();
-
-        $('#loadingImg').attr('src', getRandomLoadingImage());
-
-        $('div.alert-danger').hide();
-        $('div.success').hide();
-
-        $("div.loading").show();
-        $('html, body').animate({
-            scrollTop: $("div.loading").offset().top + 500
-        }, 1000);
-
-        $("button[type='submit']").prop('disabled', true);
-
-        $.ajax({
-            type: 'POST',
-            url: 'process.php',
-            dataType: 'json',
-            data: formData,
-            success: function(response) {
-
-                if (response.error) {
-                    $('div.alert-danger').text(response.error);
-                    $('div.alert-danger').show();
-                } else {
-
-                    $("div.loading").hide();
-                    $('div.success pre').html(response.result);
-                    $('div.success').show(1500);
-
-                    $('html, body').animate({
-                        scrollTop: $("div.success").offset().top + 15
-                    }, 1000);
-                }
-            },
-            error: function(xhr, status, error) {
-                $('div.alert-danger').text(error);
-                $('div.alert-danger').show();
-            },
-            complete: function() {
-                $("button[type='submit']").prop('disabled', false);
-                $("div.loading").hide();
-            }
-        });
-    });
-});
-</script>
 
 <?php require_once '../../layout/foot.php';?>
