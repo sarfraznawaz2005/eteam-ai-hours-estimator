@@ -1,0 +1,15 @@
+.idea/*
+.fleet/*
+.vscode/*
+.gitignore
+config.php
+.gptignore
+.git/*
+*.git
+*.md
+*.txt
+*.ico
+*.gif
+*.png
+*.jpg
+*.jpeg
