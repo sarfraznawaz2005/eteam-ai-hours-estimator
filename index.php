@@ -10,12 +10,14 @@
             <p class="lead">Please click a tool below to open it.</p>
             <hr class="my-4">
             <p class="lead">
-                <a class="btn btn-success btn-lg" href="./tools/estimator/index.php" role="button" target="_blank">
-                    <i class="bi bi-calculator-fill"></i> Project Estimator
-                </a>
-
-                <a class="btn btn-warning btn-lg" href="./tools/idea-generator/index.php" role="button" target="_blank">
+                <a class="btn btn-warning" href="./tools/idea-generator/index.php" role="button">
                     <i class="bi bi bi-lightbulb-fill"></i> Idea Generator
+                </a>
+                <a class="btn btn-success" href="./tools/estimator/index.php" role="button">
+                    <i class="bi bi-calculator-fill"></i> Estimator
+                </a>
+                <a class="btn btn-primary" href="./tools/system-design/index.php" role="button">
+                    <i class="bi bi-tools"></i> System Design
                 </a>
             </p>
         </div>

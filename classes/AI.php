@@ -14,9 +14,9 @@ abstract class AI
         return static::$systemPrompt;
     }
 
-    abstract public static function generateContent($prompt, $useParseDown = false): string;
+    abstract public static function generateContent($prompt, $useParseDown = true): string;
 
-    public static function generateContentWithRetry($prompt, $useParseDown = false): string
+    public static function generateContentWithRetry($prompt, $useParseDown = true): string
     {
         $retryCount = 0;
 

@@ -38,7 +38,7 @@ PROMPT;
             GoogleAI::SetSystemPrompt(file_get_contents('prompt.txt'));
         }
 
-        $response = GoogleAI::GenerateContentWithRetry($prompt, true);
+        $response = GoogleAI::GenerateContentWithRetry($prompt);
 
         echo json_encode(['result' => $response]);
         http_response_code(200); // OK

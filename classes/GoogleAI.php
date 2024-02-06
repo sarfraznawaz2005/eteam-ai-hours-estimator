@@ -2,7 +2,7 @@
 
 class GoogleAI extends AI
 {
-    public static function generateContent($prompt, $useParseDown = false): string
+    public static function generateContent($prompt, $useParseDown = true): string
     {
         $apiKey = getConfig()['GOOGLE_API_KEY'];
 
@@ -34,10 +34,10 @@ class GoogleAI extends AI
         //'stopSequences' => [
         //    'Title',
         //],
-        //'maxOutputTokens' => 800,
-        'temperature' => 0.5,
-        'topP' => 0.5,
-        'topK' => 20,
+        'maxOutputTokens' => 8096,
+        //'temperature' => 0.5,
+        //'topP' => 0.5,
+        //'topK' => 20,
         ],
          
         ];
@@ -71,8 +71,8 @@ class GoogleAI extends AI
 
             if ($useParseDown) {
                 Parsedown::instance()->setSafeMode(false);
-                Parsedown::instance()->setBreaksEnabled(false);
-                Parsedown::instance()->setMarkupEscaped(false);
+                Parsedown::instance()->setBreaksEnabled(true);
+                Parsedown::instance()->setMarkupEscaped(true);
                 Parsedown::instance()->setUrlsLinked(true);
 
                 return Parsedown::instance()->text($text);
