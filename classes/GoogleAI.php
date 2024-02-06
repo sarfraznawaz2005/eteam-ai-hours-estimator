@@ -6,6 +6,7 @@ class GoogleAI extends AI
     {
         $apiKey = getConfig()['GOOGLE_API_KEY'];
 
+        // https://ai.google.dev/models/gemini
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$apiKey";
 
         $requestPrompt = static::getSystemPrompt() . $prompt;
@@ -28,16 +29,17 @@ class GoogleAI extends AI
         'threshold' => 'BLOCK_ONLY_HIGH',
         ],
         ],
+        */
         'generationConfig' => [
         //'stopSequences' => [
         //    'Title',
         //],
-        //'temperature' => 1.0,
         //'maxOutputTokens' => 800,
-        //'topP' => 0.8,
-        //'topK' => 10,
+        'temperature' => 0.5,
+        'topP' => 0.5,
+        'topK' => 20,
         ],
-         */
+         
         ];
 
         $ch = curl_init($url);
