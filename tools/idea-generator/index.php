@@ -26,10 +26,10 @@
         </div>
     </div>
 
-    <div class="row justify-content-center">
-        <?php require_once __DIR__ . '../../../layout/common.php'?>
-    </div>
+</div>
 
+<div class="row justify-content-center">
+    <?php require_once __DIR__ . '../../../layout/common.php'?>
 </div>
 
 <div class="modal fade" id="ideaModal" tabindex="-1" aria-labelledby="ideaModal" aria-hidden="true">

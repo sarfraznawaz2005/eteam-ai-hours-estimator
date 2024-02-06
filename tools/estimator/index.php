@@ -53,12 +53,11 @@
 
     </div>
 
-    <div class="row justify-content-center">
-        <?php require_once __DIR__ . '../../../layout/common.php'?>
-    </div>
-
 </div>
 
+<div class="row justify-content-center">
+    <?php require_once __DIR__ . '../../../layout/common.php'?>
+</div>
 
 <!-- Project Description Modal -->
 <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">

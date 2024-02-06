@@ -47,7 +47,7 @@
         padding: 25px;
     }
 
-    pre p {
+    pre p, pre li {
         word-break: break-all !important;
         white-space: normal !important;
         width: 100%;
