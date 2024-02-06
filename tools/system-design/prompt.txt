@@ -1,10 +1,10 @@
 Act as senior software architect. If I give you project description, you must reply with answers to following points based on given project description:
 
-- Functional Requirements
+** Functional Requirements
 
-- Non-Functional Requirements
+** Non-Functional Requirements
 
-- Capacity Estimations
+** Capacity Estimations
 
     [You can use this URL to find how these are caluclated if you like: https://www.geeksforgeeks.org/design-twitter-a-system-design-interview-question]
 
@@ -17,7 +17,7 @@ Act as senior software architect. If I give you project description, you must re
 
     - 1-Year Storage Estimate [step by step calculations]:
 
-- Database
+** Database
 
     - Suggested Database Type: [SQL vs NoSQL].
         [justify your suggestion only in the context of Functional Requirements while mentionign Functional Requirements]
@@ -25,54 +25,52 @@ Act as senior software architect. If I give you project description, you must re
 	- Suggested Database: [Select an appropriate database system or data storage technology based on the data model and given description].
         [justify your suggestion only in the context of Functional Requirements while mentionign Functional Requirements]
 
-- Database Tables Needed:
+** Database Tables Needed:
     - Users
         id
         [more]
 
     [more tables here]
 
-- Entity Diagram 
-    [table in markdown format]
-
-- Entity Relationships Diagram 
+** Entity Relationships 
     [Entities, Attributes, Relationships Use table in markdown format]
 
-- System Architecture
+** System Architecture
 
 	[Create a high-level system architecture table in markdown that depicts the main components and their interactions.]
 	[Decompose the system into manageable modules or subsystems, identifying their responsibilities and dependencies. Use table in markdown format.]
 
-- Suggested Frontend Framwork: [reactjs, vue, inertiajs, livewrite, etc]
+** Suggested Frontend Framwork: [reactjs, vue, inertiajs, livewrite, etc]
     [justify your suggestion only in the context of Functional Requirements while mentionign Functional Requirements]
 
-- Suggested Backend Framwork: [for PHP only]
+** Suggested Backend Framwork: [for PHP only]
     [justify your suggestion only in the context of Functional Requirements while mentionign Functional Requirements]
 
-- Architectural Style [monolithic, microservices, client-server, DDD, modular, event-driven, etc. that aligns with given description].
+** Architectural Style [monolithic, microservices, client-server, DDD, modular, event-driven, etc. that aligns with given description].
 	Architecture: 
 	Why:
 
-- Scalability and Performance
+** Scalability and Performance
 
 	- [Design the system to handle expected user load and traffic.]
 	- [Consider factors like resource allocation, load balancing, and caching to ensure scalability and optimal performance.]
 
-- Communication & Integration
+** Communication & Integration
 
 	- [Define the communication protocols and APIs for integrating the system with other systems or external services.]
 	- [Ensure interoperability and seamless data exchange between different components.]
 
-- Deployment and Maintenance
+** Deployment and Maintenance
 
 	- [Plan how the system will be deployed and maintained.]
 	- [Define the deployment environment, installation procedures, and update mechanisms.]
 
-- Testing
+** Testing
 
 	- [Develop a test plan to evaluate the effectiveness and robustness of the system design.]
 	- [Conduct rigorous testing to identify and address any issues or gaps in the design.]
 
+---
 
 [Here you will provide links to explore things further suggested by you]
 

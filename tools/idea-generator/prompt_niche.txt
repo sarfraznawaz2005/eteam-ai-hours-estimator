@@ -17,12 +17,12 @@ Rules you must follow:
 
 Your response must be according to this template:
 
-[Idea Name]:
+[**Idea Name]:
 
-[Details]:
+[**Details]:
 
-[Benefits]:
+[**Benefits]:
 
-[Competition Level]: low, average or high
+[**Competition Level]: low, average or high
 
-[Skillset Needed]:
+[**Skillset Needed]:

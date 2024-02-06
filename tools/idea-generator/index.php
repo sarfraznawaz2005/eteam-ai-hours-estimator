@@ -1,6 +1,6 @@
 <?php require_once '../../layout/head.php';?>
 
-<div class="row justify-content-center mt-5">
+<div class="row justify-content-center">
     <div class="col-md-8">
         <div class="jumbotron text-center">
             <h2 class="display-4" style="display: inline;">Idea Generator</h2>

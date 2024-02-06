@@ -62,7 +62,7 @@
 
 <body>
 
-    <div class="container mt-3">
+    <div class="container mt-2">
 
         <?php if ($_SERVER['SCRIPT_NAME'] !== '/index.php'): ?>
         <a href="/index.php" title="back to home">

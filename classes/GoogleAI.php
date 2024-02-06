@@ -34,7 +34,7 @@ class GoogleAI extends AI
         //'stopSequences' => [
         //    'Title',
         //],
-        'maxOutputTokens' => 8096,
+        'maxOutputTokens' => 4048,
         //'temperature' => 0.5,
         //'topP' => 0.5,
         //'topK' => 20,

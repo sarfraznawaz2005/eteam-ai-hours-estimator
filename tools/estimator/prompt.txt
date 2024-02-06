@@ -17,32 +17,32 @@ Rules you must follow:
 
 Your output must be exactly like this:
 
-- Designing
+** Designing
     - Sketches & Wireframes (00 hours)
     - Photoshop and HTMLs (00 hours)
     - Responsive Design (00 hours)
-- Development:
-        - Project Setup
+** Development:
+        ** Project Setup
             - Set up development environment (00 hours)
             - Install necessary framework & libraries (00 hours)
-        - Database Design
+        ** Database Design
             - Design the database schema (00 hours)
             - Define relationships between entities (00 hours)
             - Implement necessary indexes for performance (00 hours)
             - Setup necessary database tooling (00 hours)
-        - Features
+        ** Features
                 - User Authentication & Authorization (00 hours)
 
                 - [identify all features and further break these features down in sub-tasks with given project description.]
 
-- Security Considerations
+** Security Considerations
 
     - [identify and further break it down in tasks if needed with given project description]
 
-- Testing (00 hours)
-- Deployment (00 hours)
-- Communication (00 hours)
-- Documentation (00 hours)
+** Testing (00 hours)
+** Deployment (00 hours)
+** Communication (00 hours)
+** Documentation (00 hours)
 
 [identify any further features or ideas that can give more value to project with given project description. If you have something to suggest, put it under "**Nice To Have Features** 😎".]
 
