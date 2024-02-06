@@ -42,7 +42,7 @@ PROMPT;
 
         echo json_encode(['result' => $response]);
         http_response_code(200); // OK
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
 
         if (str_contains($e->getMessage(), 'candidates')) {
             echo json_encode(['error' => 'There was some error, please try again later.']);

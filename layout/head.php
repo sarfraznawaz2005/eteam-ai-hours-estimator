@@ -41,10 +41,9 @@
     }
 
     pre {
-        background: #b6bdbd;
         border-radius: 15px;
         border: 1px solid #aeb6b6;
-        background-image: radial-gradient(#eee, #bbbbbb);
+        background: #b6bdbd radial-gradient(#eee, #bbbbbb);
         padding: 25px;
     }
 

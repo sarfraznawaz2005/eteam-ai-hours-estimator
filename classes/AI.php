@@ -19,12 +19,11 @@ abstract class AI
     public static function generateContentWithRetry($prompt, $useParseDown = false): string
     {
         $retryCount = 0;
-        $text = '';
 
         do {
             $text = static::generateContent($prompt, $useParseDown);
 
-            if (strpos($text, "Error or no response") !== false) {
+            if (str_contains($text, "Error or no response")) {
                 $retryCount++;
 
                 if ($retryCount < 3) {
@@ -37,5 +36,7 @@ abstract class AI
             }
 
         } while ($retryCount < 3);
+
+        return $text;
     }
 }

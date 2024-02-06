@@ -1,6 +1,6 @@
 <?php
 
-function autoloader($className)
+function autoloader($className): void
 {
     $file = __DIR__ . '/classes/' . $className . '.php';
 
@@ -12,7 +12,9 @@ function autoloader($className)
 spl_autoload_register('autoloader');
 
 // setup our error handler to convert erros into exceptions
-set_error_handler(function ($errorNumber, $errorText, $errorFile, $errorLine) {
+set_error_handler(/**
+ * @throws ErrorException
+ */ function ($errorNumber, $errorText, $errorFile, $errorLine) {
     throw new ErrorException($errorText, 0, $errorNumber, $errorFile, $errorLine);
 });
 
