@@ -7,15 +7,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ideaInput = $_POST['ideaInput'] ?? '';
     $niche = $_POST['niche'] ?? '';
 
+    GoogleAI::SetConfig(getConfig());
+
     if (empty($ideaInput)) {
         $prompt = <<<PROMPT
-
+\n
 Please generate a random software product idea based on given instructions.
 
 PROMPT;
     } else {
         $prompt = <<<PROMPT
-
+\n
 My first request is "$ideaInput"
 
 PROMPT;
@@ -23,7 +25,7 @@ PROMPT;
 
     if (!empty($niche)) {
         $prompt = <<<PROMPT
-
+        \n
         Keyword(s): "$niche"
 
 PROMPT;

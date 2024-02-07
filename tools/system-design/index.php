@@ -1,3 +1,4 @@
+<?php require_once '../../setup.php'; ?>
 <?php require_once '../../layout/head.php';?>
 
 <div class="row justify-content-center">
@@ -8,11 +9,11 @@
             <ul class="list-unstyled">
                 <li class="mb-2">
                     <i class="bi bi-check-circle-fill text-success"></i>
-                    By providing clear project description, AI will be able to understand requirements better.
+                    By providing project type, AI will be able to suggest better.
                 </li>
                 <li class="mb-2">
                     <i class="bi bi-heart-fill text-primary"></i>
-                    By providing project features, AI will understand features and build data model and other things.
+                    By providing clear project description, AI will understand features better and build data model and other things.
                 </li>
                 <li class="mb-2">
                     <i class="bi bi-lightbulb-fill text-warning"></i>
@@ -28,6 +29,15 @@
 
         <form method="post" action="">
             <div class="mb-3">
+                <label for="projectTypeSelect" class="form-label">Project Type</label>
+                <select class="form-select" id="projectTypeSelect" name="projectTypeSelect" required>
+                    <option value="">SELECT</option>
+                    <?php foreach (getConfig()['project_types'] as $projectType): ?>
+                        <option value="<?= $projectType ?>"><?= $projectType ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="descriptionTextarea" class="form-label">Project Description</label>
                 <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#descriptionModal"
                     title="See Example">
@@ -35,17 +45,9 @@
                 <textarea class="form-control" id="descriptionTextarea" name="descriptionTextarea" rows="8"
                     required></textarea>
             </div>
-            <div class="mb-3">
-                <label for="featuresTextarea" class="form-label">Project Features</label>
-                <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#featuresModal"
-                    title="See Example">
-                </i>
-                <textarea class="form-control" id="featuresTextarea" name="featuresTextarea" rows="8"
-                    required></textarea>
-            </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-tools"></i> Get System Design
+                    <i class="bi bi-tools"></i> Get Project Plan
                 </button>
             </div>
         </form>
@@ -75,7 +77,7 @@
                 each form.
                 These QR codes can be printed and strategically placed in locations where feedback is desired,
                 enabling a seamless
-                and efficient data collection process.
+                and efficient data collection process.<br><br>
                 Consider a scenario where a fitness enthusiast runs multiple gyms.
                 With OpinSync, they can create tailored feedback forms for specific areas such as changing rooms,
                 workout floors,
@@ -88,20 +90,8 @@
                 send standard email or SMS notifications in response to each feedback received, allowing businesses
                 to engage with
                 their customers and address concerns promptly.
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Project Features Modal -->
-<div class="modal fade" id="featuresModal" tabindex="-1" aria-labelledby="featuresModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="featuresModalLabel">Project Features Example</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" style="font-size:14px;">
+                <br><br>
+                Features:<br>
                 1. Customizable Forms: Tailor feedback forms to suit the unique needs of your business or choose
                 from a variety of templates.
                 <br><br>
@@ -125,5 +115,6 @@
         </div>
     </div>
 </div>
+
 
 <?php require_once '../../layout/foot.php';?>

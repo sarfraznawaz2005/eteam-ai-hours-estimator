@@ -2,7 +2,14 @@
 
 abstract class AI
 {
+    protected static array $config;
+
     protected static string $systemPrompt;
+
+    public static function SetConfig(array $config): void
+    {
+        static::$config = $config;
+    }
 
     public static function SetSystemPrompt($prompt): void
     {

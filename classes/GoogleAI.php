@@ -4,7 +4,7 @@ class GoogleAI extends AI
 {
     public static function generateContent($prompt, $useParseDown = true): string
     {
-        $apiKey = getConfig()['GOOGLE_API_KEY'];
+        $apiKey = static::$config['GOOGLE_API_KEY'];
 
         // https://ai.google.dev/models/gemini
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$apiKey";

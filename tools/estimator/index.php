@@ -12,10 +12,6 @@
                     estimate better.
                 </li>
                 <li class="mb-2">
-                    <i class="bi bi-heart-fill text-primary"></i>
-                    By providing project features, AI will understand features and build their estimates.
-                </li>
-                <li class="mb-2">
                     <i class="bi bi-lightbulb-fill text-warning"></i>
                     Once estimate is generated, developers/designers must be consulted to make any improvements
                     or corrections.
@@ -34,14 +30,6 @@
                     title="See Example">
                 </i>
                 <textarea class="form-control" id="descriptionTextarea" name="descriptionTextarea" rows="8"
-                    required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="featuresTextarea" class="form-label">Project Features</label>
-                <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#featuresModal"
-                    title="See Example">
-                </i>
-                <textarea class="form-control" id="featuresTextarea" name="featuresTextarea" rows="8"
                     required></textarea>
             </div>
             <div class="text-center">
@@ -76,7 +64,7 @@
                 each form.
                 These QR codes can be printed and strategically placed in locations where feedback is desired,
                 enabling a seamless
-                and efficient data collection process.
+                and efficient data collection process.<br><br>
                 Consider a scenario where a fitness enthusiast runs multiple gyms.
                 With OpinSync, they can create tailored feedback forms for specific areas such as changing rooms,
                 workout floors,
@@ -89,20 +77,8 @@
                 send standard email or SMS notifications in response to each feedback received, allowing businesses
                 to engage with
                 their customers and address concerns promptly.
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Project Features Modal -->
-<div class="modal fade" id="featuresModal" tabindex="-1" aria-labelledby="featuresModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="featuresModalLabel">Project Features Example</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" style="font-size:14px;">
+                <br><br>
+                Features:<br>
                 1. Customizable Forms: Tailor feedback forms to suit the unique needs of your business or choose
                 from a variety of templates.
                 <br><br>
@@ -126,5 +102,6 @@
         </div>
     </div>
 </div>
+
 
 <?php require_once '../../layout/foot.php';?>

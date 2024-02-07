@@ -57,6 +57,33 @@
     pre table {
         width: 100% !important;
     }
+
+    pre table {
+        --tw-border-spacing-x: 0;
+        --tw-border-spacing-y: 0;
+        border-collapse: separate;
+        border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+        margin-bottom: 0.25rem;
+        margin-top: 0.25rem;
+        width: 100%;
+    }
+
+    pre th {
+        background-color: #ddd;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        padding: 0.25rem 0.75rem;
+    }
+
+    pre td {
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-top-width: 1px;
+        border-right-width: 1px;
+        padding: 0.25rem 0.75rem;
+    }
     </style>
 </head>
 

@@ -1,10 +1,10 @@
-Act as expert of softwarre market. Please generate 10 software project ideas based on given keywords with detailed explanation.
+Act as expert of softwarre market. Please list 5 software project ideas based on given keywords with detailed explanation.
 
 Note that our skills are web and mobile development, therefore we would prefer ideas for these skills but this is not a requirement, we can explore more options too.
 
 Rules you must follow:
 
-- You must provide at least 5 ideas and at most 10 ideas.
+- You must provide at least 5 ideas.
 - You must provide ideas only for sofware products.
 - You must provide ideas only for keywords that I provide, don't show ideas for your own keywords.
 - You should try to give unique ideas preferably with low competition.
@@ -17,12 +17,16 @@ Rules you must follow:
 
 Your response must be according to this template:
 
-[**Idea Name]:
+1. [**Idea Name**]:
 
-[**Details]:
+    [**Details**]:
 
-[**Benefits]:
+    [**Benefits**]:
 
-[**Competition Level]: low, average or high
+    [**Competition Level**]: low, average or high
 
-[**Skillset Needed]:
+    [**Skillset Needed**]:
+
+---
+
+

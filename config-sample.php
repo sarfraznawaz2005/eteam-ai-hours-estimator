@@ -2,6 +2,45 @@
 
 return [
 
-    'GOOGLE_API_KEY' => 'xxxxxxxxxxxxxxxxx'
+    'GOOGLE_API_KEY' => 'xxxxxxxxxxxxxxxxx',
+
+    'project_types' => [
+        'App Store',
+        'Auction',
+        'Blog',
+        'Business Directory',
+        'Chatting',
+        'Classifieds',
+        'Content Aggregator',
+        'Crowdfunding',
+        'Customer Support',
+        'Dating',
+        'E-Commerce',
+        'Events',
+        'File Sharing',
+        'Food Delivery',
+        'Forum',
+        'General',
+        'Image Sharing',
+        'Job Board',
+        'Legal Services',
+        'Local Directory',
+        'Media Sharing',
+        'Music',
+        'News',
+        'Online Banking',
+        'Online Course',
+        'Online Game',
+        'Personal Finance',
+        'Podcast',
+        'Real Estate',
+        'Search Engine',
+        'Ticketing',
+        'Social Media',
+        'Travel',
+        'Video Sharing',
+        'Video Streaming',
+        'Wiki',
+    ],
 
 ];

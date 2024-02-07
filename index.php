@@ -17,7 +17,7 @@
                     <i class="bi bi-calculator-fill"></i> Estimator
                 </a>
                 <a class="btn btn-primary" href="./tools/system-design/index.php" role="button">
-                    <i class="bi bi-tools"></i> System Design
+                    <i class="bi bi-tools"></i> Project Planner
                 </a>
             </p>
         </div>
