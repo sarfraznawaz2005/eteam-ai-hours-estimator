@@ -12,7 +12,7 @@
                     <i class="bi bi-person-fill"></i> Generate My Idea
                 </a>
 
-                <form action="" method="post">
+                <form class="process" action="" method="post">
                     <button type="submit" class="btn btn-primary" style="margin: 0 1rem;">
                         <i class="bi bi-magic"></i> Generate Random Idea
                     </button>
@@ -36,7 +36,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="font-size:14px;">
-                <form action="" method="post">
+                <form class="process" action="" method="post">
                     <div class="mb-3">
                         <label for="ideaInput" class="form-label">Please Input Your Idea</label>
                         <input type="text" class="form-control" id="ideaInput" name="ideaInput" required
@@ -57,7 +57,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="font-size:14px;">
-                <form action="" method="post">
+                <form class="process" action="" method="post">
                     <div class="mb-3">
                         <label for="niche" class="form-label">Please Input Niche Keyword(s)</label>
                         <input type="text" class="form-control" id="niche" name="niche" required>

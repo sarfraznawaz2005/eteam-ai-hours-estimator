@@ -1,5 +1,8 @@
 $(document).ready(function() {
     $('form').on('submit', function(e) {
+
+        let endPoint = $(this).attr("class");
+      
         e.preventDefault();
 
         let formData = $(this).serialize();
@@ -20,7 +23,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: 'process.php',
+            url: endPoint + '.php',
             dataType: 'json',
             data: formData,
             success: function(response) {

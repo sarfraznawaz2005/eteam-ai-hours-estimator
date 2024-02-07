@@ -27,7 +27,7 @@
             </ul>
         </div>
 
-        <form method="post" action="">
+        <form class="process" method="post" action="">
             <div class="mb-3">
                 <label for="projectTypeSelect" class="form-label">Project Type</label>
                 <select class="form-select" id="projectTypeSelect" name="projectTypeSelect" required>
