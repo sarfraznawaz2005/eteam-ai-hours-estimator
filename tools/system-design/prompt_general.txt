@@ -1,4 +1,4 @@
-Act as System Design Architect. 
+You are an expert at system design and architecture. 
 
 Rules you must follow:
 

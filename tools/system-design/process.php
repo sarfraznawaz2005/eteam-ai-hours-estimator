@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $promptGeneral = <<<PROMPT
 \n
-We want to develop "$projectTypeSelect website". List all things we must consider to develop it.
+We want to develop "$projectTypeSelect website". List all things we must consider to develop it. You must be specific to our website not too general.
 \n
 PROMPT;
 
@@ -28,6 +28,8 @@ PROMPT;
 \n\n
 Project Description:
 $projectDescription
+
+Project Type: $projectTypeSelect
 
 PROMPT;
 
