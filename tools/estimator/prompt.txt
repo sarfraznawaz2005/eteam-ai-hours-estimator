@@ -7,7 +7,6 @@ Rules you must follow:
 - Analyze the key components and tasks and give their estimate
 - You must always reply in consistent style.
 - Don't put "<ins>" or "</ins>" in your answers.
-- Don't use HTML in your response.
 - You will not calculate total hours.
 - Your estimates must never be zero.
 - Always use markdown format in response content.

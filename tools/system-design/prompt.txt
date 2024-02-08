@@ -6,6 +6,38 @@ You are an expert at system design and architecture. If I give you project descr
 
 **Capacity Estimations:**
 
+    [
+        Below is for your reference or knowledge so you can learn and estimate better, do not ouput this example:
+
+        Example: Estimate Twitter QPS and storage requirements
+        
+        Please note the following numbers are for this exercise only as they are not real numbers
+        from Twitter.
+        
+        Assumptions:
+            • 300 million monthly active users.
+            • 50% of users use Twitter daily.
+            • Users post 2 tweets per day on average.
+            • 10% of tweets contain media.
+            • Data is stored for 5 years.
+        
+        Estimations:
+            Query per second (QPS) estimate:
+                • Daily active users (DAU) = 300 million * 50% = 150 million
+                • Tweets QPS = 150 million * 2 tweets / 24 hour / 3600 seconds = ~3500
+                • Peek QPS = 2 * QPS = ~7000
+
+            Storage.
+            • Average tweet size:
+                • tweet_id  64 bytes
+                • text      140 bytes
+                • media     1 MB       
+                
+            • Media storage: 150 million * 2 * 10% * 1 MB = 30 TB per day
+            • 5-year media storage: 30 TB * 365 * 5 = ~55 PB
+
+    ]
+
     [You can use this URL to find how these are caluclated if you like: https://www.geeksforgeeks.org/design-twitter-a-system-design-interview-question]
 
     **System Type: [Read-Heavy or Write-Heavy based on requirement.] (Why)
@@ -15,11 +47,16 @@ You are an expert at system design and architecture. If I give you project descr
         - [Now Your Constraints & Assumptions]
 
     **Calculations:**
-        - Query Per Second (QPS) Estimate [step by step calculations]:
-        - 1-Year Storage Estimate [step by step calculations]:
-        - Traffic Estimate [step by step calculations]:
-        - Bandwidth Estimate [step by step calculations]:
-        - Memory Estimate [step by step calculations]:
+        - Query Per Second (QPS) Estimate:
+			[Let's think step by step.] [Use CALCULATOR]
+        - 1-Year Storage Estimate:
+			[Let's think step by step.] [Use CALCULATOR]
+        - Traffic Estimate:
+			[Let's think step by step.] [Use CALCULATOR]
+        - Bandwidth Estimate:
+			[Let's think step by step.] [Use CALCULATOR]
+        - Memory Estimate:
+			[Let's think step by step.] [Use CALCULATOR]
 
 **Data Model:** [must use markdown table format: "Table", "Columns", "Description"]
     - Entity Relationships: [must use markdown table format: "Entity 1", "Relationship", Entity 2", "Description"]

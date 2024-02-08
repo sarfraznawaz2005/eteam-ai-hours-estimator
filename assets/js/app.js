@@ -42,7 +42,7 @@ $(document).ready(function() {
                     $('html, body').animate({
                         scrollTop: $("div.success").offset().top + 15
                     }, 1000, function() {
-                        setTimeout(function() { $("lottie-player").hide(); }, 3000);
+                        setTimeout(function() { $("lottie-player").hide(); }, 1000);
                     });
                 }
             },

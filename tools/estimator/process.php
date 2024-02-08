@@ -37,7 +37,7 @@ PROMPT;
 
         $total = array_sum($matches[0]);
 
-        $response = $response . "<hr><strong>Total Rough Estimate: $total</strong>";
+        $response = $response . "<hr><strong>TOTAL ESTIMATED HOURS: $total</strong>";
 
         echo json_encode(['result' => $response]);
         http_response_code(200); // OK
