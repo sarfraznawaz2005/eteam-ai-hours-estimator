@@ -33,20 +33,20 @@ Project Type: $projectTypeSelect
 
 PROMPT;
 
-    // send the request
     try {
 
-        GoogleAI::SetSystemPrompt(file_get_contents('prompt_general.txt'));
+        $prompts = [
+            [
+                'system_prompt' => file_get_contents('prompt_general.txt'),
+                'user_prompt' => $promptGeneral,
+            ],
+            [
+                'system_prompt' => file_get_contents('prompt.txt'),
+                'user_prompt' => $prompt,
+            ],
+        ];
 
-        $response1 = GoogleAI::GenerateContentWithRetry($promptGeneral);
-
-        sleep(3); // sleep a little before sending another request
-
-        GoogleAI::SetSystemPrompt(file_get_contents('prompt.txt'));
-
-        $response2 = GoogleAI::GenerateContentWithRetry($prompt);
-
-        $response = Parsedown::instance()->text("##### General Considerations") . '<hr>' . $response1 . Parsedown::instance()->text("##### Technical Considerations") . '<hr>' . $response2;
+        $response = GoogleAI::generateMultipleContents($prompts, 'generateContentWithRetry');
 
         echo json_encode(['result' => $response]);
         http_response_code(200); // OK
