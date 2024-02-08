@@ -33,13 +33,17 @@ $(document).ready(function() {
                     $('div.alert-danger').show();
                 } else {
 
+                    $("lottie-player").show();
+
                     $("div.loading").hide();
                     $('div.success pre').html(response.result);
                     $('div.success').show(1500);
 
                     $('html, body').animate({
                         scrollTop: $("div.success").offset().top + 15
-                    }, 1000);
+                    }, 1000, function() {
+                        setTimeout(function() { $("lottie-player").hide(); }, 3000);
+                    });
                 }
             },
             error: function(xhr, status, error) {
