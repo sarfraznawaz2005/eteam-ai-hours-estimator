@@ -2,31 +2,26 @@
 
 abstract class AI
 {
-    protected static array $config;
+    protected static array $config = [];
 
-    protected static string $systemPrompt;
+    protected static array $prompts = [];
 
-    public static function SetConfig(array $config): void
+    abstract public static function setPrompt(string $prompt): void;
+
+    abstract public static function generateContent(bool $useParseDown = true): string;
+
+    public static function setConfig(array $config): void
     {
         static::$config = $config;
     }
 
-    public static function SetSystemPrompt(string $prompt): void
+    public static function generateContentWithRetry(bool $useParseDown = true, $retryCount = 3, $sleepInterval = 3): string
     {
-        static::$systemPrompt = $prompt;
-    }
 
-    public static function getSystemPrompt(): string
-    {
-        return static::$systemPrompt;
-    }
+        //print_r(static::$prompts);
 
-    abstract public static function generateContent(string $prompt, bool $useParseDown = true): string;
-
-    public static function generateContentWithRetry(string $prompt, bool $useParseDown = true, $retryCount = 3, $sleepInterval = 3): string
-    {
         do {
-            $text = static::generateContent($prompt, $useParseDown);
+            $text = static::generateContent($useParseDown);
 
             if (str_contains($text, "Error or no response")) {
                 $retryCount++;
@@ -43,23 +38,5 @@ abstract class AI
         } while ($retryCount < $sleepInterval);
 
         return $text;
-    }
-
-    public static function generateMultipleContents(array $prompts, string $method = 'generateContent', bool $useParseDown = true, int $retryCount = 3, $sleepInterval = 3): string
-    {
-        $response = '';
-
-        foreach ($prompts as $prompt) {
-
-            GoogleAI::SetSystemPrompt($prompt['system_prompt']);
-
-            if ($method === 'generateContent') {
-                $response .= static::$method($prompt['user_prompt'], $useParseDown);
-            } else {
-                $response .= static::$method($prompt['user_prompt'], $useParseDown, $retryCount, $sleepInterval);
-            }
-        }
-
-        return $response;
     }
 }

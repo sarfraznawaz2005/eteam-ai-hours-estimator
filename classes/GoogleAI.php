@@ -1,46 +1,48 @@
 <?php
 
+// https://ai.google.dev/models/gemini
+
 class GoogleAI extends AI
 {
-    public static function generateContent($prompt, $useParseDown = true): string
+    public static function setPrompt(string $prompt): void
+    {
+        static::$prompts[] = [
+            'role' => 'user',
+            'parts' => [
+                ['text' => $prompt]
+            ],
+        ];
+    }
+
+    public static function generateContent($useParseDown = true): string
     {
         $apiKey = static::$config['GOOGLE_API_KEY'];
 
-        // https://ai.google.dev/models/gemini
         $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$apiKey";
 
-        $requestPrompt = static::getSystemPrompt() . $prompt;
-        //return $requestPrompt;
+        // since currently we cannot find a way to send multiple prompts to api at once
+        $prompt = end(static::$prompts);
 
         $data = [
-            'contents' => [
-                [
-                    'role' => 'user',
-                    'parts' => [
-                        [
-                            'text' => $requestPrompt,
-                        ],
-                    ],
-                ],
-            ],
+            'contents' => [$prompt],
             /*
-        'safetySettings' => [
-        [
-        'category' => 'HARM_CATEGORY_HARASSMENT',
-        'threshold' => 'BLOCK_ONLY_HIGH',
-        ],
-        ],
-        */
-        'generationConfig' => [
-        //'stopSequences' => [
-        //    'Title',
-        //],
-        'maxOutputTokens' => 4096,
-        //'temperature' => 0.5,
-        //'topP' => 0.5,
-        //'topK' => 20,
-        ],
-         
+            'safetySettings' => [
+            [
+            'category' => 'HARM_CATEGORY_HARASSMENT',
+            'threshold' => 'BLOCK_ONLY_HIGH',
+            ],
+            ],
+             */
+            'generationConfig' => [
+                //'stopSequences' => [
+                //    'Title',
+                //],
+                'maxOutputTokens' => 4096,
+                //'temperature' => 0.5,
+                //'topP' => 0.5,
+                //'topK' => 20,
+            ],
+
         ];
 
         $ch = curl_init($url);

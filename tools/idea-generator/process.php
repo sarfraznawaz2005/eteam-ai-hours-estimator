@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ideaInput = $_POST['ideaInput'] ?? '';
     $niche = $_POST['niche'] ?? '';
 
-    GoogleAI::SetConfig(getConfig());
+    GoogleAI::setConfig(getConfig());
 
     if (empty($ideaInput)) {
         $prompt = <<<PROMPT
@@ -35,12 +35,12 @@ PROMPT;
     try {
 
         if (!empty($niche)) {
-            GoogleAI::SetSystemPrompt(file_get_contents('prompt_niche.txt'));
+            GoogleAI::setPrompt(file_get_contents('prompt_niche.txt') . $prompt);
         } else {
-            GoogleAI::SetSystemPrompt(file_get_contents('prompt.txt'));
+            GoogleAI::setPrompt(file_get_contents('prompt.txt'). $prompt);
         }
 
-        $response = GoogleAI::GenerateContentWithRetry($prompt);
+        $response = GoogleAI::GenerateContentWithRetry();
 
         echo json_encode(['result' => $response]);
         http_response_code(200); // OK

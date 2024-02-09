@@ -30,8 +30,6 @@ PROMPT;
 Here are further project details:
 1. Platform Type: $projectTypeSelect
 2. Over 100000 users will be using it with 10000 daily active users.
-4. Will it be a SaaS app or internal only? Internal only.
-5. Will it be free to use or will it include premium features behind a paywall? Not sure, you can suggest here.
 
 \n\n
 Project Description:
@@ -41,20 +39,21 @@ PROMPT;
 
     try {
 
-        $prompts = [
-            [
-                'system_prompt' => file_get_contents('prompt_general.txt'),
-                'user_prompt' => $promptGeneral,
-            ],
-            [
-                'system_prompt' => file_get_contents('prompt.txt'),
-                'user_prompt' => $prompt,
-            ],
-        ];
+        $response = "<h4>TECHNICAL GUIDELINES:</h4>";
 
-        $response = GoogleAI::generateMultipleContents($prompts, 'generateContentWithRetry');
+        GoogleAI::setPrompt(file_get_contents('prompt.txt') . $prompt);
 
-        echo json_encode(['result' => $response]);
+        $response .= GoogleAI::GenerateContentWithRetry();
+
+        sleep(3);
+
+        $response .= "<h4>GENERAL GUIDELINES:</h4>";
+
+        GoogleAI::setPrompt(file_get_contents('prompt_general.txt') . $promptGeneral);
+
+        $response .= GoogleAI::GenerateContentWithRetry();
+
+        echo json_encode(['result' =>  $response]);
         http_response_code(200); // OK
 
     } catch (Exception $e) {

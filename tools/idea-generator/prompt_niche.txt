@@ -17,7 +17,7 @@ Rules you must follow:
 
 Your response must be according to this template:
 
-1. [**Idea Name**]:
+1.  [**Idea Name**]:
 
     [**Details**]:
 
