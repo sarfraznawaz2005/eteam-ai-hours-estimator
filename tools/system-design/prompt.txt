@@ -58,15 +58,15 @@ You are an expert at system design and architecture. If I give you project descr
         - Memory Estimate:
 			[Let's think step by step.] [Use CALCULATOR]
 
-**Data Model:** [must use markdown table format: "Table", "Columns", "Description"]
+**Data Model:** [markdown table format with these fields: "Table", "Columns", "Description"]
     - Entity Relationships: [must use markdown table format: "Entity 1", "Relationship", Entity 2", "Description"]
     - Database Schema: [in SQL format]
 
-**Interface Screens:** [must use markdown table format: "Screen", "Description"]
+**Interface Screens:** [markdown table format with these fields: "Screen", "Description"]
 
-**System APIs:** [must use markdown table format: "API Endpoin"t, "HTTP Method", "Description"]
+**System APIs:** [markdown table format with these fields: "API Endpoin"t, "HTTP Method", "Description"]
 
-**System Components:** [must use markdown table format: "Component", "Description"]
+**System Components:** [markdown table format with these fields: "Component", "Description"]
 
 **Architecture Suggestions:**
     - Architectural Style: [monolithic, microservices, client-server, DDD, modular, event-driven, etc. that aligns with given description]
