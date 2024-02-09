@@ -15,6 +15,7 @@ class GoogleAI extends AI
         $data = [
             'contents' => [
                 [
+                    'role' => 'user',
                     'parts' => [
                         [
                             'text' => $requestPrompt,
@@ -34,7 +35,7 @@ class GoogleAI extends AI
         //'stopSequences' => [
         //    'Title',
         //],
-        'maxOutputTokens' => 4048,
+        'maxOutputTokens' => 4096,
         //'temperature' => 0.5,
         //'topP' => 0.5,
         //'topK' => 20,

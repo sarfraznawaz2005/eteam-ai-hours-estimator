@@ -20,16 +20,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $promptGeneral = <<<PROMPT
 \n
-We want to develop "$projectTypeSelect website". List all things we must consider to develop it. You must be specific to our website not too general.
+You want to develop "$projectTypeSelect platform". You will list all things that must considered to develop it. You must be specific to platform type instead of being too general.
 \n
 PROMPT;
 
     $prompt = <<<PROMPT
 \n\n
+
+Here are further project details:
+1. Platform Type: $projectTypeSelect
+2. Over 100000 users will be using it with 10000 daily active users.
+4. Will it be a SaaS app or internal only? Internal only.
+5. Will it be free to use or will it include premium features behind a paywall? Not sure, you can suggest here.
+
+\n\n
 Project Description:
 $projectDescription
-
-Project Type: $projectTypeSelect
 
 PROMPT;
 
