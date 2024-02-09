@@ -23,7 +23,7 @@
             </ul>
         </div>
 
-        <form class="process" method="post" action="">
+        <form method="post" action="">
             <div class="mb-3">
                 <label for="descriptionTextarea" class="form-label">Project Description</label>
                 <i class="bi bi-info-circle-fill text-primary" data-bs-toggle="modal" data-bs-target="#descriptionModal"
@@ -37,6 +37,8 @@
                     <i class="bi bi-calculator-fill"></i> Get Estimate
                 </button>
             </div>
+
+            <input type="hidden" name="processor" value="process.php">
         </form>
 
     </div>

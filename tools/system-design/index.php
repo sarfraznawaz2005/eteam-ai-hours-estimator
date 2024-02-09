@@ -27,7 +27,7 @@
             </ul>
         </div>
 
-        <form class="process" method="post" action="">
+        <form method="post" action="">
             <div class="mb-3">
                 <label for="projectTypeSelect" class="form-label">Project Type</label>
                 <select class="form-select" id="projectTypeSelect" name="projectTypeSelect" required>
@@ -50,6 +50,8 @@
                     <i class="bi bi-tools"></i> Get Project Plan
                 </button>
             </div>
+
+            <input type="hidden" name="processor" value="process.php">
         </form>
 
     </div>

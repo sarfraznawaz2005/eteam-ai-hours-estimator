@@ -12,10 +12,12 @@
                     <i class="bi bi-person-fill"></i> Generate My Idea
                 </a>
 
-                <form class="process" action="" method="post">
+                <form action="" method="post">
                     <button type="submit" class="btn btn-primary" style="margin: 0 1rem;">
                         <i class="bi bi-magic"></i> Generate Random Idea
                     </button>
+
+                    <input type="hidden" name="processor" value="process.php">
                 </form>
 
                 <a class="btn btn-warning rounded" role="button" data-bs-toggle="modal" data-bs-target="#nicheModal">
@@ -36,7 +38,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="font-size:14px;">
-                <form class="process" action="" method="post">
+                <form action="" method="post">
                     <div class="mb-3">
                         <label for="ideaInput" class="form-label">Please Input Your Idea</label>
                         <input type="text" class="form-control" id="ideaInput" name="ideaInput" required
@@ -47,6 +49,8 @@
                             <i class="bi bi-box-arrow-in-down"></i> Generate Idea
                         </button>
                     </div>
+
+                    <input type="hidden" name="processor" value="process.php">
                 </form>
             </div>
         </div>
@@ -57,7 +61,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="font-size:14px;">
-                <form class="process" action="" method="post">
+                <form action="" method="post">
                     <div class="mb-3">
                         <label for="niche" class="form-label">Please Input Niche Keyword(s)</label>
                         <input type="text" class="form-control" id="niche" name="niche" required>
@@ -67,6 +71,8 @@
                             <i class="bi bi-box-arrow-in-down"></i> Generate Idea
                         </button>
                     </div>
+
+                    <input type="hidden" name="processor" value="process.php">
                 </form>
             </div>
         </div>

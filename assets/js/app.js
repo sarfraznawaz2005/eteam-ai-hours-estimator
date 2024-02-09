@@ -1,58 +1,83 @@
 $(document).ready(function() {
     $('form').on('submit', function(e) {
-
-        let endPoint = $(this).attr("class");
       
         e.preventDefault();
 
         let formData = $(this).serialize();
 
-        $('#loadingImg').attr('src', getRandomLoadingImage());
+        let formObject = $(this).serializeArray().reduce(function(obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
 
-        $('div.alert-danger').hide();
-        $('div.success').hide();
+        // these options can be passed via hidden fields from forms
+        let config = {
+            "processor" : formObject.processor,
+            "output_element" : formObject.output_element || 'div.success',
+            "output_element_html" : formObject.output_element_html || 'div.success pre',
+            "output_element_error" : formObject.output_element_error || 'div.alert-danger',
+            "element_loading" : formObject.element_loading || 'div.loading',
+            "element_loading_image" : formObject.element_loading_image || '#loadingImg',
+            "show_random_loading" : formObject.show_random_loading || true,
+            "show_lotti_animation" : formObject.show_lotti_animation || true,
+            "hide_modal" : formObject.hide_modal || true,
+        };
 
-        $("div.loading").show();
+        if (config.show_random_loading) {
+            $(config.element_loading_image).attr('src', getRandomLoadingImage());
+        }
+        else {
+            $(config.element_loading_image).attr('src', '/assets/loading.gif');
+        }
+
+        $(config.output_element).hide();
+        $(config.output_element_error).hide();
+
+        $(config.element_loading).show();
         $('html, body').animate({
-            scrollTop: $("div.loading").offset().top + 500
+            scrollTop: $(config.element_loading).offset().top + 500
         }, 1000);
 
         $("button[type='submit']").prop('disabled', true);
 
-        $('.modal').modal('hide');
-
+        if (config.hide_modal) {
+            $('.modal').modal('hide');
+        }
+        
         $.ajax({
             type: 'POST',
-            url: endPoint + '.php',
+            url: config.processor,
             dataType: 'json',
             data: formData,
             success: function(response) {
 
                 if (response.error) {
-                    $('div.alert-danger').text(response.error);
-                    $('div.alert-danger').show();
+                    $(config.output_element_error).text(response.error);
+                    $(config.output_element_error).show();
                 } else {
 
-                    $("lottie-player").show();
-
-                    $("div.loading").hide();
-                    $('div.success pre').html(response.result);
-                    $('div.success').show(1500);
+                    if (config.show_lotti_animation) {
+                        $("lottie-player").show();
+                    }
+                    
+                    $(config.element_loading).hide();
+                    $(config.output_element_html).html(response.result);
+                    $(config.output_element).show(1500);
 
                     $('html, body').animate({
-                        scrollTop: $("div.success").offset().top + 15
+                        scrollTop: $(config.output_element).offset().top + 15
                     }, 1000, function() {
                         setTimeout(function() { $("lottie-player").hide(); }, 1000);
                     });
                 }
             },
             error: function(xhr, status, error) {
-                $('div.alert-danger').text(error);
-                $('div.alert-danger').show();
+                $(config.output_element_error).text(error);
+                $(config.output_element_error).show();
             },
             complete: function() {
                 $("button[type='submit']").prop('disabled', false);
-                $("div.loading").hide();
+                $(config.element_loading).hide();
             }
         });
     });
