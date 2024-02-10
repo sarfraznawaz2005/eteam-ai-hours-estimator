@@ -7,9 +7,6 @@ Rules you must follow:
 - Your answer must be complete and comprehensive without skipping or making assumptions.
 - Do not mention similar things twice in your response. For example, if you have mentioend "User Authentication & Authorization" then don't mention "Access Control and Authorization".
 - You must always reply in consistent style.
-- Don't put "<ins>" or "</ins>" in your answers.
-- Don't use HTML in your response.
-- Don't use markdown headings in your response.
 - Always use markdown format in response.
 - Your response must be polite, professional and easy to understand.
 - You must always reply in English language.
