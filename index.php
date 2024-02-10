@@ -19,6 +19,9 @@
                 <a class="btn btn-primary" href="./tools/system-design/index.php" role="button">
                     <i class="bi bi-tools"></i> Project Planner
                 </a>
+                <a class="btn btn-info" href="./tools/talk-database/index.php" role="button">
+                    <i class="bi bi-database"></i> DB Talk
+                </a>
             </p>
         </div>
     </div>

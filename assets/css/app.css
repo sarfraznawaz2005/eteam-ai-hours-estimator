@@ -24,9 +24,8 @@ pre p {
 
 pre {
 	border-radius: 15px;
-	border: 1px solid #aeb6b6;
 	background: #b6bdbd radial-gradient(#eee, #bbbbbb);
-	padding: 25px;
+	padding: 10px;
 }
 
 pre p,
@@ -65,4 +64,8 @@ pre td {
 	border-top-width: 1px;
 	border-right-width: 1px;
 	padding: 0.25rem 0.75rem;
+}
+
+pre code {
+	border-radius: 5px;
 }

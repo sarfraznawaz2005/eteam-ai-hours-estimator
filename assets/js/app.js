@@ -57,12 +57,16 @@ $(document).ready(function() {
                 } else {
 
                     if (config.show_lotti_animation) {
-                        $("lottie-player").show();
+                        if (!response.result.includes('No response, please try again!')) {
+                            $("lottie-player").show();
+                        }
                     }
                     
                     $(config.element_loading).hide();
                     $(config.output_element_html).html(response.result);
                     $(config.output_element).show(1500);
+
+                    hljs.highlightAll();
 
                     $('html, body').animate({
                         scrollTop: $(config.output_element).offset().top + 15
