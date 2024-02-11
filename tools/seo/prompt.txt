@@ -4,6 +4,7 @@ Please visit this url, read article content, understand the purpose of it and th
 
 Rules you must follow:
 
+- You do have access to internet.
 - You must always reply in consistent style.
 - Always use markdown format in response content.
 - You must always reply in English language.
