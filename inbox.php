@@ -42,7 +42,7 @@ function checkInboxForReplies()
 
             $mentionText = '@mrx';
 
-            // we want to send email when we are mentioned or email is sent to our email address
+            // we want to reply when we are mentioned or email is sent to our email address
             if (
                 str_contains(strtolower($email_body), $mentionText) ||
                 str_contains(strtolower($subject), $mentionText) ||
@@ -87,7 +87,7 @@ PROMPT;
                 try {
                     $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
 
-                    if (!str_contains($response, 'No response')) {
+                    if (!str_contains(strtolower($response), 'no response')) {
                         $emailSent = EmailSender::sendEmail($toEmail, $toName, $subject, $response, $ccEmails);
 
                         if ($emailSent) {

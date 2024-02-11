@@ -25,7 +25,7 @@ abstract class AI
         do {
             $text = static::generateContent($useParseDown);
 
-            if (str_contains($text, "Error or no response")) {
+            if (str_contains(strtolower($text), "error or no response")) {
                 $retryCount++;
 
                 if ($retryCount < $sleepInterval) {

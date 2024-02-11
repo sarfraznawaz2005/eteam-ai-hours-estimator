@@ -9,7 +9,8 @@ GoogleAI::SetConfig(getConfig());
 
 $functions = [
     //'checkInboxForReplies',
-    'getProjectIdea',
+    //'postWorkPlan',
+    //'getProjectIdea',
 ];
 
 foreach ($functions as $function) {
