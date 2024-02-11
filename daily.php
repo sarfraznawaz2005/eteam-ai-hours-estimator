@@ -1,7 +1,5 @@
 <?php
 
-$iniReader = new IniReader();
-
 function postWorkPlan()
 {
     $isAlreadyDone = IniReader::get(__FUNCTION__);

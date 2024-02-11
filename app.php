@@ -7,13 +7,13 @@ require_once './daily.php';
 
 GoogleAI::SetConfig(getConfig());
 
-$functions = [
+$tasks = [
     //'checkInboxForReplies',
     //'postWorkPlan',
     //'getProjectIdea',
 ];
 
-foreach ($functions as $function) {
-    $function();
+foreach ($tasks as $task) {
+    $task();
     sleep(3);
 }
