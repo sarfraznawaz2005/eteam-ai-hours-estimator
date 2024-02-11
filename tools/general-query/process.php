@@ -4,21 +4,19 @@ require_once '../../setup.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $websiteUrl = $_POST['websiteUrl'] ?? '';
+    $description = $_POST['descriptionTextarea'] ?? '';
 
-    // Validate the input
-    if (empty($websiteUrl)) {
-        echo json_encode(['error' => 'Website URL is required.']);
-        http_response_code(400); // Bad Request
+    if (empty($description)) {
+        echo json_encode(['error' => 'Description is required.']);
+        http_response_code(400);
         exit;
     }
 
     GoogleAI::SetConfig(getConfig());
 
-    // send the request
     try {
 
-        GoogleAI::setPrompt(file_get_contents('prompt.txt') . "\n\n$websiteUrl");
+        GoogleAI::setPrompt(file_get_contents('prompt.txt') . "\n\n $description");
         $response = GoogleAI::GenerateContentWithRetry();
 
         echo json_encode(['result' => $response]);
