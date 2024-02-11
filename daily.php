@@ -24,11 +24,12 @@ function postWorkPlan()
                 <b>Misc</b>:<br>
                     - Send Today's Project Idea<br>
                     - Code Review of All Developers<br>
-                    - Replying to Customer Emails If Asked<br>
+                    - Replying to Customer Emails<br>
                     - Estimate Projects<br>
-                    - Create System Plan For New Projects If Needed<br>
+                    - Create System Plan For New Projects<br>
                     - Provide Database Support<br>
-                    - Coordinate with Team If Asked<br>
+                    - SEO Optimizations<br>
+                    - Coordinate with Team<br>
                     - Etc
                 message;
 

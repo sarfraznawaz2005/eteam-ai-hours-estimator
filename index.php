@@ -22,6 +22,9 @@
                 <a class="btn btn-info" href="./tools/talk-database/index.php" role="button">
                     <i class="bi bi-database"></i> DB Talk
                 </a>
+                <a class="btn btn-secondary" href="./tools/seo/index.php" role="button">
+                    <i class="bi bi-search"></i> SEO Optimizer
+                </a>
             </p>
         </div>
     </div>
