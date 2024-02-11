@@ -4,22 +4,29 @@ $iniReader = new IniReader();
 
 function getProjectIdea()
 {
-    $subject = 'Daily Project Idea';
+    $isAlreadyDone = IniReader::get(__FUNCTION__);
 
-    GoogleAI::setPrompt(file_get_contents('./tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions.");
+    if (!$isAlreadyDone) {
+        $subject = 'Daily Project Idea - ' . date('d-m-Y');
 
-    $response = GoogleAI::GenerateContentWithRetry();
+        GoogleAI::setPrompt(file_get_contents('./tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions.");
 
-    if (!str_contains($response, 'No response')) {
+        $response = GoogleAI::GenerateContentWithRetry();
 
-        $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', $subject, $response);
+        if (!str_contains($response, 'No response')) {
 
-        if ($emailSent) {
-            logMessage("Daily Project Idea: Email has been sent: {$subject}");
+            $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', $subject, $response);
+
+            if ($emailSent) {
+                logMessage("Daily Project Idea: Email has been sent: {$subject}");
+
+                IniReader::set(__FUNCTION__, 'true');
+            } else {
+                logMessage("Daily Project Idea: Error or no response: {$subject}", 'error');
+            }
         } else {
             logMessage("Daily Project Idea: Error or no response: {$subject}", 'error');
         }
-    } else {
-        logMessage("Daily Project Idea: Error or no response: {$subject}", 'error');
     }
+
 }

@@ -8,7 +8,7 @@ require_once './daily.php';
 GoogleAI::SetConfig(getConfig());
 
 $functions = [
-    'checkInboxForReplies',
+    //'checkInboxForReplies',
     'getProjectIdea',
 ];
 

@@ -2,58 +2,66 @@
 
 class IniReader
 {
-    private $filePath;
-    private $data;
+    private static $filePath;
+    private static $data = [];
+    private static $section = 'settings'; // Default section for all operations
 
-    public function __construct()
+    public static function initialize()
     {
-        $this->cleanupOldFiles();
-        $today = date('Y-m-d');
-        $this->filePath = "todo-$today.ini";
-        
-        $this->read();
-    }
+        self::cleanupOldFiles();
 
-    private function read()
-    {
-        if (file_exists($this->filePath)) {
-            $this->data = parse_ini_file($this->filePath, true);
+        $today = date('d-m-Y');
+        self::$filePath = "todo-$today.ini";
+
+        if (!file_exists(self::$filePath)) {
+            self::$data[self::$section] = [];
+            self::write();
         } else {
-            $this->data = [];
+            self::read();
         }
     }
 
-    public function get($section, $key)
+    // Loads the INI file into an array.
+    private static function read()
     {
-        if (isset($this->data[$section][$key])) {
-            return $this->data[$section][$key];
+        if (file_exists(self::$filePath)) {
+            self::$data = parse_ini_file(self::$filePath, true);
+        } else {
+            self::$data = [];
+        }
+    }
+
+    // Retrieves a value from the settings section.
+    public static function get($key)
+    {
+        if (isset(self::$data[self::$section][$key])) {
+            return self::$data[self::$section][$key];
         }
 
         return null; // Key not found
     }
 
-    public function set($section, $key, $value)
+    // Sets a value in the settings section and writes the changes back to the file.
+    public static function set($key, $value)
     {
-        $this->data[$section][$key] = $value;
+        self::$data[self::$section][$key] = $value;
 
-        $this->write();
+        self::write();
     }
 
-    private function write()
+    // Saves the current state of the data array back to the INI file.
+    private static function write()
     {
-        $content = '';
+        $content = "[" . self::$section . "]\n";
 
-        foreach ($this->data as $section => $values) {
-            $content .= "[$section]\n";
-            foreach ($values as $key => $value) {
-                $content .= "$key = \"$value\"\n";
-            }
+        foreach (self::$data[self::$section] as $key => $value) {
+            $content .= "$key = \"$value\"\n";
         }
 
-        file_put_contents($this->filePath, $content);
+        file_put_contents(self::$filePath, $content);
     }
 
-    private function cleanupOldFiles()
+    private static function cleanupOldFiles()
     {
         $files = glob('todo-*.ini'); // Get all todo files
         $today = date('Y-m-d');

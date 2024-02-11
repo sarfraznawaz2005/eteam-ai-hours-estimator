@@ -15,6 +15,8 @@ function autoloader($className): void
 
 spl_autoload_register('autoloader');
 
+IniReader::initialize();
+
 // setup our error handler to convert erros into exceptions
 set_error_handler(/**
  * @throws ErrorException
@@ -48,4 +50,23 @@ function logMessage($message, $type = 'info', $logFile = 'application.log')
 
     fwrite($fileHandle, $formattedMessage);
     fclose($fileHandle);
+}
+
+function dd(...$vars)
+{
+    $isCli = php_sapi_name() === 'cli';
+
+    foreach ($vars as $var) {
+        if (!$isCli) {
+            echo '<pre>';
+        }
+
+        var_dump($var);
+
+        if (!$isCli) {
+            echo '</pre>';
+        }
+    }
+
+    die(1);
 }
