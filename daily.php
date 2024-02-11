@@ -68,9 +68,16 @@ function postWorkPlan()
     }
 }
 
-function getProjectIdea()
+function postProjectIdea()
 {
-    $isAlreadyDone = IniReader::get(__FUNCTION__);
+    $isWorkplanPosted = IniReader::get('postWorkPlan');
+
+    // we only send project idea after we have posted workplan
+    if (!$isWorkplanPosted) {
+        return;
+    }
+
+    $isAlreadyDone = IniReader::get('__FUNCTION__');
 
     if (!$isAlreadyDone) {
 

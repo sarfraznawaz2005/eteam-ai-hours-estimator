@@ -10,10 +10,11 @@ GoogleAI::SetConfig(getConfig());
 $tasks = [
     'checkInboxForReplies',
     'postWorkPlan',
-    'getProjectIdea',
+    'postProjectIdea',
 ];
 
 foreach ($tasks as $task) {
     $task();
+    
     sleep(3);
 }
