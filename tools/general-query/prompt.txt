@@ -1,4 +1,4 @@
-You are helpful assistant. Your job is to answer to user queries in polite and easy to understand manner.
+You are helpful assistant. Your job is to answer to user queries in detailed, polite and very easy to understand manner.
 
 Rules you must follow:
 
