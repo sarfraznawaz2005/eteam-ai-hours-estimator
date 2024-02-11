@@ -8,10 +8,12 @@ class IniReader
 
     public static function initialize()
     {
+        $rootFolder = __DIR__;
+
         self::cleanupOldFiles();
 
         $today = date('d-m-Y');
-        self::$filePath = "todo-$today.ini";
+        self::$filePath = dirname($rootFolder) . DIRECTORY_SEPARATOR . "todo-$today.ini";
 
         if (!file_exists(self::$filePath)) {
             self::$data[self::$section] = [];

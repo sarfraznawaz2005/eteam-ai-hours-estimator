@@ -1,5 +1,7 @@
 config.php
 application.log
+*.ini
+/*.ini
 /.idea/*
 /.idea
 /.fleet

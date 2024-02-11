@@ -1,6 +1,6 @@
 <?php
 
-require_once './vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 date_default_timezone_set('Asia/Karachi');
 
@@ -37,13 +37,15 @@ function getConfig()
 
 function logMessage($message, $type = 'info', $logFile = 'application.log')
 {
+    $rootFolder = __DIR__;
+
     $validTypes = ['info', 'success', 'error'];
 
     if (!in_array($type, $validTypes)) {
         $type = 'info';
     }
 
-    $fileHandle = fopen($logFile, 'a+');
+    $fileHandle = fopen($rootFolder . DIRECTORY_SEPARATOR . $logFile, 'a+');
 
     // Format the message with a timestamp and type
     $formattedMessage = '[' . date('Y-m-d H:i:s') . '] [' . strtoupper($type) . '] ' . $message . PHP_EOL;
