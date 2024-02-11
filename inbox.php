@@ -67,7 +67,6 @@ function checkInboxForReplies()
             ---
 
             Mr X - Bot by eTeam
-            Application Architect
 
             Enterprise Team (eTeam)
             607, Level 6,

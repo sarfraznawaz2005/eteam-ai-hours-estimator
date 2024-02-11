@@ -8,9 +8,9 @@ require_once './daily.php';
 GoogleAI::SetConfig(getConfig());
 
 $tasks = [
-    //'checkInboxForReplies',
-    //'postWorkPlan',
-    //'getProjectIdea',
+    'checkInboxForReplies',
+    'postWorkPlan',
+    'getProjectIdea',
 ];
 
 foreach ($tasks as $task) {
