@@ -1,23 +1,11 @@
 <?php
 
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
-
-require_once './vendor/autoload.php';
-require_once './setup.php';
-
 function checkInboxForReplies()
 {
     // IMAP connection details
     $hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // Adjust this as per your IMAP server details
     $username = 'sarfraz@eteamid.com';
     $password = '@}24v94ztB2{';
-
-    $smtp_host = 'mail.eteamid.com';
-    $smtp_username = 'sarfraz@eteamid.com';
-    $smtp_password = '@}24v94ztB2{';
-    $smtp_port = 465;
-    $smtp_secure = 'ssl'; // Use 'tls' if required
 
     // Connect to the mailbox
     $inbox = imap_open($hostname, $username, $password) or die('Cannot connect to email: ' . imap_last_error());
@@ -33,31 +21,33 @@ function checkInboxForReplies()
 
     if ($emails) {
 
-        GoogleAI::SetConfig(getConfig());
-
         foreach ($emails as $email_number) {
+            // Fetch full header information
+            $header = imap_headerinfo($inbox, $email_number);
+
             $overview = imap_fetch_overview($inbox, $email_number, 0);
             $subject = $overview[0]->subject;
             $email_body = imap_fetchbody($inbox, $email_number, 2);
 
-            $specificText = '@mrx';
+            $toEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
+            $toName = isset($header->from[0]->personal) ? $header->from[0]->personal : $toEmail;
 
-            if (strpos($email_body, $specificText) !== false || strpos($subject, $specificText) !== false) {
-                $mail = new PHPMailer(true);
-
-                // Fetch full header information
-                $header = imap_headerinfo($inbox, $email_number);
-
-                $toEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
-                $toName = isset($header->from[0]->personal) ? $header->from[0]->personal : $toEmail;
-
-                // Include CC recipients in the reply
-                if (isset($header->cc) && is_array($header->cc)) {
-                    foreach ($header->cc as $cc) {
-                        $mail->addCC($cc->mailbox . "@" . $cc->host);
-                    }
+            // Include CC recipients in the reply
+            $ccEmails = [];
+            if (isset($header->cc) && is_array($header->cc)) {
+                foreach ($header->cc as $cc) {
+                    $ccEmails[] = $cc->mailbox . "@" . $cc->host;
                 }
+            }
 
+            $mentionText = '@mrx';
+
+            // we want to send email when we are mentioned or email is sent to our email address
+            if (
+                str_contains(strtolower($email_body), $mentionText) ||
+                str_contains(strtolower($subject), $mentionText) ||
+                $toEmail === 'mrx@eteamid.com'
+            ) {
                 $prompt = <<<PROMPT
             \n\n
 
@@ -68,13 +58,15 @@ function checkInboxForReplies()
 
                 Dear $toName,
 
+                I hope you're having a great day. Thank you for reaching out to me!
+
                 [Your reply to $email_body goes here]
 
                 _Thanks_
 
             ---
 
-            Mr X-Bot by eTeam
+            Mr X - Bot by eTeam
             Application Architect
 
             Enterprise Team (eTeam)
@@ -93,35 +85,22 @@ PROMPT;
                 $response = GoogleAI::GenerateContentWithRetry();
 
                 try {
-                    // Server settings
-                    $mail->isSMTP();
-                    $mail->Host = $smtp_host;
-                    $mail->SMTPAuth = true;
-                    $mail->Username = $smtp_username;
-                    $mail->Password = $smtp_password;
-                    $mail->SMTPSecure = $smtp_secure;
-                    $mail->Port = $smtp_port;
-
-                    // Recipients
-                    $mail->setFrom('mrx@eteamid.com', 'Mr X');
-                    $mail->addAddress($toEmail, $toName);
-                    //$mail->addBCC($email_bcc);
-
-                    // Content
-                    $mail->isHTML(true);
-                    $mail->Subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
-                    $mail->Body = $response;
+                    $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
 
                     if (!str_contains($response, 'No response')) {
-                        $mail->send();
+                        $emailSent = EmailSender::sendEmail($toEmail, $toName, $subject, $response, $ccEmails);
 
-                        logMessage("Email has been sent: {$mail->Subject}");
+                        if ($emailSent) {
+                            logMessage("Inbox: Email has been sent: {$subject}");
+                        } else {
+                            logMessage("Inbox: Error or no response: {$subject}", 'error');
+                        }
                     } else {
-                        logMessage("Error or no response: {$mail->Subject}", 'error');
+                        logMessage("Inbox: Error or no response: {$subject}", 'error');
                     }
 
                 } catch (Exception $e) {
-                    logMessage('Email could not be sent. Mailer Error: ', $mail->ErrorInfo, 'error');
+                    logMessage('Inbox: Email could not be sent. Mailer Error: ' . $e->getMessage(), 'error');
                 }
             }
 

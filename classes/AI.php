@@ -10,9 +10,11 @@ abstract class AI
 
     abstract public static function generateContent(bool $useParseDown = true): string;
 
-    public static function setConfig(array $config): void
+    public static function setConfig($config): void
     {
-        static::$config = $config;
+        if (empty(static::$config) && is_array($config)) {
+            static::$config = $config;
+        }
     }
 
     public static function generateContentWithRetry(bool $useParseDown = true, $retryCount = 3, $sleepInterval = 3): string
