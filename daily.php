@@ -19,7 +19,7 @@ function postWorkPlan()
             ) {
 
                 $message = <<<message
-                AOA All,<br><br>
+                AOA,<br><br>
 
                 <b>Misc</b>:<br>
                     - Send Today's Project Idea<br>
