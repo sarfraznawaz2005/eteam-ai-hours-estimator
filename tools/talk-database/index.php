@@ -90,6 +90,8 @@
                 <br><br>
                 <strong>Create a before insert trigger for products.</strong>
                 <br><br>
+                <strong>Give me SQL query to select users with most orders.</strong>
+                <br><br>
                 <strong>select * from users limit 10</strong>
             </div>
         </div>
