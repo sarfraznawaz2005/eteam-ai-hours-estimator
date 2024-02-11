@@ -48,7 +48,7 @@ function checkInboxForReplies()
             if (
                 str_contains(strtolower($email_body), $mentionText) ||
                 str_contains(strtolower($subject), $mentionText) ||
-                $toEmail === 'mrx@eteamid.com'
+                $toEmail === 'mr-x@eteamid.com'
             ) {
                 $prompt = <<<PROMPT
             \n\n
