@@ -18,6 +18,6 @@ jobs:
           email-port: '465'
           email-user: 'sarfraz@eteamid.com'
           email-pass: '@}24v94ztB2{'
-          email-from: '"CodeReview" <mrx@eteamid.com>'
+          email-from: 'CodeReview Bot <code-review@eteamid.com>'
           email-to: 'sarfraz@eteamid.com'
           email-secure: 'true'
