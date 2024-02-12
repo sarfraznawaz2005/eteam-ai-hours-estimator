@@ -3,11 +3,11 @@
 
 /**
  * TODOs
- * 
+ *
+ * metions on basecamp not working
  * Remind of un-replied customer messages on basecamp via an email
- * Does not seem to add cc people
- * 
- * 
+ *
+ *
  */
 
 require_once __DIR__ . '/setup.php';
@@ -16,12 +16,17 @@ GoogleAI::SetConfig(getConfig());
 
 $tasks = [
     CheckInboxForReplies::class,
-    //PostWorkPlan::class,
-    //PostProjectIdea::class,
+    PostWorkPlan::class,
+    PostProjectIdea::class,
     ReplyToBaseCampMessages::class,
 ];
 
 foreach ($tasks as $task) {
+
+    if (IniReader::isLocked()) {
+        continue;
+    }
+
     $task::execute();
 
     sleep(3);

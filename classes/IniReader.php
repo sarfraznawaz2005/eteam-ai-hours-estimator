@@ -17,42 +17,69 @@ class IniReader
 
         if (!file_exists(self::$filePath)) {
             self::$data[self::$section] = [];
-            self::write();
+            self::write(true); // Initialize file without locking (exclusive access not needed here)
         } else {
             self::read();
         }
     }
 
-    // Loads the INI file into an array.
     private static function read()
     {
         if (file_exists(self::$filePath)) {
             self::$data = parse_ini_file(self::$filePath, true);
+
+            if (!self::$data) {
+                self::$data = []; // Handle parse errors by initializing to an empty array
+            }
         } else {
             self::$data = [];
         }
     }
 
-    // Retrieves a value from the settings section.
     public static function get($key)
     {
         if (isset(self::$data[self::$section][$key])) {
             return self::$data[self::$section][$key];
         }
 
-        return null; // Key not found
+        return null;
     }
 
-    // Sets a value in the settings section and writes the changes back to the file.
     public static function set($key, $value)
     {
-        self::$data[self::$section][$key] = $value;
+        // Sanitize the key to make it valid for INI files
+        $sanitizedKey = self::sanitizeKey($key);
+
+        self::$data[self::$section][$sanitizedKey] = $value;
 
         self::write();
     }
 
-    // Saves the current state of the data array back to the INI file.
-    private static function write()
+    private static function write($initialize = false)
+    {
+        if (!$initialize) {
+            // Acquire an exclusive lock to prevent concurrent writes
+            $fp = fopen(self::$filePath, 'c');
+
+            if (flock($fp, LOCK_EX)) {
+                $content = self::generateContent();
+                ftruncate($fp, 0); // Truncate file to rewrite it
+                fwrite($fp, $content);
+                fflush($fp); // Flush output before releasing the lock
+                flock($fp, LOCK_UN); // Release the lock
+            } else {
+                // Handle error: unable to acquire lock
+                throw new Exception("Unable to acquire lock on file " . self::$filePath);
+            }
+
+            fclose($fp);
+        } else {
+            // For initialization, just write without locking
+            file_put_contents(self::$filePath, self::generateContent());
+        }
+    }
+
+    private static function generateContent()
     {
         $content = "[" . self::$section . "]\n";
 
@@ -60,21 +87,50 @@ class IniReader
             $content .= "$key = \"$value\"\n";
         }
 
-        file_put_contents(self::$filePath, $content);
+        return $content;
+    }
+
+    public static function isLocked()
+    {
+        $locked = false;
+
+        // Open the file in read mode ('r') to check the lock status
+        $fp = @fopen(self::$filePath, 'r');
+        if ($fp) {
+            // Try to acquire an exclusive lock without blocking (LOCK_NB)
+            if (!flock($fp, LOCK_EX | LOCK_NB)) {
+                // If we cannot acquire the lock, it means the file is locked by another process
+                $locked = true;
+            }
+
+            fclose($fp);
+        }
+
+        return $locked;
+    }
+
+    private static function sanitizeKey($key)
+    {
+        // Replace spaces with underscores, remove special characters, and ensure it doesn't start with numbers
+        $sanitizedKey = preg_replace('/[^a-zA-Z0-9_-]/', '', $key);
+        $sanitizedKey = preg_replace('/^\d+/', '', $sanitizedKey);
+
+        if (empty($sanitizedKey)) {
+            $sanitizedKey = 'key_' . time();
+        }
+
+        return $sanitizedKey;
     }
 
     private static function cleanupOldFiles()
     {
-        $files = glob('todo-*.ini');
-        $today = new DateTime();
+        $files = glob(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'todo-*.ini');
+        $todayFileName = 'todo-' . date('d-m-Y') . '.ini';
 
         foreach ($files as $file) {
-            if (preg_match('/todo-(\d{2})-(\d{2})-(\d{4})\.ini$/', $file, $matches)) {
-                $fileDate = DateTime::createFromFormat('d-m-Y', $matches[1] . '-' . $matches[2] . '-' . $matches[3]);
-
-                if ($fileDate < $today) {
-                    @unlink($file);
-                }
+            $fileName = basename($file);
+            if ($fileName !== $todayFileName) {
+                @unlink($file);
             }
         }
     }
