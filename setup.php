@@ -58,12 +58,19 @@ function logMessage($message, $type = 'info', $logFile = 'application.log')
         $type = 'info';
     }
 
-    $fileHandle = fopen($rootFolder . DIRECTORY_SEPARATOR . $logFile, 'a+');
+    $filePath = $rootFolder . DIRECTORY_SEPARATOR . $logFile;
+
+    if (file_exists($filePath) && filesize($filePath) > 1048576) {
+        $fileHandle = fopen($filePath, 'w');
+    } else {
+        $fileHandle = fopen($filePath, 'a+');
+    }
 
     // Format the message with a timestamp and type
     $formattedMessage = '[' . date('Y-m-d H:i:s') . '] [' . strtoupper($type) . '] ' . $message . PHP_EOL;
 
     fwrite($fileHandle, $formattedMessage);
+
     fclose($fileHandle);
 }
 
