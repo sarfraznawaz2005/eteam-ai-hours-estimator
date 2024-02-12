@@ -17,9 +17,11 @@ class IniReader
 
         if (!file_exists(self::$filePath)) {
             if ($mostRecentFilePath && file_exists($mostRecentFilePath) && $mostRecentFilePath !== self::$filePath) {
+
+                // copy data from prev most recent file
+                self::$data = parse_ini_file($mostRecentFilePath, true);
+
                 copy($mostRecentFilePath, self::$filePath);
-                
-                self::read();
             } else {
                 self::$data[self::$section] = [];
                 self::write(true);
