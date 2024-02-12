@@ -93,5 +93,4 @@ function dd(...$vars)
     die(1);
 }
 
-
-dd(BasecampClassicAPI::getAllUsers());
+//dd(BasecampClassicAPI::getAllProjects());
