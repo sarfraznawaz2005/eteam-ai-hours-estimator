@@ -2,19 +2,18 @@
 <?php
 
 require_once './setup.php';
-require_once './tasks.php';
 
 GoogleAI::SetConfig(getConfig());
 
 $tasks = [
-    'checkInboxForReplies',
-    'postWorkPlan',
-    'postProjectIdea',
-    'replyToBaseCampMessages',
+    CheckInboxForReplies::class,
+    //PostWorkPlan::class,
+    //PostProjectIdea::class,
+    ReplyToBaseCampMessages::class,
 ];
 
 foreach ($tasks as $task) {
-    $task();
+    $task::execute();
 
     sleep(3);
 }
