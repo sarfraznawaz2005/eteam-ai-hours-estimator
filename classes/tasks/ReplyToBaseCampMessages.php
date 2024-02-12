@@ -7,7 +7,6 @@ class ReplyToBaseCampMessages extends Task
     public static function execute()
     {
         logMessage('Running: ' . __CLASS__);
-        return;
 
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
 
