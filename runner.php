@@ -27,7 +27,7 @@ foreach ($tasks as $task) {
         continue;
     }
 
-    $task::execute();
-
     sleep(3);
+
+    $task::execute();
 }

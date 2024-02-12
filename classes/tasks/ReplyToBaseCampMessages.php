@@ -1,5 +1,7 @@
 <?php
 
+// Works only for eTeam Misc Tasks Project
+
 class ReplyToBaseCampMessages extends Task
 {
     public static function execute()
@@ -50,6 +52,7 @@ class ReplyToBaseCampMessages extends Task
                     $response = GoogleAI::GenerateContentWithRetry();
 
                     if (!str_contains(strtolower($response), 'no response')) {
+                        
                         $action = "posts/$messageId/comments.xml";
 
                         $xmlData = <<<data

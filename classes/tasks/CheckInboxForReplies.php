@@ -34,6 +34,9 @@ class CheckInboxForReplies extends Task
             if ($emails) {
 
                 foreach ($emails as $email_number) {
+
+                    sleep(3);
+
                     // Fetch full header information
                     $header = imap_headerinfo($inbox, $email_number);
 
@@ -41,7 +44,6 @@ class CheckInboxForReplies extends Task
                     $subject = $overview[0]->subject;
                     $email_body = imap_fetchbody($inbox, $email_number, 2);
 
-                    
                     $toEmail = $header->to[0]->mailbox . "@" . $header->to[0]->host;
                     $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
                     $fromName = isset($header->from[0]->personal) ? $header->from[0]->personal : $fromEmail;
@@ -62,7 +64,7 @@ class CheckInboxForReplies extends Task
                         str_contains(strtolower($subject), $mentionText) ||
                         $toEmail === 'mr-x@eteamid.com'
                     ) {
-                        
+
                         $prompt = <<<PROMPT
                             \n\n
 
@@ -99,7 +101,7 @@ class CheckInboxForReplies extends Task
 
                         try {
                             $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
-                            
+
                             if (!str_contains(strtolower($response), 'no response')) {
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails);
 
@@ -117,8 +119,6 @@ class CheckInboxForReplies extends Task
                             logMessage(__CLASS__ . ' : Email could not be sent. Mailer Error: ' . $e->getMessage(), 'error');
                         }
                     }
-
-                    sleep(3);
                 }
             }
 
