@@ -103,7 +103,7 @@ class ReplyToBaseCampMessages extends Task
 
     public static function checkCommentsForReplies($messageId)
     {
-        echo "Checking $messageId\n";
+        //echo "Checking $messageId\n";
 
         //dd(BasecampClassicAPI::getAllComments($messageId));
     }
