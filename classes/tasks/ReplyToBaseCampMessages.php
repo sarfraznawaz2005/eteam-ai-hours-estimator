@@ -1,8 +1,5 @@
 <?php
 
-// Currently this works ony for eTeam Misc Tasks Project
-// Remind of un-replied customer messages on basecamp via an email
-
 class ReplyToBaseCampMessages extends Task
 {
     public static function execute()
