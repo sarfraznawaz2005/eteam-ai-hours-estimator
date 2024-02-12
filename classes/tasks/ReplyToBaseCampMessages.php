@@ -28,6 +28,10 @@ class ReplyToBaseCampMessages extends Task
                 $isAlreadyDone = IniReader::get($settingId);
 
                 if ($isAlreadyDone) {
+                    // now that main message itself is taken care of, let's see if we need to reply
+                    // to any of its comments.
+                    static::checkCommentsForReplies($messageId);
+
                     continue;
                 }
 
@@ -47,9 +51,28 @@ class ReplyToBaseCampMessages extends Task
                     // if message body is empty, we default to message title
                     $messageBody = $messageBody ?: $messageValue;
 
-                    GoogleAI::setPrompt("You are helpful assistant. Your job is to answer to user queries in detailed, polite and very easy to understand manner.\n\n[Your reply to $messageBody goes here]");
+                    $prompt = <<<PROMPT
+                    \n\n
+
+                    You are helpful assistant and inside basecamp project management platform as user. When someone mentions you
+                    by "@mrx", your job then is to answer queries in detailed, polite and very easy to understand manner. You must
+                    only reply if there is some sort of question or query, if you think there is nothing to reply then ignore further
+                    instructions and just reply with "OK".
+
+                    \n\n[Your reply to $messageBody goes here]
+
+                    PROMPT;
+
+                    GoogleAI::setPrompt($prompt);
 
                     $response = GoogleAI::GenerateContentWithRetry();
+
+                    // if there is nothing to reply, don't do anything
+                    if (strtolower($response) === 'ok') {
+                        IniReader::set($settingId, 'true');
+
+                        continue;
+                    }
 
                     if (!str_contains(strtolower($response), 'no response')) {
 
@@ -76,5 +99,12 @@ class ReplyToBaseCampMessages extends Task
             }
         }
 
+    }
+
+    public static function checkCommentsForReplies($messageId)
+    {
+        echo "Checking $messageId\n";
+
+        //dd(BasecampClassicAPI::getAllComments($messageId));
     }
 }

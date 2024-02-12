@@ -54,7 +54,6 @@ function getConfig()
 function logMessage($message, $type = 'info', $logFile = 'application.log')
 {
     $rootFolder = __DIR__;
-
     $validTypes = ['info', 'success', 'error'];
 
     if (!in_array($type, $validTypes)) {
@@ -63,16 +62,28 @@ function logMessage($message, $type = 'info', $logFile = 'application.log')
 
     $filePath = $rootFolder . DIRECTORY_SEPARATOR . $logFile;
 
+    // Open the file depending on its size: 'w' mode if it's larger than 1MB, 'a+' otherwise
     if (file_exists($filePath) && filesize($filePath) > 1048576) {
         $fileHandle = fopen($filePath, 'w');
     } else {
         $fileHandle = fopen($filePath, 'a+');
     }
 
-    // Format the message with a timestamp and type
-    $formattedMessage = '[' . date('Y-m-d H:i:s') . '] [' . strtoupper($type) . '] ' . $message . PHP_EOL;
+    if ($fileHandle === false) {
+        // Unable to open the file, possibly due to permissions or other errors
+        return;
+    }
 
-    fwrite($fileHandle, $formattedMessage);
+    // Try to acquire an exclusive lock on the file
+    if (flock($fileHandle, LOCK_EX | LOCK_NB)) { // The LOCK_NB option makes flock() non-blocking
+        $formattedMessage = '[' . date('Y-m-d H:i:s') . '] [' . strtoupper($type) . '] ' . $message . PHP_EOL;
+
+        fwrite($fileHandle, $formattedMessage);
+
+        flock($fileHandle, LOCK_UN);
+    } else {
+        // The file is busy or locked by another process, so we skip writing to it
+    }
 
     fclose($fileHandle);
 }
@@ -94,6 +105,17 @@ function dd(...$vars)
     }
 
     die(1);
+}
+
+function isLocalhost()
+{
+    $whitelist = array('127.0.0.1', '::1');
+
+    if (in_array($_SERVER['REMOTE_ADDR'], $whitelist) || $_SERVER['REMOTE_ADDR'] === '::1') {
+        return true;
+    }
+
+    return false;
 }
 
 //dd(BasecampClassicAPI::getAllProjects());

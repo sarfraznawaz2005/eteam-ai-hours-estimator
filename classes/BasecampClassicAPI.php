@@ -190,11 +190,38 @@ class BasecampClassicAPI
                     $array = (array) $xml;
 
                     if (isset($array['id'])) {
-                        $finalData[$array['id']] = ucwords($array['title']);
+                        $finalData[$array['id']] = strip_tags(ucwords($array['title']));
                     }
                 }
             } else if (isset($post['id'])) {
-                $finalData[$post['id']] = ucwords($post['title']);
+                $finalData[$post['id']] = strip_tags(ucwords($post['title']));
+            }
+
+        }
+
+        return $finalData;
+    }
+
+    public static function getAllComments($postId): array
+    {
+        $finalData = [];
+
+        $data = static::getInfo("/posts/$postId/comments.xml");
+
+        if (isset($data['comment'])) {
+
+            $comment = (array) $data['comment'];
+
+            if (isset($comment[0])) {
+                foreach ($data['comment'] as $xml) {
+                    $array = (array) $xml;
+
+                    if (isset($array['id'])) {
+                        $finalData[$array['id']] = strip_tags($array['body']);
+                    }
+                }
+            } else if (isset($comment['id'])) {
+                $finalData[$comment['id']] = strip_tags($comment['body']);
             }
 
         }

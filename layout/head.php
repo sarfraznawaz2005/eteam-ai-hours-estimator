@@ -14,13 +14,11 @@
 
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/highlight.min.js"></script>
     <script src="/assets/js/app.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
     <script>
-    hljs.highlightAll();
+        hljs.highlightAll();
     </script>
 </head>
 

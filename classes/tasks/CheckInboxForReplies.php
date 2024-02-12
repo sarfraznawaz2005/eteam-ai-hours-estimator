@@ -52,7 +52,7 @@ class CheckInboxForReplies extends Task
                     $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
                     $fromName = isset($header->from[0]->personal) ? $header->from[0]->personal : $fromEmail;
 
-                    // do not reply to excluded emails
+                    // do not reply to excluded sender emails
                     if (in_array($fromEmail, static::$excludedEmails, true)) {
                         continue;
                     }
@@ -77,8 +77,10 @@ class CheckInboxForReplies extends Task
                         $prompt = <<<PROMPT
                             \n\n
 
-                            You are helpful assistant tasked with replying emails in a polite and professional manner. Your job is to
-                            see contents of email and reply in detail with clear and easy to understand manner.
+                            You are helpful assistant tasked with replying emails in a polite and professional manner. When someone mentions you 
+                            by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner. 
+                            You must only reply if there is some sort of question or query, if you think there is nothing to reply then ignore 
+                            further instructions and just reply with "OK".
 
                             Use following format for reply:
 
@@ -107,6 +109,11 @@ class CheckInboxForReplies extends Task
                         GoogleAI::setPrompt($prompt);
 
                         $response = GoogleAI::GenerateContentWithRetry();
+
+                        // if there is nothing to reply, don't do anything
+                        if (strtolower($response) === 'ok') {
+                            continue;
+                        }
 
                         try {
                             $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
