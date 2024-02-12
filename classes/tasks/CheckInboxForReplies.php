@@ -2,6 +2,10 @@
 
 class CheckInboxForReplies extends Task
 {
+    private static $excludedEmails = [
+        'notifications@eteamid.basecamphq.com',
+    ];
+
     public static function execute()
     {
         logMessage('Running: ' . __CLASS__);
@@ -47,6 +51,11 @@ class CheckInboxForReplies extends Task
                     $toEmail = $header->to[0]->mailbox . "@" . $header->to[0]->host;
                     $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
                     $fromName = isset($header->from[0]->personal) ? $header->from[0]->personal : $fromEmail;
+
+                    // do not reply to excluded emails
+                    if (in_array($fromEmail, static::$excludedEmails, true)) {
+                        continue;
+                    }
 
                     // Include CC recipients in the reply
                     $ccEmails = [];

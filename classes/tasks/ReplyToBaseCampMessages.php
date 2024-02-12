@@ -52,7 +52,7 @@ class ReplyToBaseCampMessages extends Task
                     $response = GoogleAI::GenerateContentWithRetry();
 
                     if (!str_contains(strtolower($response), 'no response')) {
-                        
+
                         $action = "posts/$messageId/comments.xml";
 
                         $xmlData = <<<data
@@ -65,7 +65,7 @@ class ReplyToBaseCampMessages extends Task
                         $response = BasecampClassicAPI::postInfo($action, $xmlData);
 
                         if ($response && $response['code'] === 201) {
-                            logMessage(__CLASS__ . " :  Success");
+                            logMessage(__CLASS__ . " :  Basecamp Message Reply Success");
                         } else {
                             logMessage(__CLASS__ . " :  Could not post workplan", 'error');
                         }
