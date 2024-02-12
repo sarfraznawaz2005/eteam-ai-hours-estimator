@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Todos:
+ * 
+ * Does not seem to add cc people
+ * 
+ * 
+ *  */ 
+
 class CheckInboxForReplies extends Task
 {
     public static function execute()
