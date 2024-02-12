@@ -10,14 +10,21 @@ class IniReader
     {
         $rootFolder = __DIR__;
 
-        self::cleanupOldFiles();
+        $mostRecentFilePath = self::cleanupOldFiles();
 
         $today = date('d-m-Y');
+        
         self::$filePath = dirname($rootFolder) . DIRECTORY_SEPARATOR . "todo-$today.ini";
 
         if (!file_exists(self::$filePath)) {
-            self::$data[self::$section] = [];
-            self::write(true); // Initialize file without locking (exclusive access not needed here)
+            if ($mostRecentFilePath && file_exists($mostRecentFilePath) && $mostRecentFilePath !== self::$filePath) {
+                // Copy contents from the most recent file to today's file
+                copy($mostRecentFilePath, self::$filePath);
+            } else {
+                self::$data[self::$section] = [];
+            }
+
+            self::write(true); // Initialize file (with or without copying)
         } else {
             self::read();
         }
@@ -125,14 +132,22 @@ class IniReader
     private static function cleanupOldFiles()
     {
         $files = glob(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'todo-*.ini');
-        $todayFileName = 'todo-' . date('d-m-Y') . '.ini';
+
+        if (count($files) <= 1) {
+            return current($files); // Return the only file or false if none
+        }
+
+        usort($files, function ($a, $b) {
+            return filemtime($b) - filemtime($a);
+        });
+
+        $mostRecentFile = array_shift($files); // Keep the most recent file
 
         foreach ($files as $file) {
-            $fileName = basename($file);
-            if ($fileName !== $todayFileName) {
-                @unlink($file);
-            }
+            @unlink($file);
         }
+
+        return $mostRecentFile;
     }
 
 }
