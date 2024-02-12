@@ -14,8 +14,8 @@ class BasecampClassicAPI
 {
     private static $companyId = '732202';
     private static $companyName = 'eteamid';
-    private static $userAPIToken = 'faa84b2b218faf862118733e2b4268f77573be74';
-    private static $userEmail = 'sarfraz@eteamid.com';
+    private static $userAPIToken = '0ddc5efa6908b0df2abd7fe68d5096fdd7d55a26';
+    private static $userEmail = 'mr-x@eteamid.com';
     private static $eteamMiscTasksProjectName = 'ETeam Miscellaneous Tasks';
     private static $eteamKnowledgeSharingProjectName = 'eTeam Knowledge Sharing';
 
