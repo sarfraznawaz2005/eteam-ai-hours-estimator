@@ -12,6 +12,12 @@ function autoloader($className): void
         require_once $file;
     }
 
+    $file = __DIR__ . '/classes/ai/' . $className . '.php';
+
+    if (file_exists($file)) {
+        require_once $file;
+    }
+
     $file = __DIR__ . '/classes/tasks/' . $className . '.php';
 
     if (file_exists($file)) {
