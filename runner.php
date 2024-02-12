@@ -16,8 +16,8 @@ GoogleAI::SetConfig(getConfig());
 
 $tasks = [
     CheckInboxForReplies::class,
-    PostWorkPlan::class,
-    PostProjectIdea::class,
+    //PostWorkPlan::class,
+    //PostProjectIdea::class,
     ReplyToBaseCampMessages::class,
 ];
 
