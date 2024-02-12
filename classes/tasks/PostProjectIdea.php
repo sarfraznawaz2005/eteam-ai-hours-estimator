@@ -2,7 +2,7 @@
 
 class PostProjectIdea extends Task
 {
-    public static function execute(): void
+    public static function execute()
     {
         logMessage('Running: ' . __CLASS__);
 
@@ -16,6 +16,13 @@ class PostProjectIdea extends Task
         $isAlreadyDone = IniReader::get(__CLASS__);
 
         if (!$isAlreadyDone) {
+
+            $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamKnowledgeSharingProjectId();
+
+            if (!$eteamKnowledgeSharingProjectId) {
+                logMessage(__CLASS__ . " : Could not get eteam knowledge sharing project id of basecamp", 'error');
+                return;
+            }
 
             GoogleAI::setPrompt(file_get_contents('./tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions.");
 
@@ -33,9 +40,7 @@ class PostProjectIdea extends Task
 
                 $postTitle = 'Idea Of The Day - ' . date('d-m-Y');
 
-                $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
-
-                $action = "projects/$eteamMiscTasksProjectId/posts.xml";
+                $action = "projects/$eteamKnowledgeSharingProjectId/posts.xml";
 
                 $xmlData = <<<data
                 <request>
@@ -51,16 +56,17 @@ class PostProjectIdea extends Task
                 $response = BasecampClassicAPI::postInfo($action, $xmlData);
 
                 if ($response && $response['code'] === 201) {
-                    logMessage("getProjectIdea: Success");
+                    logMessage(__CLASS__ . " : Success");
 
                     IniReader::set(__CLASS__, 'true');
                 } else {
-                    logMessage("getProjectIdea: Could not post workplan", 'error');
+                    logMessage(__CLASS__ . " : Could not post workplan", 'error');
                 }
 
             } else {
-                logMessage("getProjectIdea: Error or no response", 'error');
+                logMessage(__CLASS__ . " : Error or no response", 'error');
             }
         }
+
     }
 }

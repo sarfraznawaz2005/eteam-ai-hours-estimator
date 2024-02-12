@@ -16,7 +16,8 @@ class BasecampClassicAPI
     private static $companyName = 'eteamid';
     private static $userAPIToken = 'faa84b2b218faf862118733e2b4268f77573be74';
     private static $userEmail = 'sarfraz@eteamid.com';
-    private static $eteamWorkPlanProjectName = 'ETeam Miscellaneous Tasks';
+    private static $eteamMiscTasksProjectName = 'ETeam Miscellaneous Tasks';
+    private static $eteamKnowledgeSharingProjectName = 'eTeam Knowledge Sharing';
 
     public static function getCurlInstance(): CurlHandle | bool
     {
@@ -205,6 +206,13 @@ class BasecampClassicAPI
     {
         $projects = static::getAllProjects();
 
-        return array_search(static::$eteamWorkPlanProjectName, $projects);
+        return array_search(static::$eteamMiscTasksProjectName, $projects);
+    }
+
+    public static function getEteamKnowledgeSharingProjectId()
+    {
+        $projects = static::getAllProjects();
+
+        return array_search(static::$eteamKnowledgeSharingProjectName, $projects);
     }
 }

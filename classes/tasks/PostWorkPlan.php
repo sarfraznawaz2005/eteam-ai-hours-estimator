@@ -2,7 +2,7 @@
 
 class PostWorkPlan extends Task
 {
-    public static function execute(): void
+    public static function execute()
     {
         logMessage('Running: ' . __CLASS__);
 
@@ -11,6 +11,12 @@ class PostWorkPlan extends Task
         if (!$isAlreadyDone) {
 
             $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
+
+            if (!$eteamMiscTasksProjectId) {
+                logMessage(__CLASS__ . " : Could not get eteam misc tasks project id of basecamp", 'error');
+                return;
+            }
+
             $eteamMiscProjectMessages = BasecampClassicAPI::getAllMessages($eteamMiscTasksProjectId);
 
             if (is_array($eteamMiscProjectMessages) && $eteamMiscProjectMessages) {
@@ -62,11 +68,11 @@ class PostWorkPlan extends Task
                     $response = BasecampClassicAPI::postInfo($action, $xmlData);
 
                     if ($response && $response['code'] === 201) {
-                        logMessage("postWorkPlan: Success");
+                        logMessage(__CLASS__ . " :  Success");
 
                         IniReader::set(__CLASS__, 'true');
                     } else {
-                        logMessage("postWorkPlan: Could not post workplan", 'error');
+                        logMessage(__CLASS__ . " :  Could not post workplan", 'error');
                     }
                 }
             }

@@ -2,6 +2,8 @@
 
 require_once 'vendor/autoload.php';
 
+define('MENTION_TEXT', '@mrx');
+
 date_default_timezone_set('Asia/Karachi');
 
 function autoloader($className): void

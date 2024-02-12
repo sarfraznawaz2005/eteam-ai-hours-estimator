@@ -65,15 +65,18 @@ class IniReader
 
     private static function cleanupOldFiles()
     {
-        $files = glob('todo-*.ini'); // Get all todo files
-        $today = date('Y-m-d');
+        $files = glob('todo-*.ini');
+        $today = new DateTime();
 
         foreach ($files as $file) {
-            if (preg_match('/todo-(\d{4}-\d{2}-\d{2})\.ini$/', $file, $matches)) {
-                if ($matches[1] < $today) {
-                    @unlink($file); // Delete file older than today
+            if (preg_match('/todo-(\d{2})-(\d{2})-(\d{4})\.ini$/', $file, $matches)) {
+                $fileDate = DateTime::createFromFormat('d-m-Y', $matches[1] . '-' . $matches[2] . '-' . $matches[3]);
+
+                if ($fileDate < $today) {
+                    @unlink($file);
                 }
             }
         }
     }
+
 }
