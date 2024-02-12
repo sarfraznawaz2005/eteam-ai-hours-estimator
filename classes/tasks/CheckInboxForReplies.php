@@ -9,7 +9,8 @@ class CheckInboxForReplies extends Task
         try {
 
             // IMAP connection details
-            $hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // Adjust this as per your IMAP server details
+            //$hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // this was giving certificate error online
+            $hostname = '{imap.eteamid.com:993/imap/ssl/novalidate-cert}';
             $username = 'mr-x@eteamid.com';
             $password = '8gxe#71b`GIb';
 
