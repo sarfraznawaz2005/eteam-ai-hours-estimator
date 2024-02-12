@@ -6,22 +6,19 @@ date_default_timezone_set('Asia/Karachi');
 
 function autoloader($className): void
 {
-    $file = __DIR__ . '/classes/' . $className . '.php';
+    $directories = [
+        __DIR__ . '/classes/',
+        __DIR__ . '/classes/ai/',
+        __DIR__ . '/classes/tasks/',
+    ];
 
-    if (file_exists($file)) {
-        require_once $file;
-    }
+    foreach ($directories as $directory) {
+        $file = $directory . $className . '.php';
 
-    $file = __DIR__ . '/classes/ai/' . $className . '.php';
-
-    if (file_exists($file)) {
-        require_once $file;
-    }
-
-    $file = __DIR__ . '/classes/tasks/' . $className . '.php';
-
-    if (file_exists($file)) {
-        require_once $file;
+        if (file_exists($file)) {
+            require_once $file;
+            break; // Stop the loop once the file is found and required
+        }
     }
 }
 
