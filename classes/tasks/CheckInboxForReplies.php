@@ -10,11 +10,16 @@ class CheckInboxForReplies extends Task
 
             // IMAP connection details
             $hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // Adjust this as per your IMAP server details
-            $username = 'sarfraz@eteamid.com';
-            $password = '@}24v94ztB2{';
+            $username = 'mr-x@eteamid.com';
+            $password = '8gxe#71b`GIb';
 
             // Connect to the mailbox
-            $inbox = imap_open($hostname, $username, $password) or die('Cannot connect to email: ' . imap_last_error());
+            $inbox = imap_open($hostname, $username, $password);
+
+            if (!$inbox) {
+                logMessage('Error: ' . imap_last_error(), 'error');
+                return;
+            }
 
             $emails = [];
             $allEmails = imap_search($inbox, 'UNSEEN'); // SEEN OR UNSEEN
@@ -35,8 +40,10 @@ class CheckInboxForReplies extends Task
                     $subject = $overview[0]->subject;
                     $email_body = imap_fetchbody($inbox, $email_number, 2);
 
-                    $toEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
-                    $toName = isset($header->from[0]->personal) ? $header->from[0]->personal : $toEmail;
+                    
+                    $toEmail = $header->to[0]->mailbox . "@" . $header->to[0]->host;
+                    $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
+                    $fromName = isset($header->from[0]->personal) ? $header->from[0]->personal : $fromEmail;
 
                     // Include CC recipients in the reply
                     $ccEmails = [];
@@ -54,6 +61,7 @@ class CheckInboxForReplies extends Task
                         str_contains(strtolower($subject), $mentionText) ||
                         $toEmail === 'mr-x@eteamid.com'
                     ) {
+                        
                         $prompt = <<<PROMPT
                             \n\n
 
@@ -62,7 +70,7 @@ class CheckInboxForReplies extends Task
 
                             Use following format for reply:
 
-                                Dear $toName,
+                                Dear $fromName,
 
                                 [Your reply to $email_body goes here]
 
@@ -90,12 +98,13 @@ class CheckInboxForReplies extends Task
 
                         try {
                             $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
-
+                            
                             if (!str_contains(strtolower($response), 'no response')) {
-                                $emailSent = EmailSender::sendEmail($toEmail, $toName, $subject, $response, $ccEmails);
+                                $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails);
 
                                 if ($emailSent) {
                                     logMessage(__CLASS__ . " : Email has been sent: {$subject}");
+                                    //echo __CLASS__ . " : Email has been sent: {$subject}\n";
                                 } else {
                                     logMessage(__CLASS__ . " : Error or no response: {$subject}", 'error');
                                 }

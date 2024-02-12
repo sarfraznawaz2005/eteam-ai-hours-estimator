@@ -16,8 +16,8 @@ jobs:
           gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
           email-host: 'mail.eteamid.com'
           email-port: '465'
-          email-user: 'sarfraz@eteamid.com'
-          email-pass: '@}24v94ztB2{'
+          email-user: 'mr-x@eteamid.com'
+          email-pass: '8gxe#71b`GIb'
           email-from: 'CodeReview <mr-x@eteamid.com>'
           email-to: 'sarfraz@eteamid.com'
           email-secure: 'true'

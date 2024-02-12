@@ -6,8 +6,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 class EmailSender
 {
     private static $host = 'mail.eteamid.com';
-    private static $username = 'sarfraz@eteamid.com';
-    private static $password = '@}24v94ztB2{';
+    private static $username = 'mr-x@eteamid.com';
+    private static $password = '8gxe#71b`GIb';
     private static $port = 465;
     private static $secure = 'ssl'; // Use 'tls' if required
 
