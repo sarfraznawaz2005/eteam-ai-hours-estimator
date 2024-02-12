@@ -17,7 +17,7 @@ class PostProjectIdea extends Task
 
         if (!$isAlreadyDone) {
 
-            $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamKnowledgeSharingProjectId();
+            $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
 
             if (!$eteamKnowledgeSharingProjectId) {
                 logMessage(__CLASS__ . " : Could not get eteam knowledge sharing project id of basecamp", 'error');
