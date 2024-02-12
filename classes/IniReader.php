@@ -13,22 +13,17 @@ class IniReader
         $mostRecentFilePath = self::cleanupOldFiles();
 
         $today = date('d-m-Y');
-
         self::$filePath = dirname($rootFolder) . DIRECTORY_SEPARATOR . "todo-$today.ini";
 
         if (!file_exists(self::$filePath)) {
             if ($mostRecentFilePath && file_exists($mostRecentFilePath) && $mostRecentFilePath !== self::$filePath) {
-                $content = file_get_contents($mostRecentFilePath);
-
-                if ($content !== false) {
-                    file_put_contents(self::$filePath, $content);
-                }
-
+                copy($mostRecentFilePath, self::$filePath);
+                
+                self::read();
             } else {
                 self::$data[self::$section] = [];
+                self::write(true);
             }
-
-            self::write(true); // Initialize file (with or without copying)
         } else {
             self::read();
         }
