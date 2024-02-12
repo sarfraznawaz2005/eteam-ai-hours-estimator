@@ -2,7 +2,7 @@
 
 return [
 
-    'GOOGLE_API_KEY' => 'xxxxxxxxxxxxxxxxx22',
+    'GOOGLE_API_KEY' => 'xxxxxxxxxxxxxxxxx',
 
     'project_types' => [
         'App Store',
