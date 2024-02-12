@@ -21,11 +21,12 @@ class IniReader
                 // copy data from prev most recent file
                 self::$data = parse_ini_file($mostRecentFilePath, true);
 
+                copy($mostRecentFilePath, self::$filePath);
+
                 // we want to delete these so they can run again
                 static::delete(PostWorkPlan::class);
                 static::delete(PostProjectIdea::class);
-
-                copy($mostRecentFilePath, self::$filePath);
+                
             } else {
                 self::$data[self::$section] = [];
                 self::write(true);
