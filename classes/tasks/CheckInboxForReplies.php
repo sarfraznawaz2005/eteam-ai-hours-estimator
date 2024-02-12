@@ -55,9 +55,8 @@ class CheckInboxForReplies extends Task
                     $prompt = <<<PROMPT
                         \n\n
 
-                        Your name is "Mr-X", created by "Sarfraz Ahmed" at eTeam. You are helpful assistant tasked with replying emails in a
-                        polite and professional manner. Your job is to see contents of email and reply in detail with clear and easy to
-                        understand manner.
+                        You are helpful assistant tasked with replying emails in a polite and professional manner. Your job is to 
+                        see contents of email and reply in detail with clear and easy to understand manner.
 
                         Use following format for reply:
 
