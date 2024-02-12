@@ -4,7 +4,6 @@
 /**
  * TODOs
  *
- * metions on basecamp not working
  * Remind of un-replied customer messages on basecamp via an email
  *
  *
