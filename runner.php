@@ -3,4 +3,4 @@
 
 require_once './setup.php';
 
-echo $_SERVER['DOCUMENT_ROOT'];
+logMessage('All is well!');
