@@ -1,6 +1,6 @@
 <?php
 
-class CheckInboxForReplies extends Task
+class ReplyToEmails extends Task
 {
     private static $excludedEmails = [
         'notifications@eteamid.basecamphq.com',

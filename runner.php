@@ -15,7 +15,7 @@ require_once __DIR__ . '/setup.php';
 GoogleAI::SetConfig(getConfig());
 
 $tasks = [
-    CheckInboxForReplies::class,
+    ReplyToEmails::class,
     PostWorkPlan::class,
     PostProjectIdea::class,
     ReplyToBaseCampMessages::class,
