@@ -17,7 +17,7 @@ class BasecampClassicAPI
     private static $userAPIToken = '0ddc5efa6908b0df2abd7fe68d5096fdd7d55a26';
     private static $userEmail = 'mr-x@eteamid.com';
     private static $eteamMiscTasksProjectName = 'ETeam Miscellaneous Tasks';
-    private static $eteamKnowledgeSharingProjectName = 'eTeam Knowledge Sharing';
+    private static $eteamKnowledgeSharingProjectName = 'ETeam Knowledge Sharing';
 
     public static function getCurlInstance(): CurlHandle | bool
     {
