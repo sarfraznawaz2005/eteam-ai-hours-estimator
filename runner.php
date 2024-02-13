@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+// /usr/local/php80/bin/php-cli -q /home/u754-dxgngyrpjzt9/www/ai.eteamprojects.com/public_html/runner.php
+
 /**
  * TODOs
  *
