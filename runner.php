@@ -7,7 +7,7 @@
  * TODOs
  *
  * db
- * reply to comments of posts
+ * reply to comments of posts, don't reply to self
  * remind of un-replied customer messages on basecamp via an email
  * give reply to basecamp url
  *
