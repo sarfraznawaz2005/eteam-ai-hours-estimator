@@ -15,17 +15,16 @@
 
 require_once __DIR__ . '/setup.php';
 
-
 $tasks = [
-    //TestTask::class,
-    //ReplyToEmails::class,
-    //PostWorkPlan::class,
-    //PostProjectIdea::class,
+    TestTask::class,
+    ReplyToEmails::class,
+    PostWorkPlan::class,
+    PostProjectIdea::class,
     ReplyToBaseCampMessages::class,
 ];
 
 if (isLocalhost()) {
-    //$tasks = array_slice($tasks, 0, 1);
+    $tasks = array_slice($tasks, 0, 1);
 }
 
 foreach ($tasks as $task) {
