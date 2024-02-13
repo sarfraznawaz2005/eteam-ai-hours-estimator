@@ -11,7 +11,7 @@ class ReplyToBaseCampMessages extends Task
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
 
         if (!$eteamMiscTasksProjectId) {
-            logMessage(__CLASS__ . " : Could not get eteam misc tasks project id of basecamp", 'error');
+            logMessage(__CLASS__ . " : Could not get eteam misc tasks project id of basecamp", 'danger');
             return;
         }
 
@@ -54,10 +54,9 @@ class ReplyToBaseCampMessages extends Task
                     $prompt = <<<PROMPT
                     \n\n
 
-                    You are helpful assistant and inside basecamp project management platform as user. When someone mentions you
-                    by "@mrx", your job then is to answer queries in detailed, polite and very easy to understand manner. You must
-                    only reply if there is some sort of question or query, if you think there is nothing to reply then ignore further
-                    instructions and just reply with "OK".
+                    You are helpful assistant. When someone mentions you by "@mrx", your job then is to answer queries in detailed, 
+                    polite and very easy to understand manner. You must only reply if there is some sort of question or query, if you 
+                    think there is nothing to reply then ignore further instructions and just reply with "OK".
 
                     \n\n[Your reply to $messageBody goes here]
 
@@ -88,9 +87,9 @@ class ReplyToBaseCampMessages extends Task
                         $response = BasecampClassicAPI::postInfo($action, $xmlData);
 
                         if ($response && $response['code'] === 201) {
-                            logMessage(__CLASS__ . " :  Basecamp Message Reply Success");
+                            logMessage(__CLASS__ . " :  Basecamp Message Reply Success", 'success');
                         } else {
-                            logMessage(__CLASS__ . " :  Could not post workplan", 'error');
+                            logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
                         }
                     }
                 }

@@ -22,7 +22,7 @@ class PostProjectIdea extends Task
         $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamKnowledgeSharingProjectId();
 
         if (!$eteamKnowledgeSharingProjectId) {
-            logMessage(__CLASS__ . " : Could not get eteam knowledge sharing project id of basecamp", 'error');
+            logMessage(__CLASS__ . " : Could not get eteam knowledge sharing project id of basecamp", 'danger');
             return;
         }
 
@@ -58,15 +58,15 @@ class PostProjectIdea extends Task
             $response = BasecampClassicAPI::postInfo($action, $xmlData);
 
             if ($response && $response['code'] === 201) {
-                logMessage(__CLASS__ . " : Success");
+                logMessage(__CLASS__ . " : Success", 'success');
 
                 IniReader::set(__CLASS__, 'true');
             } else {
-                logMessage(__CLASS__ . " : Could not post workplan", 'error');
+                logMessage(__CLASS__ . " : Could not post workplan", 'danger');
             }
 
         } else {
-            logMessage(__CLASS__ . " : Error or no response", 'error');
+            logMessage(__CLASS__ . " : Error or no response", 'danger');
         }
 
     }

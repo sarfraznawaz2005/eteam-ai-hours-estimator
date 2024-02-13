@@ -54,7 +54,7 @@ function getConfig()
 function logMessage($message, $type = 'info', $logFile = 'application.log')
 {
     $rootFolder = __DIR__;
-    $validTypes = ['info', 'success', 'error'];
+    $validTypes = ['info', 'success', 'warning', 'danger'];
 
     if (!in_array($type, $validTypes)) {
         $type = 'info';

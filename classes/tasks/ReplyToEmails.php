@@ -22,7 +22,7 @@ class ReplyToEmails extends Task
             $inbox = imap_open($hostname, $username, $password);
 
             if (!$inbox) {
-                logMessage('Error: ' . imap_last_error(), 'error');
+                logMessage('Error: ' . imap_last_error(), 'danger');
                 return;
             }
 
@@ -122,17 +122,17 @@ class ReplyToEmails extends Task
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails);
 
                                 if ($emailSent) {
-                                    logMessage(__CLASS__ . " : Email has been sent: {$subject}");
+                                    logMessage(__CLASS__ . " : Email has been sent: {$subject}", 'success');
                                     //echo __CLASS__ . " : Email has been sent: {$subject}\n";
                                 } else {
-                                    logMessage(__CLASS__ . " : Error or no response: {$subject}", 'error');
+                                    logMessage(__CLASS__ . " : Error or no response: {$subject}", 'danger');
                                 }
                             } else {
-                                logMessage(__CLASS__ . " : Error or no response: {$subject}", 'error');
+                                logMessage(__CLASS__ . " : Error or no response: {$subject}", 'danger');
                             }
 
                         } catch (Exception $e) {
-                            logMessage(__CLASS__ . ' : Email could not be sent. Mailer Error: ' . $e->getMessage(), 'error');
+                            logMessage(__CLASS__ . ' : Email could not be sent. Mailer Error: ' . $e->getMessage(), 'danger');
                         }
                     }
                 }
@@ -141,7 +141,7 @@ class ReplyToEmails extends Task
             imap_close($inbox);
 
         } catch (\Exception $e) {
-            logMessage(__CLASS__ . " : Error : " . $e->getMessage() . "", 'error');
+            logMessage(__CLASS__ . " : Error : " . $e->getMessage() . "", 'danger');
         }
 
     }

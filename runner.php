@@ -6,9 +6,10 @@
 /**
  * TODOs
  *
- * Reply to comments of posts
- * Remind of un-replied customer messages on basecamp via an email
- *
+ * remove ucfirst and modify code
+ * reply to comments of posts
+ * remind of un-replied customer messages on basecamp via an email
+ * give reply to basecamp url
  *
  */
 

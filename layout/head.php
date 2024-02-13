@@ -26,7 +26,7 @@
 
     <div class="container mt-2">
 
-        <?php if ($_SERVER['SCRIPT_NAME'] !== '/index.php'): ?>
+        <?php if ($_SERVER['SCRIPT_NAME'] !== '/index.php' && $_SERVER['SCRIPT_NAME'] !== '/logs.php'): ?>
         <a href="/index.php" title="back to home">
             <i class="bi bi-house-door-fill" style="font-size: 2rem; color: #999; cursor: pointer;"
                 onmouseover="this.style.color='#0d84cc'" onmouseout="this.style.color='#999'">

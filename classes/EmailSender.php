@@ -41,7 +41,7 @@ class EmailSender
             $mail->send();
             return true;
         } catch (Exception $e) {
-            logMessage('Email could not be sent. Mailer Error: ' . $mail->ErrorInfo, 'error');
+            logMessage('Email could not be sent. Mailer Error: ' . $mail->ErrorInfo, 'danger');
             return false;
         }
     }

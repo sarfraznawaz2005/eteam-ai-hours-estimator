@@ -15,7 +15,7 @@ class PostWorkPlan extends Task
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
 
         if (!$eteamMiscTasksProjectId) {
-            logMessage(__CLASS__ . " : Could not get eteam misc tasks project id of basecamp", 'error');
+            logMessage(__CLASS__ . " : Could not get eteam misc tasks project id of basecamp", 'danger');
             return;
         }
 
@@ -33,17 +33,16 @@ class PostWorkPlan extends Task
                 $message = <<<message
                 AOA,<br><br>
 
-                <b>Misc</b>:<br>
-                    - Post Project Idea<br>
-                    - Code Review<br>
-                    - Email Communications<br>
-                    - Replying to Basecamp Messages<br>
-                    - Estimate Projects<br>
-                    - Create Projct System Plans<br>
-                    - Provide Database Support<br>
-                    - SEO Optimizations<br>
-                    - Coordinate with Team<br>
-                    - Etc
+                - Post Project Idea<br>
+                - Code Review<br>
+                - Email Communications<br>
+                - Replying to Basecamp Messages<br>
+                - Estimate Projects<br>
+                - Create Projct System Plans<br>
+                - Provide Database Support<br>
+                - SEO Optimizations<br>
+                - Coordinate with Team<br>
+                - etc
                 message;
 
                 GoogleAI::setPrompt("Please provide a inspirational quote tailored to our software engineering company. This inspirational quote should boost the morale of our team.");
@@ -70,11 +69,11 @@ class PostWorkPlan extends Task
                 $response = BasecampClassicAPI::postInfo($action, $xmlData);
 
                 if ($response && $response['code'] === 201) {
-                    logMessage(__CLASS__ . " :  Success");
+                    logMessage(__CLASS__ . " :  Success", 'success');
 
                     IniReader::set(__CLASS__, 'true');
                 } else {
-                    logMessage(__CLASS__ . " :  Could not post workplan", 'error');
+                    logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
                 }
             }
         }
