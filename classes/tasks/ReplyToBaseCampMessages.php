@@ -10,12 +10,6 @@ class ReplyToBaseCampMessages extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
-        $DB = DB::getInstance();
-        $lastFewMessagesIdsDB = $DB->get(
-            "select activity_id from activities where description = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
-            [':description' => 'Basecamp Messages']
-        );
-
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
 
         if (!$eteamMiscTasksProjectId) {
