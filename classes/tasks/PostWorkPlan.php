@@ -34,7 +34,7 @@ class PostWorkPlan extends Task
                 AOA,<br><br>
 
                 - Post Project Idea<br>
-                - Code Review<br>
+                - Code Reviews<br>
                 - Email Communications<br>
                 - Replying to Basecamp Messages<br>
                 - Estimate Projects<br>

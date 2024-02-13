@@ -42,6 +42,14 @@ class PostProjectIdea extends Task
 
             $postTitle = 'Idea Of The Day - ' . date('d-m-Y');
 
+            if (preg_match('/Idea Name: (.*?)\n/i', strip_tags($response), $matches)) {
+                $ideaName = $matches[1] ?? '';
+
+                if (trim($ideaName)) {
+                    $postTitle .= " [$ideaName]";
+                }
+            }
+
             $action = "projects/$eteamKnowledgeSharingProjectId/posts.xml";
 
             $xmlData = <<<data
