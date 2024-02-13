@@ -4,9 +4,17 @@
 
 class ReplyToBaseCampMessages extends Task
 {
+    protected static $totalNewPostsToFetch = 3;
+
     public static function execute()
     {
         //logMessage('Running: ' . __CLASS__);
+
+        $DB = DB::getInstance();
+        $lastFewMessagesIdsDB = $DB->get(
+            "select activity_id from activities where description = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
+            [':description' => 'Basecamp Messages']
+        );
 
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
 
@@ -19,15 +27,26 @@ class ReplyToBaseCampMessages extends Task
         //dd($eteamMiscProjectMessages);
 
         if (is_array($eteamMiscProjectMessages) && $eteamMiscProjectMessages) {
-            $lastFewMessages = array_slice($eteamMiscProjectMessages, 0, 3, true);
 
-            foreach ($lastFewMessages as $messageId => $messageValue) {
+            $DB = DB::getInstance();
 
-                $settingId = 'BC_MESSAGE_' . $messageId;
+            $lastFewMessagesIdsDB = $DB->get(
+                "select activity_id from activities where description = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
+                [':description' => 'Basecamp Messages']
+            );
 
-                $isAlreadyDone = static::isDone($settingId);
+            $lastFewMessagesIdsDB = array_map(function ($item) {
+                $idWithoutPrefix = str_replace("BC_MESSAGE_", "", $item['activity_id']);
 
-                if ($isAlreadyDone) {
+                return intval($idWithoutPrefix);
+            }, $lastFewMessagesIdsDB);
+            //dd($lastFewMessagesIdsDB);
+
+            $messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
+
+            foreach ($messages as $messageId => $messageValue) {
+
+                if (in_array($messageId, $lastFewMessagesIdsDB, true)) {
                     // now that main message itself is taken care of, let's see if we need to reply
                     // to any of its comments.
                     static::checkCommentsForReplies($messageId);
@@ -35,11 +54,21 @@ class ReplyToBaseCampMessages extends Task
                     continue;
                 }
 
+                $settingId = 'BC_MESSAGE_' . $messageId;
+
+                $authorId = '';
                 $messageBody = BasecampClassicAPI::getInfo("posts/$messageId.xml");
 
                 if ($messageBody) {
-                    $messageBody = (array) $messageBody['body'] ?? '';
+                    $post = (array) $messageBody;
+                    $messageBody = $post['body'] ?? '';
                     $messageBody = strip_tags($messageBody[0] ?? '');
+                    $authorId = $post['author-id'] ?? '';
+                }
+
+                // do not reply to self
+                if ((string) $authorId === BasecampClassicAPI::$userId) {
+                    continue;
                 }
 
                 // if title or message body contains mention keyword

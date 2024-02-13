@@ -12,6 +12,7 @@
 
 class BasecampClassicAPI
 {
+    public static $userId = '13043551';
     private static $companyId = '732202';
     private static $companyName = 'eteamid';
     private static $userAPIToken = '0ddc5efa6908b0df2abd7fe68d5096fdd7d55a26';
