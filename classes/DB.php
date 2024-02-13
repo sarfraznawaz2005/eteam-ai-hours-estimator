@@ -106,21 +106,21 @@ class DB
     public function update($table, $data, $condition)
     {
         $updates = [];
-        
+
         foreach ($data as $key => $value) {
             $updates[] = "$key = :$key";
         }
-        
+
         $updatesString = implode(', ', $updates);
 
         $conditionString = [];
         $conditionParams = [];
-        
+
         foreach ($condition as $key => $value) {
             $conditionString[] = "$key = :cond_$key"; // Prefixing condition keys to avoid name collision
             $conditionParams["cond_$key"] = $value; // Prefix the condition keys for binding
         }
-        
+
         $conditionString = implode(' AND ', $conditionString);
 
         $sql = "UPDATE $table SET $updatesString WHERE $conditionString";
@@ -136,10 +136,20 @@ class DB
 
     public function delete($table, $condition)
     {
-        $sql = "DELETE FROM $table WHERE $condition";
-        
-        $stmt = $this->executeQuery($sql, $condition);
+        $conditionString = [];
+        $conditionParams = [];
 
-        return $stmt !== false; // True on success, false on failure
+        foreach ($condition as $key => $value) {
+            $conditionString[] = "$key = :$key"; // Prepare condition for binding
+            $conditionParams[$key] = $value; // Add the condition value to the parameters array
+        }
+
+        $conditionString = implode(' AND ', $conditionString);
+        $sql = "DELETE FROM $table WHERE $conditionString";
+
+        $stmt = $this->executeQuery($sql, $conditionParams); // Use $conditionParams to bind parameters safely
+
+        return $stmt ? $stmt->rowCount() : false; // Return the number of affected rows or false
     }
+
 }

@@ -8,65 +8,46 @@ abstract class Task
     {
         $DB = DB::getInstance();
 
-        $result = $DB->get("select done from activities where activity_id = :activity_id", [':activity_id' => $activityId]);
+        $result = $DB->get("select * from activities where activity_id = :activity_id", [':activity_id' => $activityId]);
 
         if (!$result) {
-            return false;
+            return [];
         }
 
         return $result[0] ?? [];
     }
 
-    public static function isDone(string $activityId): bool
+    public static function isDone(string $activityId)
     {
         $DB = DB::getInstance();
 
-        $result = $DB->get("select done from activities where activity_id = :activity_id", [':activity_id' => $activityId]);
-
-        if (!$result) {
-            return false;
-        }
-
-        return $result[0]['done'] === 'Yes';
+        return $DB->get("select id from activities where activity_id = :activity_id", [':activity_id' => $activityId]);
     }
 
-    public static function isDoneForToday(string $activityId): bool
+    public static function isDoneForToday(string $activityId)
     {
         $DB = DB::getInstance();
 
-        $result = $DB->get(
-            "select done from activities where DATE(created_at) = DATE(NOW()) AND activity_id = :activity_id",
+        //////////////////////////////////
+        // delete older records
+        $sql = "DELETE FROM activities WHERE activity_id = '$activityId' AND created_at < NOW() - INTERVAL 1 DAY";
+        $DB->executeQuery($sql);
+        //////////////////////////////////
+
+        return $DB->get(
+            "select id from activities where DATE(created_at) = DATE(NOW()) AND activity_id = :activity_id",
             [':activity_id' => $activityId]
         );
-
-        if (!$result) {
-            return false;
-        }
-
-        return $result[0]['done'] === 'Yes';
     }
 
     public static function markDone(string $activityId, $description)
     {
         $DB = DB::getInstance();
 
-        $exists = static::getInfo($activityId);
-
-        if ($exists) {
-            $result = $DB->update('activities', ['done' => 'Yes'], ['activity_id' => $activityId]);
-        } else {
-            $result = $DB->insert('activities', [
-                'activity_id' => $activityId,
-                'description' => $description,
-                'done' => 'Yes',
-                'created_at' => now(),
-            ]);
-        }
-
-        if ($result) {
-            logMessage($description . ' : Marked Done', 'success');
-        } else {
-            logMessage($description . ' : Unable to mark done', 'danger');
-        }
+        return $DB->insert('activities', [
+            'activity_id' => $activityId,
+            'description' => $description,
+            'created_at' => now(),
+        ]);
     }
 }
