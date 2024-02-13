@@ -38,8 +38,14 @@ class EmailSender
             $mail->Subject = $subject;
             $mail->Body = $body;
 
-            $mail->send();
-            return true;
+            try {
+                $mail->send();
+                return true;
+            } catch (Exception $e) {
+                logMessage('Failed to send email. Error: ' . $e->getMessage(), 'danger');
+                return false;
+            }
+
         } catch (Exception $e) {
             logMessage('Email could not be sent. Mailer Error: ' . $mail->ErrorInfo, 'danger');
             return false;

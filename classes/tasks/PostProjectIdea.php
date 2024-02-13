@@ -22,11 +22,11 @@ class PostProjectIdea extends Task
         $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamKnowledgeSharingProjectId();
 
         if (!$eteamKnowledgeSharingProjectId) {
-            logMessage(__CLASS__ . " : Could not get eteam knowledge sharing project id of basecamp", 'danger');
+            logMessage('Failed to get the eteam knowledge sharing project ID. Please verify that the project exists and is accessible.', 'danger');
             return;
         }
 
-        GoogleAI::setPrompt(file_get_contents(__DIR__ . '/../../tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions. Don't indent your reply too much.");
+        GoogleAI::setPrompt(file_get_contents(__DIR__ . '/../../tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions. Your answer must not go more than 3 indentations.");
 
         $response = GoogleAI::GenerateContentWithRetry();
 

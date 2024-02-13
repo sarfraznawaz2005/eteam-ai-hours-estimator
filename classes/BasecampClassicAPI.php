@@ -233,13 +233,17 @@ class BasecampClassicAPI
     {
         $projects = static::getAllProjects();
 
-        return array_search(static::$eteamMiscTasksProjectName, $projects);
+        $projects = array_map('strtolower', $projects);
+
+        return array_search(strtolower(static::$eteamMiscTasksProjectName), $projects);
     }
 
     public static function getEteamKnowledgeSharingProjectId()
     {
         $projects = static::getAllProjects();
 
-        return array_search(static::$eteamKnowledgeSharingProjectName, $projects);
+        $projects = array_map('strtolower', $projects);
+
+        return array_search(strtolower(static::$eteamKnowledgeSharingProjectName), $projects);
     }
 }

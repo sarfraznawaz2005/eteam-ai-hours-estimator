@@ -11,7 +11,7 @@ class ReplyToBaseCampMessages extends Task
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
 
         if (!$eteamMiscTasksProjectId) {
-            logMessage(__CLASS__ . " : Could not get eteam misc tasks project id of basecamp", 'danger');
+            logMessage('Failed to get the eteam misc tasks project ID. Please verify that the project exists and is accessible.', 'danger');
             return;
         }
 
