@@ -92,7 +92,7 @@ class ReplyToEmails extends Task
 
                             ---
 
-                            Mr-X (eTeam Bot)
+                            Mr-X (eTeam AI Bot)
                             Technical Assistant
 
                             Enterprise Team (eTeam)

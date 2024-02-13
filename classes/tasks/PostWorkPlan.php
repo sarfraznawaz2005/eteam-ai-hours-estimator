@@ -34,9 +34,9 @@ class PostWorkPlan extends Task
                 AOA,<br><br>
 
                 <b>Misc</b>:<br>
-                    - Send Today's Project Idea<br>
+                    - Post Today's Project Idea<br>
                     - Code Review<br>
-                    - Replying to Customer Emails<br>
+                    - Email Communication<br>
                     - Replying to Basecamp Messages<br>
                     - Estimate Projects<br>
                     - Create System Plan For New Projects<br>

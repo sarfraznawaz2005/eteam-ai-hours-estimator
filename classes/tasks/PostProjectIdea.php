@@ -28,7 +28,7 @@ class PostProjectIdea extends Task
 
         GoogleAI::setPrompt(file_get_contents(__DIR__ . '/../../tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions.");
 
-        $response = GoogleAI::GenerateContentWithRetry();
+        $response = GoogleAI::GenerateContentWithRetry(false);
 
         if (!str_contains(strtolower($response), 'no response')) {
 
