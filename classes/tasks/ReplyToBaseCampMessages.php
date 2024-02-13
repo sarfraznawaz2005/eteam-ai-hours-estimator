@@ -19,7 +19,7 @@ class ReplyToBaseCampMessages extends Task
         //dd($eteamMiscProjectMessages);
 
         if (is_array($eteamMiscProjectMessages) && $eteamMiscProjectMessages) {
-            $lastFewMessages = array_slice($eteamMiscProjectMessages, 0, 5, true);
+            $lastFewMessages = array_slice($eteamMiscProjectMessages, 0, 3, true);
 
             foreach ($lastFewMessages as $messageId => $messageValue) {
 

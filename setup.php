@@ -98,6 +98,11 @@ function dd(...$vars)
     die(1);
 }
 
+function basePath()
+{
+    return __DIR__;
+}
+
 function isLocalhost()
 {
     return CONFIG['db_pass'] === '';

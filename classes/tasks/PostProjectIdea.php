@@ -5,7 +5,7 @@ class PostProjectIdea extends Task
     public static function execute()
     {
         //logMessage('Running: ' . __CLASS__);
-
+        
         $isWorkplanPosted = static::isDoneForToday(PostWorkPlan::class);
 
         // we only send project idea after we have posted workplan
@@ -26,7 +26,7 @@ class PostProjectIdea extends Task
             return;
         }
 
-        GoogleAI::setPrompt(file_get_contents(__DIR__ . '/../../tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions. Your answer must not go more than 3 indentations.");
+        GoogleAI::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions. Your answer must not go more than 3 indentations.");
 
         $response = GoogleAI::GenerateContentWithRetry();
 
