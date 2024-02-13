@@ -14,8 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         http_response_code(400); // Bad Request
         exit;
     }
-
-    GoogleAI::SetConfig(getConfig());
     
     $prompt = <<<PROMPT
 \n\n

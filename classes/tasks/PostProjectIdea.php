@@ -6,14 +6,14 @@ class PostProjectIdea extends Task
     {
         logMessage('Running: ' . __CLASS__);
 
-        $isWorkplanPosted = IniReader::get(PostWorkPlan::class);
+        $isWorkplanPosted = static::isDone(PostWorkPlan::class);
 
         // we only send project idea after we have posted workplan
         if (!$isWorkplanPosted) {
             return;
         }
 
-        $isAlreadyDone = IniReader::get(__CLASS__);
+        $isAlreadyDone = static::isDone(__CLASS__);
 
         if ($isAlreadyDone) {
             return;
@@ -66,9 +66,7 @@ class PostProjectIdea extends Task
             $response = BasecampClassicAPI::postInfo($action, $xmlData);
 
             if ($response && $response['code'] === 201) {
-                logMessage(__CLASS__ . " : Success", 'success');
-
-                IniReader::set(__CLASS__, 'true');
+                static::markDone(__CLASS__, __CLASS__);
             } else {
                 logMessage(__CLASS__ . " : Could not post workplan", 'danger');
             }

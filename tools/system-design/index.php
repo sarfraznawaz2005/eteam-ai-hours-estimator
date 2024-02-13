@@ -32,7 +32,7 @@
                 <label for="projectTypeSelect" class="form-label">Project Type</label>
                 <select class="form-select" id="projectTypeSelect" name="projectTypeSelect" required>
                     <option value="">SELECT</option>
-                    <?php foreach (getConfig()['project_types'] as $projectType): ?>
+                    <?php foreach (CONFIG['project_types'] as $projectType): ?>
                         <option value="<?= $projectType ?>"><?= $projectType ?></option>
                     <?php endforeach; ?>
                 </select>

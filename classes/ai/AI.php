@@ -2,20 +2,11 @@
 
 abstract class AI
 {
-    protected static array $config = [];
-
     protected static array $prompts = [];
 
     abstract public static function setPrompt(string $prompt): void;
 
     abstract public static function generateContent(bool $useParseDown = true): string;
-
-    public static function setConfig($config): void
-    {
-        if (empty(static::$config) && is_array($config)) {
-            static::$config = $config;
-        }
-    }
 
     public static function generateContentWithRetry(bool $useParseDown = true, $retryCount = 3, $sleepInterval = 3): string
     {

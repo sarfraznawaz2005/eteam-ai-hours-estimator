@@ -7,8 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ideaInput = $_POST['ideaInput'] ?? '';
     $niche = $_POST['niche'] ?? '';
 
-    GoogleAI::setConfig(getConfig());
-
     if (empty($ideaInput)) {
         $prompt = <<<PROMPT
 \n

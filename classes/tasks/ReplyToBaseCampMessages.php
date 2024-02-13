@@ -25,7 +25,7 @@ class ReplyToBaseCampMessages extends Task
 
                 $settingId = 'BC_MESSAGE_' . $messageId;
 
-                $isAlreadyDone = IniReader::get($settingId);
+                $isAlreadyDone = static::isDone($settingId);
 
                 if ($isAlreadyDone) {
                     // now that main message itself is taken care of, let's see if we need to reply
@@ -54,8 +54,8 @@ class ReplyToBaseCampMessages extends Task
                     $prompt = <<<PROMPT
                     \n\n
 
-                    You are helpful assistant. When someone mentions you by "@mrx", your job then is to answer queries in detailed, 
-                    polite and very easy to understand manner. You must only reply if there is some sort of question or query, if you 
+                    You are helpful assistant. When someone mentions you by "@mrx", your job then is to answer queries in detailed,
+                    polite and very easy to understand manner. You must only reply if there is some sort of question or query, if you
                     think there is nothing to reply then ignore further instructions and just reply with "OK".
 
                     \n\n[Your reply to $messageBody goes here]
@@ -68,7 +68,7 @@ class ReplyToBaseCampMessages extends Task
 
                     // if there is nothing to reply, don't do anything
                     if (strtolower($response) === 'ok') {
-                        IniReader::set($settingId, 'true');
+                        static::markDone($settingId, 'Basecamp Messages');
 
                         continue;
                     }
@@ -94,7 +94,7 @@ class ReplyToBaseCampMessages extends Task
                     }
                 }
 
-                IniReader::set($settingId, 'true');
+                static::markDone($settingId, 'Basecamp Messages');
             }
         }
 

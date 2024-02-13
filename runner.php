@@ -6,18 +6,18 @@
 /**
  * TODOs
  *
- * db
  * reply to comments of posts, don't reply to self
  * remind of un-replied customer messages on basecamp via an email
  * give reply to basecamp url
+ * whatsapp
  *
  */
 
 require_once __DIR__ . '/setup.php';
 
-GoogleAI::SetConfig(getConfig());
 
 $tasks = [
+    TestTask::class,
     ReplyToEmails::class,
     PostWorkPlan::class,
     PostProjectIdea::class,
@@ -25,11 +25,6 @@ $tasks = [
 ];
 
 foreach ($tasks as $task) {
-
-    if (IniReader::isLocked()) {
-        continue;
-    }
-
     sleep(3);
 
     $task::execute();

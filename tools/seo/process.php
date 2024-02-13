@@ -13,8 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    GoogleAI::SetConfig(getConfig());
-
     // send the request
     try {
 

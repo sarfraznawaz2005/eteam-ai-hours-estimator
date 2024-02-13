@@ -31,7 +31,9 @@ function autoloader($className): void
 
 spl_autoload_register('autoloader');
 
-IniReader::initialize();
+//IniReader::initialize();
+
+define('CONFIG', require_once 'config.php');
 
 // setup our error handler to convert erros into exceptions
 set_error_handler(/**
@@ -39,17 +41,6 @@ set_error_handler(/**
  */function ($errorNumber, $errorText, $errorFile, $errorLine) {
     throw new ErrorException($errorText, 0, $errorNumber, $errorFile, $errorLine);
 });
-
-function getConfig()
-{
-    static $config;
-
-    if (empty($config)) {
-        return require_once 'config.php';
-    }
-
-    return $config;
-}
 
 function logMessage($message, $type = 'info', $logFile = 'application.log')
 {
@@ -116,6 +107,11 @@ function isLocalhost()
     }
 
     return false;
+}
+
+function now()
+{
+    return date("Y-m-d H:i:s");
 }
 
 //dd(BasecampClassicAPI::getAllProjects());

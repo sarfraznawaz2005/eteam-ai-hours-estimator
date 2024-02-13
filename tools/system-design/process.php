@@ -16,8 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    GoogleAI::SetConfig(getConfig());
-
     $promptGeneral = <<<PROMPT
 \n
 You want to develop "$projectTypeSelect platform". You will list all things that must considered to develop it. You must be specific to platform type instead of being too general.

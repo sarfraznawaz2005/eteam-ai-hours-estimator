@@ -17,8 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    GoogleAI::SetConfig(getConfig());
-
     $prompt = <<<PROMPT
 \n\n
 

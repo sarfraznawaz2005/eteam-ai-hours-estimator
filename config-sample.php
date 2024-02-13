@@ -2,7 +2,12 @@
 
 return [
 
-    'GOOGLE_API_KEY' => 'xxxxxxxxxxxxxxxxx',
+    'google_api_key' => 'xxxxxxxxxxxxxxxxx',
+
+    'db_host' => 'localhost',
+    'db_user' => 'root',
+    'db_pass' => '',
+    'db_name' => 'mydb',
 
     'project_types' => [
         'App Store',
