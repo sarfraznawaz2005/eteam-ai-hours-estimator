@@ -35,13 +35,8 @@ class PostWorkPlan extends Task
 
                 - Post Project Idea<br>
                 - Code Reviews<br>
-                - Email Communications<br>
-                - Replying to Basecamp Messages<br>
-                - Estimate Projects<br>
-                - Create Projct System Plans<br>
-                - Provide Database Support<br>
-                - SEO Optimizations<br>
-                - Coordinate with Team<br>
+                - Email Communication<br>
+                - Basecamp Communication<br>
                 - etc
                 message;
 
