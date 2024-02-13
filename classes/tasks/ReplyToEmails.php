@@ -8,7 +8,7 @@ class ReplyToEmails extends Task
 
     public static function execute()
     {
-        logMessage('Running: ' . __CLASS__);
+        //logMessage('Running: ' . __CLASS__);
 
         try {
 

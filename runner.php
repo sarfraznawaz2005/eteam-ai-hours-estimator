@@ -24,6 +24,10 @@ $tasks = [
     ReplyToBaseCampMessages::class,
 ];
 
+if (isLocalhost()) {
+    $tasks = array_slice($tasks, 0, 1);
+}
+
 foreach ($tasks as $task) {
     sleep(3);
 

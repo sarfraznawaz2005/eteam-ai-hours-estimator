@@ -15,21 +15,35 @@ abstract class Task
         }
 
         return $result[0] ?? [];
-
     }
 
     public static function isDone(string $activityId): bool
     {
         $DB = DB::getInstance();
 
-        $statusResult = $DB->get("select done from activities where activity_id = :activity_id", [':activity_id' => $activityId]);
+        $result = $DB->get("select done from activities where activity_id = :activity_id", [':activity_id' => $activityId]);
 
-        if (!$statusResult) {
+        if (!$result) {
             return false;
         }
 
-        return $statusResult[0]['done'] === 'Yes';
+        return $result[0]['done'] === 'Yes';
+    }
 
+    public static function isDoneForToday(string $activityId): bool
+    {
+        $DB = DB::getInstance();
+
+        $result = $DB->get(
+            "select done from activities where DATE(created_at) = DATE(NOW()) AND activity_id = :activity_id",
+            [':activity_id' => $activityId]
+        );
+
+        if (!$result) {
+            return false;
+        }
+
+        return $result[0]['done'] === 'Yes';
     }
 
     public static function markDone(string $activityId, $description)

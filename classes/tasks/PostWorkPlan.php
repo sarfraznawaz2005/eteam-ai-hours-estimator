@@ -4,9 +4,9 @@ class PostWorkPlan extends Task
 {
     public static function execute()
     {
-        logMessage('Running: ' . __CLASS__);
+        //logMessage('Running: ' . __CLASS__);
 
-        $isAlreadyDone = static::isDone(__CLASS__);
+        $isAlreadyDone = static::isDoneForToday(__CLASS__);
 
         if ($isAlreadyDone) {
             return;

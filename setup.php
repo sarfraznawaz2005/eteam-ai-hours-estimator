@@ -100,13 +100,7 @@ function dd(...$vars)
 
 function isLocalhost()
 {
-    $whitelist = array('127.0.0.1', '::1');
-
-    if (in_array($_SERVER['REMOTE_ADDR'], $whitelist) || $_SERVER['REMOTE_ADDR'] === '::1') {
-        return true;
-    }
-
-    return false;
+    return CONFIG['db_pass'] === '';
 }
 
 function now()
