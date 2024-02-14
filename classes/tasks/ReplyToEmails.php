@@ -74,11 +74,6 @@ class ReplyToEmails extends Task
                         $toEmail === 'mr-x@eteamid.com'
                     ) {
 
-                        if (DEMO_MODE) {
-                            logMessage('DEMO_MODE: ' . __CLASS__);
-                            continue;
-                        }
-
                         $prompt = <<<PROMPT
                             \n\n
 
