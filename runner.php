@@ -31,7 +31,7 @@ $tasks = [
     //ReplyToEmails::class,
     //PostWorkPlan::class,
     //PostProjectIdea::class,
-    //ReplyToBaseCampMessages::class,
+    ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class,
 ];
 

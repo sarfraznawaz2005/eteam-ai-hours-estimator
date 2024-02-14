@@ -21,7 +21,7 @@ class ReplyToBaseCampMessages extends Task
             if (is_array($projectMessages) && $projectMessages) {
 
                 $lastAddedIdsDB = $DB->get(
-                    "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
+                    "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 500",
                     [':description' => strtolower($projectName)]
                 );
 

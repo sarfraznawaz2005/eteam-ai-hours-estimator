@@ -2,8 +2,6 @@
 
 class ReplyToBaseCampComments extends Task
 {
-    protected static $totalNewPostsToFetch = 1;
-
     public static function execute()
     {
         //logMessage('Running: ' . __CLASS__);
@@ -20,7 +18,9 @@ class ReplyToBaseCampComments extends Task
 
             if (is_array($projectMessages) && $projectMessages) {
 
-                $messages = array_slice($projectMessages, 0, static::$totalNewPostsToFetch, true);
+                // mrx can reply to only "latest" $numMessages messages of the project
+                $numMessages = 10;
+                $messages = array_slice($projectMessages, 0, $numMessages, true);
                 //dd($messages);
 
                 foreach ($messages as $messageId => $messageDetails) {
@@ -36,7 +36,7 @@ class ReplyToBaseCampComments extends Task
                         }
 
                         $lastAddedIdsDB = $DB->get(
-                            "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
+                            "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 500",
                             [':description' => strtolower($messageTitle)]
                         );
 
@@ -45,7 +45,9 @@ class ReplyToBaseCampComments extends Task
                         }, $lastAddedIdsDB);
                         //dd($lastAddedIdsDB);
 
-                        $comments = array_slice($messageComments, 0, static::$totalNewPostsToFetch, true);
+                        // mrx can reply to only "latest" $numComments comments of the project
+                        $numComments = 25;
+                        $comments = array_slice($messageComments, 0, $numComments, true);
                         //dd($comments);
 
                         foreach ($comments as $commentId => $commentDetails) {
