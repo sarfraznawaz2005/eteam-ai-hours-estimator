@@ -110,6 +110,14 @@ class BasecampClassicAPI
 
     public static function getAllProjects(): array
     {
+        DateBasedStorage::initialize('basecamp_projects');
+
+        $data = DateBasedStorage::read();
+
+        if ($data) {
+            return $data;
+        }
+
         $finalData = [];
 
         $data = static::getInfo("projects");
@@ -134,11 +142,22 @@ class BasecampClassicAPI
 
         asort($finalData);
 
+        DateBasedStorage::save($finalData);
+
         return $finalData;
+
     }
 
     public static function getAllUsers(array $excludedUserIds = []): array
     {
+        DateBasedStorage::initialize('basecamp_users');
+
+        $data = DateBasedStorage::read();
+
+        if ($data) {
+            return $data;
+        }
+
         $finalData = [];
 
         $data = static::getInfo("people");
@@ -172,6 +191,8 @@ class BasecampClassicAPI
         }
 
         asort($finalData);
+
+        DateBasedStorage::save($finalData);
 
         return $finalData;
     }
