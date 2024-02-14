@@ -24,6 +24,13 @@ class PostWorkPlan extends Task
 
             $DB = DB::getInstance();
 
+            //////////////////////////////////
+            // delete older records
+            $description = __CLASS__;
+            $sql = "DELETE FROM activities WHERE description = '$description' AND created_at < NOW() - INTERVAL 1 DAY";
+            $DB->executeQuery($sql);
+            //////////////////////////////////
+
             $lastAddedIdsDB = $DB->get(
                 "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
                 [':description' => strtolower(__CLASS__)]
