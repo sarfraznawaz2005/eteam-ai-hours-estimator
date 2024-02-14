@@ -25,8 +25,8 @@ class PostWorkPlan extends Task
             $DB = DB::getInstance();
 
             $lastAddedIdsDB = $DB->get(
-                "select activity_id from activities where description = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
-                [':description' => __CLASS__]
+                "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
+                [':description' => strtolower(__CLASS__)]
             );
 
             $lastAddedIdsDB = array_map(function ($item) {
