@@ -25,6 +25,7 @@ if (isLocalhost()) {
     define('DEMO_MODE', false);
 }
 
+### order is important
 $tasks = [
     TestTask::class,
     ReplyToEmails::class,
