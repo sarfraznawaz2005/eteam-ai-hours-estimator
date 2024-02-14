@@ -1,8 +1,6 @@
 <?php require_once './setup.php';?>
 <?php require_once './layout/head.php';?>
 
-<?=date("Y-m-d H:i:s")?>
-
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
         <div class="jumbotron text-center">
