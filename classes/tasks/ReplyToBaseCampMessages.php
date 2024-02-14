@@ -41,7 +41,7 @@ class ReplyToBaseCampMessages extends Task
                     }
 
                     if (DEMO_MODE) {
-                        logMessage('DEMO_MODE: ' . __CLASS__ . " => MessageID:$messageId, ProjectID:$projectId");
+                        logMessage('DEMO_MODE: ' . __CLASS__ . " => ProjectID:$projectId, MessageID:$messageId");
                         continue;
                     }
 
