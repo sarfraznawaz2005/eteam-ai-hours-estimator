@@ -6,8 +6,7 @@
 /**
  * TODOs
  * 
- * 
- * no bc_message prefix
+ * ReplyToBaseCampMessages works for all projects
  * reply to comments of posts, don't reply to self
  * remind of un-replied customer messages on basecamp via an email
  * give reply to basecamp url
@@ -20,7 +19,7 @@ require_once __DIR__ . '/setup.php';
 ini_set("memory_limit", "-1");
 set_time_limit(0);
 
-//exit;
+exit;
 
 $tasks = [
     TestTask::class,

@@ -1,7 +1,5 @@
 <?php
 
-// Works only for eTeam Misc Tasks Project
-
 class ReplyToBaseCampMessages extends Task
 {
     protected static $totalNewPostsToFetch = 3;
@@ -30,9 +28,7 @@ class ReplyToBaseCampMessages extends Task
             );
 
             $lastFewMessagesIdsDB = array_map(function ($item) {
-                $idWithoutPrefix = str_replace("BC_MESSAGE_", "", $item['activity_id']);
-
-                return intval($idWithoutPrefix);
+                return intval($item['activity_id']);
             }, $lastFewMessagesIdsDB);
             //dd($lastFewMessagesIdsDB);
 
@@ -40,15 +36,11 @@ class ReplyToBaseCampMessages extends Task
 
             foreach ($messages as $messageId => $messageValue) {
 
-                if (in_array($messageId, $lastFewMessagesIdsDB, true)) {
-                    // now that main message itself is taken care of, let's see if we need to reply
-                    // to any of its comments.
-                    static::checkCommentsForReplies($messageId);
+                sleep(3);
 
+                if (in_array($messageId, $lastFewMessagesIdsDB, true)) {
                     continue;
                 }
-
-                $settingId = 'BC_MESSAGE_' . $messageId;
 
                 $authorId = '';
                 $messageBody = BasecampClassicAPI::getInfo("posts/$messageId.xml");
@@ -91,7 +83,7 @@ class ReplyToBaseCampMessages extends Task
 
                     // if there is nothing to reply, don't do anything
                     if (strtolower($response) === 'ok') {
-                        static::markDone($settingId, 'Basecamp Messages');
+                        static::markDone($messageId, 'Basecamp Messages');
 
                         continue;
                     }
@@ -117,16 +109,9 @@ class ReplyToBaseCampMessages extends Task
                     }
                 }
 
-                static::markDone($settingId, 'Basecamp Messages');
+                static::markDone($messageId, 'Basecamp Messages');
             }
         }
 
-    }
-
-    public static function checkCommentsForReplies($messageId)
-    {
-        //echo "Checking $messageId\n";
-
-        //dd(BasecampClassicAPI::getAllComments($messageId));
     }
 }
