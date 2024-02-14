@@ -6,14 +6,14 @@ class PostProjectIdea extends Task
     {
         //logMessage('Running: ' . __CLASS__);
         
-        $isWorkplanPosted = static::isDoneForToday(PostWorkPlan::class);
+        $isWorkplanPosted = static::isDoneForToday(PostWorkPlan::class, PostWorkPlan::class);
 
         // we only send project idea after we have posted workplan
         if (!$isWorkplanPosted) {
             return;
         }
 
-        $isAlreadyDone = static::isDoneForToday(__CLASS__);
+        $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {
             return;

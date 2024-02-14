@@ -6,7 +6,7 @@ class TestTask extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
-        $isAlreadyDone = static::isDoneForToday(__CLASS__);
+        $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {
             return;

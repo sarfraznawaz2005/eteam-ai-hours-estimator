@@ -6,7 +6,7 @@ class PostWorkPlan extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
-        $isAlreadyDone = static::isDoneForToday(__CLASS__);
+        $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {
             return;
@@ -26,8 +26,8 @@ class PostWorkPlan extends Task
             $messageValue = reset($eteamMiscProjectMessages);
 
             if (
-                str_contains(strtolower($messageValue), 'workplan') ||
-                str_contains(strtolower($messageValue), 'work plan')
+                str_starts_with(strtolower(trim($messageValue)), 'workplan') ||
+                str_starts_with(strtolower(trim($messageValue)), 'work plan')
             ) {
 
                 $message = <<<message

@@ -17,14 +17,17 @@ abstract class Task
         return $result[0] ?? [];
     }
 
-    public static function isDone(string $activityId)
+    public static function isDone(string $activityId, string $description)
     {
         $DB = DB::getInstance();
 
-        return $DB->get("select id from activities where activity_id = :activity_id", [':activity_id' => $activityId]);
+        return $DB->get(
+            "select id from activities where activity_id = :activity_id AND description = :description",
+            [':activity_id' => $activityId, ':description' => $description]
+        );
     }
 
-    public static function isDoneForToday(string $activityId)
+    public static function isDoneForToday(string $activityId, string $description)
     {
         $DB = DB::getInstance();
 
@@ -35,12 +38,12 @@ abstract class Task
         //////////////////////////////////
 
         return $DB->get(
-            "select id from activities where DATE(created_at) = DATE(NOW()) AND activity_id = :activity_id",
-            [':activity_id' => $activityId]
+            "select id from activities where DATE(created_at) = DATE(NOW()) AND activity_id = :activity_id AND description = :description",
+            [':activity_id' => $activityId, ':description' => $description]
         );
     }
 
-    public static function markDone(string $activityId, $description)
+    public static function markDone(string $activityId, string $description)
     {
         $DB = DB::getInstance();
 
