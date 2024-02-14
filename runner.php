@@ -30,7 +30,7 @@ $tasks = [
 ];
 
 if (isLocalhost()) {
-    //$tasks = array_slice($tasks, 0, 1);
+    $tasks = array_slice($tasks, 0, 1);
 }
 
 foreach ($tasks as $task) {
