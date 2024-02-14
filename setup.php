@@ -1,15 +1,8 @@
 <?php
 
-ini_set("memory_limit", "-1");
-set_time_limit(0);
-
 header('jSGCacheBypass: 1');
 
 require_once __DIR__ . '/vendor/autoload.php';
-
-define('MENTION_TEXT', '@mrx');
-
-date_default_timezone_set('Asia/Karachi');
 
 function autoloader($className): void
 {
@@ -33,6 +26,7 @@ spl_autoload_register('autoloader');
 
 //IniReader::initialize();
 
+define('MENTION_TEXT', '@mrx');
 define('CONFIG', require_once 'config.php');
 
 // setup our error handler to convert erros into exceptions
