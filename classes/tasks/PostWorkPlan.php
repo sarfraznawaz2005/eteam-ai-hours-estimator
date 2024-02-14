@@ -9,13 +9,14 @@ class PostWorkPlan extends Task
         //logMessage('Running: ' . __CLASS__);
 
         $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
-        //dd($isAlreadyDone);
+        
 
         if ($isAlreadyDone) {
             return;
         }
-
+        
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
+        
 
         if (!$eteamMiscTasksProjectId) {
             logMessage('Failed to get the eteam misc tasks project ID. Please verify that the project exists and is accessible.', 'danger');
@@ -60,10 +61,10 @@ class PostWorkPlan extends Task
                     $action = "posts/$messageId/comments.xml";
 
                     $xmlData = <<<data
-                <comment>
-                    <body><![CDATA[$message]]></body>
-                </comment>
-                data;
+                    <comment>
+                        <body><![CDATA[$message]]></body>
+                    </comment>
+                    data;
 
                     // send to basecamp
                     $response = BasecampClassicAPI::postInfo($action, $xmlData);
