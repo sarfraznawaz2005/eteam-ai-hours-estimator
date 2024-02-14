@@ -26,11 +26,11 @@ if (isLocalhost()) {
 }
 
 $tasks = [
-    //TestTask::class,
-    //ReplyToEmails::class,
-    //PostWorkPlan::class,
+    TestTask::class,
+    ReplyToEmails::class,
+    PostWorkPlan::class,
     PostProjectIdea::class,
-    //ReplyToBaseCampMessages::class,
+    ReplyToBaseCampMessages::class,
 ];
 
 foreach ($tasks as $task) {
