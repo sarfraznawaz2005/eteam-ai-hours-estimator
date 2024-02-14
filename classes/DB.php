@@ -44,6 +44,21 @@ class DB
     public function executeQuery($sql, $params = [])
     {
         try {
+            // Constructing a representation of the final query for debugging purposes
+            $debugQuery = $sql;
+
+            foreach ($params as $key => $value) {
+                // If the placeholder is named, replace it directly
+                if (is_string($key)) {
+                    $debugQuery = str_replace($key, "'" . $value . "'", $debugQuery);
+                } else {
+                    // For positional placeholders, this simple replacement may not work correctly for all queries
+                    $debugQuery = preg_replace('/\?/', "'" . $value . "'", $debugQuery, 1);
+                }
+            }
+
+            logMessage($debugQuery);
+
             $stmt = $this->conn->prepare($sql);
 
             $success = $stmt->execute($params);
