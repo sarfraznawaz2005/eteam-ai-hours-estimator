@@ -36,44 +36,9 @@ class PostWorkPlan extends Task
                     str_starts_with(strtolower(trim($messageValue)), 'work plan')
                 ) {
 
-                    $message = <<<message
-                    AOA,<br><br>
+                    logMessage(__CLASS__ . " :  POSTED WORKPLAN", 'success');
 
-                    - Post Project Idea<br>
-                    - Code Reviews<br>
-                    - Email Communication<br>
-                    - Basecamp Communication<br>
-                    - etc
-                    message;
-
-                    GoogleAI::setPrompt("Please provide a inspirational quote tailored to our software engineering company. This inspirational quote should boost the morale of our team.");
-
-                    $response = GoogleAI::GenerateContentWithRetry();
-
-                    if (!str_contains(strtolower($response), 'no response')) {
-                        $message .= <<<message
-                            <br><br><b>Inspirational Quote Of The Day:</b><br>
-
-                            $response
-                        message;
-                    }
-
-                    $action = "posts/$messageId/comments.xml";
-
-                    $xmlData = <<<data
-                    <comment>
-                        <body><![CDATA[$message]]></body>
-                    </comment>
-                    data;
-
-                    // send to basecamp
-                    $response = BasecampClassicAPI::postInfo($action, $xmlData);
-
-                    if ($response && $response['code'] === 201) {
-                        static::markDone(__CLASS__, __CLASS__);
-                    } else {
-                        logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
-                    }
+                    static::markDone(__CLASS__, __CLASS__);
                 }
             }
         }

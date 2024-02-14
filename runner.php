@@ -18,7 +18,9 @@ require_once __DIR__ . '/setup.php';
 ini_set("memory_limit", "-1");
 set_time_limit(0);
 date_default_timezone_set('Asia/Karachi');
-exit;
+
+//exit;
+
 $tasks = [
     TestTask::class,
     ReplyToEmails::class,
@@ -28,7 +30,7 @@ $tasks = [
 ];
 
 if (isLocalhost()) {
-    $tasks = array_slice($tasks, 0, 1);
+    //$tasks = array_slice($tasks, 0, 1);
 }
 
 foreach ($tasks as $task) {
