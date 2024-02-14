@@ -18,7 +18,7 @@ require_once __DIR__ . '/setup.php';
 ini_set("memory_limit", "-1");
 set_time_limit(0);
 date_default_timezone_set('Asia/Karachi');
-
+exit;
 $tasks = [
     TestTask::class,
     ReplyToEmails::class,
