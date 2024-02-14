@@ -27,11 +27,11 @@ if (isLocalhost()) {
 
 ### order is important
 $tasks = [
-    TestTask::class,
-    ReplyToEmails::class,
-    PostWorkPlan::class,
-    PostProjectIdea::class,
-    ReplyToBaseCampMessages::class,
+    //TestTask::class,
+    //ReplyToEmails::class,
+    //PostWorkPlan::class,
+    //PostProjectIdea::class,
+    //ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class,
 ];
 
