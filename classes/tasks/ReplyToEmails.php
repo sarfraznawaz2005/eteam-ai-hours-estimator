@@ -76,7 +76,7 @@ class ReplyToEmails extends Task
 
                         if (DEMO_MODE) {
                             logMessage('DEMO_MODE: ' . __CLASS__);
-                            exit(1);
+                            continue;
                         }
 
                         $prompt = <<<PROMPT

@@ -21,7 +21,7 @@ class PostProjectIdea extends Task
 
         if (DEMO_MODE) {
             logMessage('DEMO_MODE: ' . __CLASS__);
-            exit(1);
+            return;
         }
 
         $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamKnowledgeSharingProjectId();

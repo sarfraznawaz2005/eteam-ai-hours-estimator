@@ -44,7 +44,7 @@ class PostWorkPlan extends Task
 
                 if (DEMO_MODE) {
                     logMessage('DEMO_MODE: ' . __CLASS__ . " => MessageID:$messageId, ProjectID:$eteamMiscTasksProjectId");
-                    exit(1);
+                    continue;
                 }
 
                 $messageTitle = $messageDetails['title'];
