@@ -1,6 +1,7 @@
 .idea/*
 .fleet/*
 .vscode/*
+tmp_data/*
 .gitignore
 config.php
 .gptignore
