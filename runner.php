@@ -22,15 +22,15 @@ set_time_limit(0);
 if (isLocalhost()) {
     define('DEMO_MODE', true);
 } else {
-    define('DEMO_MODE', false);
+    define('DEMO_MODE', true);
 }
 
 $tasks = [
     //TestTask::class,
     //ReplyToEmails::class,
-    //PostWorkPlan::class,
+    PostWorkPlan::class,
     //PostProjectIdea::class,
-    ReplyToBaseCampMessages::class,
+    //ReplyToBaseCampMessages::class,
 ];
 
 foreach ($tasks as $task) {
