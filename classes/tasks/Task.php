@@ -21,6 +21,9 @@ abstract class Task
     {
         $DB = DB::getInstance();
 
+        ### description is added in check because possibly id can be same for 
+        ### posts and comments on basecamp for example.
+
         return $DB->get(
             "select id from activities where activity_id = :activity_id AND description = :description",
             [':activity_id' => $activityId, ':description' => $description]

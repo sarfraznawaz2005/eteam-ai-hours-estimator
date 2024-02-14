@@ -2,36 +2,56 @@
 
 class PostWorkPlan extends Task
 {
-    protected static $totalNewPostsToFetch = 3;
+    protected static $totalNewPostsToFetch = 1;
 
     public static function execute()
     {
         //logMessage('Running: ' . __CLASS__);
 
-        $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
-
-        if ($isAlreadyDone) {
-            return;
-        }
-
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
+        //dd($eteamMiscTasksProjectId);
 
         if (!$eteamMiscTasksProjectId) {
             logMessage('Failed to get the eteam misc tasks project ID. Please verify that the project exists and is accessible.', 'danger');
             return;
         }
 
+        // returns 25 most recent messages by default
         $eteamMiscProjectMessages = BasecampClassicAPI::getAllMessages($eteamMiscTasksProjectId);
+        //dd($eteamMiscProjectMessages);
 
         if (is_array($eteamMiscProjectMessages) && $eteamMiscProjectMessages) {
 
+            $DB = DB::getInstance();
+
+            $lastAddedIdsDB = $DB->get(
+                "select activity_id from activities where description = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
+                [':description' => __CLASS__]
+            );
+
+            $lastAddedIdsDB = array_map(function ($item) {
+                return intval($item['activity_id']);
+            }, $lastAddedIdsDB);
+            //dd($lastAddedIdsDB);
+
             $messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
 
-            foreach ($messages as $messageId => $messageValue) {
+            foreach ($messages as $messageId => $messageDetails) {
+
+                if (in_array($messageId, $lastAddedIdsDB, true)) {
+                    continue;
+                }
+
+                if (DEMO_MODE) {
+                    logMessage('DEMO_MODE: ' . __CLASS__ . " => $messageId");
+                    exit(1);
+                }
+
+                $messageTitle = $messageDetails['title'];
 
                 if (
-                    str_starts_with(strtolower(trim($messageValue)), 'workplan') ||
-                    str_starts_with(strtolower(trim($messageValue)), 'work plan')
+                    str_starts_with(strtolower(trim($messageTitle)), 'workplan') ||
+                    str_starts_with(strtolower(trim($messageTitle)), 'work plan')
                 ) {
 
                     $message = <<<message
@@ -68,7 +88,7 @@ class PostWorkPlan extends Task
                     $response = BasecampClassicAPI::postInfo($action, $xmlData);
 
                     if ($response && $response['code'] === 201) {
-                        static::markDone(__CLASS__, __CLASS__);
+                        static::markDone($messageId, __CLASS__);
                     } else {
                         logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
                     }

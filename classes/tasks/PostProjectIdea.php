@@ -5,7 +5,7 @@ class PostProjectIdea extends Task
     public static function execute()
     {
         //logMessage('Running: ' . __CLASS__);
-        
+
         $isWorkplanPosted = static::isDoneForToday(PostWorkPlan::class, PostWorkPlan::class);
 
         // we only send project idea after we have posted workplan
@@ -17,6 +17,11 @@ class PostProjectIdea extends Task
 
         if ($isAlreadyDone) {
             return;
+        }
+
+        if (DEMO_MODE) {
+            logMessage('DEMO_MODE: ' . __CLASS__);
+            exit(1);
         }
 
         $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamKnowledgeSharingProjectId();

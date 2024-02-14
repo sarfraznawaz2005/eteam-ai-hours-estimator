@@ -197,6 +197,7 @@ class BasecampClassicAPI
         return $finalData;
     }
 
+    // returns 25 most recent messages by default
     public static function getAllMessages($projectId): array
     {
         $finalData = [];
@@ -212,11 +213,25 @@ class BasecampClassicAPI
                     $array = (array) $xml;
 
                     if (isset($array['id'])) {
-                        $finalData[$array['id']] = strip_tags(ucwords($array['title']));
+                        $finalData[$array['id']] = [
+                            'id' => $array['id'],
+                            'title' => $array['title'],
+                            'body' => $array['body'],
+                            'posted-on' => $array['posted-on'],
+                            'author-id' => $array['author-id'],
+                            'author-name' => $array['author-name'],
+                        ];
                     }
                 }
             } else if (isset($post['id'])) {
-                $finalData[$post['id']] = strip_tags(ucwords($post['title']));
+                $finalData[$post['id']] = [
+                    'id' => $post['id'],
+                    'title' => $post['title'],
+                    'body' => $post['body'],
+                    'posted-on' => $post['posted-on'],
+                    'author-id' => $post['author-id'],
+                    'author-name' => $post['author-name'],
+                ];
             }
 
         }

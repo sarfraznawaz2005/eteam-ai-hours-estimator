@@ -5,11 +5,11 @@
 
 /**
  * TODOs
- * 
- * ReplyToBaseCampMessages works for all projects
+ *
  * reply to comments of posts, don't reply to self
- * remind of un-replied customer messages on basecamp via an email
  * give reply to basecamp url
+ * read last post from x project and sent to my email
+ * remind of un-replied customer messages on basecamp via an email
  * whatsapp
  *
  */
@@ -19,7 +19,11 @@ require_once __DIR__ . '/setup.php';
 ini_set("memory_limit", "-1");
 set_time_limit(0);
 
-//exit;
+if (isLocalhost()) {
+    define('DEMO_MODE', true);
+} else {
+    define('DEMO_MODE', true);
+}
 
 $tasks = [
     TestTask::class,
@@ -28,10 +32,6 @@ $tasks = [
     PostProjectIdea::class,
     ReplyToBaseCampMessages::class,
 ];
-
-if (isLocalhost()) {
-    $tasks = array_slice($tasks, 0, 1);
-}
 
 foreach ($tasks as $task) {
     sleep(3);
