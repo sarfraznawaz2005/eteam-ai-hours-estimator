@@ -78,7 +78,7 @@ class ReplyToBaseCampMessages extends Task
                         $response = GoogleAI::GenerateContentWithRetry();
 
                         // if there is nothing to reply, don't do anything
-                        if (strtolower($response) === 'ok') {
+                        if (strtolower(trim(strip_tags($response))) === 'ok') {
                             static::markDone($messageId, $projectName);
 
                             continue;

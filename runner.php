@@ -6,7 +6,6 @@
 /**
  * TODOs
  *
- * reply to comments of posts, don't reply to self
  * give reply to basecamp url
  * read last post from x project and sent to my email
  * remind of un-replied customer messages on basecamp via an email
