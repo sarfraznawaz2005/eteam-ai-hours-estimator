@@ -64,14 +64,7 @@ class PostWorkPlan extends Task
                     </comment>
                     data;
 
-                    // send to basecamp
-                    $response = BasecampClassicAPI::postInfo($action, $xmlData);
-
-                    if ($response && $response['code'] === 201) {
-                        static::markDone(__CLASS__, __CLASS__);
-                    } else {
-                        logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
-                    }
+                    
                 }
             }
         }
