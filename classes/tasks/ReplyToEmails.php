@@ -77,9 +77,9 @@ class ReplyToEmails extends Task
                         $prompt = <<<PROMPT
                             \n\n
 
-                            You are helpful assistant tasked with replying emails in a polite and professional manner. When someone mentions you 
-                            by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner. 
-                            You must only reply if there is some sort of question or query, if you think there is nothing to reply then ignore 
+                            You are helpful assistant tasked with replying emails in a polite and professional manner. When someone mentions you
+                            by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner.
+                            You must only reply if there is some sort of question or query, if you think there is nothing to reply then ignore
                             further instructions and just reply with "OK".
 
                             Use following format for reply:
@@ -123,7 +123,6 @@ class ReplyToEmails extends Task
 
                                 if ($emailSent) {
                                     logMessage(__CLASS__ . " : Email has been sent: {$subject}", 'success');
-                                    //echo __CLASS__ . " : Email has been sent: {$subject}\n";
                                 } else {
                                     logMessage(__CLASS__ . " : Error or no response: {$subject}", 'danger');
                                 }
