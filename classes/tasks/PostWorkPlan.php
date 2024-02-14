@@ -42,17 +42,17 @@ class PostWorkPlan extends Task
                     continue;
                 }
 
-                if (DEMO_MODE) {
-                    logMessage('DEMO_MODE: ' . __CLASS__ . " => ProjectID:$eteamMiscTasksProjectId, MessageID:$messageId");
-                    continue;
-                }
-
                 $messageTitle = $messageDetails['title'];
 
                 if (
                     str_starts_with(strtolower(trim($messageTitle)), 'workplan') ||
                     str_starts_with(strtolower(trim($messageTitle)), 'work plan')
                 ) {
+
+                    if (DEMO_MODE) {
+                        logMessage('DEMO_MODE: ' . __CLASS__ . " => ProjectID:$eteamMiscTasksProjectId, MessageID:$messageId");
+                        continue;
+                    }
 
                     $message = <<<message
                     AOA,<br><br>

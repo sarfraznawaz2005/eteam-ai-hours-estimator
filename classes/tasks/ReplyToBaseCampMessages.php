@@ -40,11 +40,6 @@ class ReplyToBaseCampMessages extends Task
                         continue;
                     }
 
-                    if (DEMO_MODE) {
-                        logMessage('DEMO_MODE: ' . __CLASS__ . " => ProjectID:$projectId, MessageID:$messageId");
-                        continue;
-                    }
-
                     $messageTitle = $messageDetails['title'];
                     $authorId = $messageDetails['author-id'];
                     $messageBody = $messageDetails['body'];
@@ -63,6 +58,11 @@ class ReplyToBaseCampMessages extends Task
                         str_contains(strtolower($messageBody), strtolower(MENTION_TEXT))
                     ) {
 
+                        if (DEMO_MODE) {
+                            logMessage('DEMO_MODE: ' . __CLASS__ . " => ProjectID:$projectId, MessageID:$messageId");
+                            continue;
+                        }
+                        
                         // if message body is empty, we default to message title
                         $messageBody = $messageBody ?: $messageTitle;
 
