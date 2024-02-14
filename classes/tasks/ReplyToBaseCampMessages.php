@@ -39,9 +39,9 @@ class ReplyToBaseCampMessages extends Task
                         continue;
                     }
 
-                    $messageTitle = $messageDetails['title'];
-                    $authorId = $messageDetails['author-id'];
-                    $messageBody = $messageDetails['body'];
+                    $messageTitle = $messageDetails['title'] ?? '';
+                    $authorId = $messageDetails['author-id'] ?? '';
+                    $messageBody = $messageDetails['body'] ?? '';
 
                     // do not reply to self
                     if ((string) $authorId === BasecampClassicAPI::$userId) {
@@ -100,7 +100,7 @@ class ReplyToBaseCampMessages extends Task
                             if ($response && $response['code'] === 201) {
                                 logMessage(__CLASS__ . " :  Basecamp Message Reply Success", 'success');
                             } else {
-                                logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
+                                logMessage(__CLASS__ . " :  Could not post message reply", 'danger');
                             }
                         }
                     }

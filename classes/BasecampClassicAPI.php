@@ -217,9 +217,9 @@ class BasecampClassicAPI
                             'id' => $array['id'],
                             'title' => $array['title'],
                             'body' => $array['body'],
-                            'posted-on' => $array['posted-on'],
                             'author-id' => $array['author-id'],
                             'author-name' => $array['author-name'],
+                            'posted-on' => $array['posted-on'],
                         ];
                     }
                 }
@@ -228,9 +228,9 @@ class BasecampClassicAPI
                     'id' => $post['id'],
                     'title' => $post['title'],
                     'body' => $post['body'],
-                    'posted-on' => $post['posted-on'],
                     'author-id' => $post['author-id'],
                     'author-name' => $post['author-name'],
+                    'posted-on' => $post['posted-on'],
                 ];
             }
 
@@ -254,11 +254,23 @@ class BasecampClassicAPI
                     $array = (array) $xml;
 
                     if (isset($array['id'])) {
-                        $finalData[$array['id']] = strip_tags($array['body']);
+                        $finalData[$array['id']] = [
+                            'id' => $array['id'],
+                            'body' => $array['body'],
+                            'author-id' => $array['author-id'],
+                            'author-name' => $array['author-name'],
+                            'created-at' => $array['created-at'],
+                        ];
                     }
                 }
             } else if (isset($comment['id'])) {
-                $finalData[$comment['id']] = strip_tags($comment['body']);
+                $finalData[$comment['id']] = [
+                    'id' => $comment['id'],
+                    'body' => $comment['body'],
+                    'author-id' => $comment['author-id'],
+                    'author-name' => $comment['author-name'],
+                    'created-at' => $comment['created-at'],
+                ];
             }
 
         }
