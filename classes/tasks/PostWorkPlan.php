@@ -36,9 +36,9 @@ class PostWorkPlan extends Task
                     str_starts_with(strtolower(trim($messageValue)), 'work plan')
                 ) {
 
-                    logMessage(__CLASS__ . " :  POSTED WORKPLAN", 'success');
+                    logMessage(date("Y-m-d H:i:s"), 'success');
 
-                    static::markDone(__CLASS__, __CLASS__);
+                    //static::markDone(__CLASS__, __CLASS__);
                 }
             }
         }
