@@ -38,7 +38,7 @@ class PostWorkPlan extends Task
 
                     logMessage(date("Y-m-d H:i:s"), 'success');
 
-                    //static::markDone(__CLASS__, __CLASS__);
+                    static::markDone(__CLASS__, __CLASS__);
                 }
             }
         }
