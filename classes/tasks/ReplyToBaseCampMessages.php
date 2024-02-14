@@ -36,7 +36,6 @@ class ReplyToBaseCampMessages extends Task
                 foreach ($messages as $messageId => $messageDetails) {
 
                     if (in_array($messageId, $lastAddedIdsDB, true)) {
-                        //echo "Skipping: $messageTitle\n";
                         continue;
                     }
 
@@ -49,9 +48,6 @@ class ReplyToBaseCampMessages extends Task
                         continue;
                     }
 
-                    //echo "Processing: $messageTitle\n";
-                    //continue;
-
                     // if title or message body contains mention keyword
                     if (
                         str_contains(strtolower($messageTitle), strtolower(MENTION_TEXT)) ||
@@ -62,7 +58,7 @@ class ReplyToBaseCampMessages extends Task
                             logMessage('DEMO_MODE: ' . __CLASS__ . " => ProjectID:$projectId, MessageID:$messageId");
                             continue;
                         }
-                        
+
                         // if message body is empty, we default to message title
                         $messageBody = $messageBody ?: $messageTitle;
 
