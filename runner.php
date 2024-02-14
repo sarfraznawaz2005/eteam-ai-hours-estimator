@@ -20,15 +20,15 @@ set_time_limit(0);
 date_default_timezone_set('Asia/Karachi');
 
 $tasks = [
-    TestTask::class,
-    ReplyToEmails::class,
+    //TestTask::class,
+    //ReplyToEmails::class,
     PostWorkPlan::class,
-    PostProjectIdea::class,
-    ReplyToBaseCampMessages::class,
+    //PostProjectIdea::class,
+    //ReplyToBaseCampMessages::class,
 ];
 
 if (isLocalhost()) {
-    $tasks = array_slice($tasks, 0, 1);
+    //$tasks = array_slice($tasks, 0, 1);
 }
 
 foreach ($tasks as $task) {
