@@ -39,6 +39,9 @@ class ReplyToBaseCampMessages extends Task
                         continue;
                     }
 
+                    ### if above check still fails and double entry is added,
+                    ### then here we can directly check in db for $messageId
+
                     $messageTitle = $messageDetails['title'] ?? '';
                     $authorId = $messageDetails['author-id'] ?? '';
                     $messageBody = $messageDetails['body'] ?? '';

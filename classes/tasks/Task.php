@@ -8,7 +8,7 @@ abstract class Task
     {
         $DB = DB::getInstance();
 
-        $result = $DB->get("select * from activities where activity_id = :activity_id", [':activity_id' => $activityId]);
+        $result = $DB->get("SELECT * FROM activities WHERE activity_id = :activity_id", [':activity_id' => $activityId]);
 
         if (!$result) {
             return [];
@@ -25,7 +25,7 @@ abstract class Task
         ### posts and comments on basecamp for example.
 
         return $DB->get(
-            "select id from activities where activity_id = :activity_id AND description = :description",
+            "SELECT id FROM activities WHERE activity_id = :activity_id AND description = :description",
             [':activity_id' => $activityId, ':description' => $description]
         );
     }
@@ -41,7 +41,7 @@ abstract class Task
         //////////////////////////////////
 
         return $DB->get(
-            "select id from activities where DATE(created_at) = DATE(NOW()) AND activity_id = :activity_id AND description = :description",
+            "SELECT id FROM activities WHERE DATE(created_at) = DATE(NOW()) AND activity_id = :activity_id AND description = :description",
             [':activity_id' => $activityId, ':description' => $description]
         );
     }

@@ -26,6 +26,7 @@ if (isLocalhost()) {
 
 ### order is important
 $tasks = [
+    //ReadBaseCampUrlContents::class,
     TestTask::class,
     ReplyToEmails::class,
     PostWorkPlan::class,

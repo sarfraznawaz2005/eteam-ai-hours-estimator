@@ -37,7 +37,7 @@ class BasecampClassicAPI
 
     public static function getInfo($action, string $queryString = ''): array | string
     {
-        $url = 'https:/' . static::$companyName . '.basecamphq.com/' . $action . '/' . $queryString;
+        $url = 'https://' . static::$companyName . '.basecamphq.com/' . $action . '/' . $queryString;
 
         $session = static::getCurlInstance();
         curl_setopt($session, CURLOPT_URL, $url);
@@ -295,4 +295,22 @@ class BasecampClassicAPI
 
         return array_search(strtolower(static::$eteamKnowledgeSharingProjectName), $projects);
     }
+
+    public static function getUrlContents(string $url)
+    {
+        $session = curl_init();
+
+        curl_setopt($session, CURLOPT_URL, $url);
+        curl_setopt($session, CURLOPT_USERAGENT, static::$companyName . ".basecamphq.com (" . static::$userEmail . ")");
+        curl_setopt($session, CURLOPT_USERPWD, static::$userAPIToken . ":X");
+        curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($session, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($session, CURLOPT_FOLLOWLOCATION, false);
+
+        $output = curl_exec($session);
+        curl_close($session);
+
+        return $output;
+    }
+
 }
