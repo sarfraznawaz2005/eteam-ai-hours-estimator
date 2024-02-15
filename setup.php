@@ -129,4 +129,28 @@ Phone: +(9221) 37120414
 body;
 }
 
-//dd(BasecampClassicAPI::getAllProjects());
+function runTasksParallel(array $tasks)
+{
+    $children = [];
+
+    foreach ($tasks as $taskClass) {
+        $pid = pcntl_fork();
+
+        if ($pid == -1) {
+            die('Could not fork');
+        } else if ($pid) {
+            // parent process
+            $children[] = $pid;
+        } else {
+            // child process
+            $task = new $taskClass();
+            $task->execute();
+            exit(0);
+        }
+    }
+
+    // Wait for all child processes to finish
+    foreach ($children as $child) {
+        pcntl_waitpid($child, $status);
+    }
+}

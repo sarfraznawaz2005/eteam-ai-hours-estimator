@@ -26,34 +26,21 @@ if (isLocalhost()) {
 $tasks = [
     //ReadBaseCampUrlContents::class,
     TestTask::class,
-    ReplyToEmails::class,
     PostWorkPlan::class,
     PostProjectIdea::class,
+    ReplyToEmails::class,
     ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class,
     RemindBaseCampCustomers::class,
     RemindMyNameBaseCamp::class,
 ];
 
-$children = [];
+if (function_exists('pcntl_fork')) {
+    runTasksParallel($tasks);
+} else {
+    foreach ($tasks as $task) {
+        sleep(1);
 
-foreach ($tasks as $taskClass) {
-    $pid = pcntl_fork();
-
-    if ($pid == -1) {
-        die('Could not fork');
-    } else if ($pid) {
-        // parent process
-        $children[] = $pid;
-    } else {
-        // child process
-        $task = new $taskClass();
-        $task->execute();
-        exit(0);
+        $task::execute();
     }
-}
-
-// Wait for all child processes to finish
-foreach ($children as $child) {
-    pcntl_waitpid($child, $status);
 }
