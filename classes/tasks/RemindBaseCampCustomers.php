@@ -75,6 +75,8 @@ class RemindBaseCampCustomers extends Task
                         }
                     }
                 }
+
+                sleep(1);
             }
 
             $storage->save($unrepliedMessages);
