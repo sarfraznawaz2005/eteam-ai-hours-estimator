@@ -21,6 +21,11 @@ class DB
             ];
 
             $this->conn = new PDO($dsn, CONFIG['db_user'], CONFIG['db_pass'], $options);
+
+            // Set the time zone for this connection
+            $timeZone = '+05:00';
+            $this->conn->exec("SET time_zone='$timeZone';");
+
         } catch (PDOException $e) {
             logMessage('DB Connection Error: ' . $e->getMessage(), 'danger');
 
