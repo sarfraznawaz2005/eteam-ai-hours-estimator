@@ -42,7 +42,7 @@ class RemindBaseCampCustomers extends Task
                     $days = new DateTime('2 days ago');
                     $maxDays = new DateTime('15 days ago');
 
-                    $postedOn = new DateTime($message['posted-at']);
+                    $postedOn = new DateTime($message['posted-on']);
 
                     if ($postedOn < $days && $postedOn > $maxDays && !in_array($message['author-id'], $userIds)) {
                         $unrepliedMessages[$message['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $message['id'];
