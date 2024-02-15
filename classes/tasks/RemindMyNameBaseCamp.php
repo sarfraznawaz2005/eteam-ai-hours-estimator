@@ -89,7 +89,10 @@ class RemindMyNameBaseCamp extends Task
             if ($dueReminders) {
                 $emailBody = "Dear Sarfraz,<br><br>";
                 $emailBody .= "You have been mentioned in following messages on basecamp.<br><br>";
-                $emailBody .= implode('<br>', $dueReminders);
+
+                $emailBody .= implode('<br>', array_map(function ($link) {
+                    return '<a href="' . htmlspecialchars($link) . '">' . htmlspecialchars($link) . '</a>';
+                }, $dueReminders));
 
                 $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', 'You have been mentioned!', $emailBody);
 

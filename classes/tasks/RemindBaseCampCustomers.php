@@ -17,48 +17,39 @@ class RemindBaseCampCustomers extends Task
             return;
         }
 
-        $storage = new DateBasedStorage('message_reminders');
+        $unrepliedMessages = [];
 
-        $unrepliedMessages = $storage->read();
+        $projects = BasecampClassicAPI::getAllProjects();
 
-        if (!$unrepliedMessages) {
+        $userIds = array_flip(BasecampClassicAPI::getAllUsers());
 
-            $unrepliedMessages = [];
+        // check in comments
+        foreach ($projects as $projectId => $projectName) {
+            // returns 25 most recent messages by default
+            $messages = BasecampClassicAPI::getAllMessages($projectId);
 
-            $projects = BasecampClassicAPI::getAllProjects();
+            if (is_array($messages) && $messages) {
+                foreach ($messages as $messageId => $messageDetails) {
+                    $comments = BasecampClassicAPI::getAllComments($messageId);
 
-            $userIds = array_flip(BasecampClassicAPI::getAllUsers());
+                    if (is_array($comments) && $comments) {
+                        $lastestComment = array_slice($comments, 0, 1, true);
+                        $lastestComment = current($lastestComment) + ['key' => key($lastestComment)];
 
-            // check in comments
-            foreach ($projects as $projectId => $projectName) {
-                // returns 25 most recent messages by default
-                $messages = BasecampClassicAPI::getAllMessages($projectId);
+                        // we will only check for messages that have been not replied in 2 days
+                        $days = new DateTime('2 days ago');
+                        $maxDays = new DateTime('15 days ago');
 
-                if (is_array($messages) && $messages) {
-                    foreach ($messages as $messageId => $messageDetails) {
-                        $comments = BasecampClassicAPI::getAllComments($messageId);
+                        $postedOn = new DateTime($lastestComment['created-at']);
 
-                        if (is_array($comments) && $comments) {
-                            $lastestComment = array_slice($comments, 0, 1, true);
-                            $lastestComment = current($lastestComment) + ['key' => key($lastestComment)];
-
-                            // we will only check for messages that have been not replied in 2 days
-                            $days = new DateTime('2 days ago');
-                            $maxDays = new DateTime('15 days ago');
-
-                            $postedOn = new DateTime($lastestComment['created-at']);
-
-                            if ($postedOn < $days && $postedOn > $maxDays && !in_array($lastestComment['author-id'], $userIds)) {
-                                $unrepliedMessages[$messageId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
-                            }
+                        if ($postedOn < $days && $postedOn > $maxDays && !in_array($lastestComment['author-id'], $userIds)) {
+                            $unrepliedMessages[$messageId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
                         }
                     }
                 }
-
-                sleep(1);
             }
 
-            $storage->save($unrepliedMessages);
+            //sleep(1);
         }
 
         //dd($unrepliedMessages);
@@ -94,13 +85,19 @@ class RemindBaseCampCustomers extends Task
             if ($dueReminders) {
                 $emailBody = "Dear All,<br><br>";
                 $emailBody .= "Following customer messsages have not been replied since two days, please check if they need to be replied.<br><br>";
-                $emailBody .= implode('<br>', $dueReminders);
+
+                $emailBody .= implode('<br>', array_map(function ($link) {
+                    return '<a href="' . htmlspecialchars($link) . '">' . htmlspecialchars($link) . '</a>';
+                }, $dueReminders));
 
                 EmailSender::sendEmail('sarfraz@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
 
                 logMessage(__CLASS__ . ' : Reminder Email Sent', 'success');
             }
 
+        }
+
+        if (!DEMO_MODE) {
             // so we don't run this job again today
             static::markDone(__CLASS__, __CLASS__);
         }

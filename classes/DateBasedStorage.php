@@ -19,6 +19,8 @@ class DateBasedStorage
     // Checks if the directory exists and creates it if not
     private function createDirectoryIfNeeded()
     {
+        $this->directory = basePath() . '/' . $this->directory;
+        
         if (!is_dir($this->directory)) {
             mkdir($this->directory, 0777, true);
         }
