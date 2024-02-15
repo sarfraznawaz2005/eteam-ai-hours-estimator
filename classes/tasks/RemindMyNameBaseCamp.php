@@ -18,29 +18,6 @@ class RemindMyNameBaseCamp extends Task
         $unrepliedMessages = [];
         $projects = BasecampClassicAPI::getAllProjects();
 
-        // check in messages
-        foreach ($projects as $projectId => $projectName) {
-            // returns 25 most recent messages by default
-            $messages = BasecampClassicAPI::getAllMessages($projectId);
-
-            if (is_array($messages) && $messages) {
-                $lastestMessage = array_slice($messages, 0, 1, true);
-                $lastestMessage = current($lastestMessage) + ['key' => key($lastestMessage)];
-
-                $messageTitle = $lastestMessage['title'] ?? '';
-                $messageBody = $lastestMessage['body'] ?? '';
-
-                if (
-                    str_contains(strtolower(trim(strip_tags($messageTitle))), 'sarfraz') ||
-                    str_contains(strtolower(trim(strip_tags($messageBody))), 'sarfraz')
-                ) {
-                    $unrepliedMessages[$projectId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $lastestMessage['id'];
-                }
-            }
-
-            //sleep(1);
-        }
-
         // check in comments
         foreach ($projects as $projectId => $projectName) {
             // returns 25 most recent messages by default
