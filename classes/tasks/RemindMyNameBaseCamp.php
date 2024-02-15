@@ -10,11 +10,6 @@ class RemindMyNameBaseCamp extends Task
             exit(1);
         }
 
-        if (DEMO_MODE) {
-            logMessage('DEMO_MODE: ' . __CLASS__);
-            return;
-        }
-
         $unrepliedMessages = [];
 
         $allMessages = BasecampClassicAPI::getAllMessagesForAllProjectsParallel();
@@ -75,6 +70,11 @@ class RemindMyNameBaseCamp extends Task
                 $dueReminders[] = $unrepliedMessages[$unrepliedMessageKey];
 
                 static::markDone($unrepliedMessageKey, __CLASS__);
+            }
+
+            if (DEMO_MODE) {
+                logMessage('DEMO_MODE: ' . __CLASS__);
+                return;
             }
 
             // send email
