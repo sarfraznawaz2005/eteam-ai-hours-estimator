@@ -67,7 +67,7 @@ class RemindMyNameBaseCamp extends Task
 
             // make sure we have not notified these before
             $lastAddedIdsDB = $DB->get(
-                "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 100",
+                "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 50",
                 [':description' => strtolower(__CLASS__)]
             );
 
