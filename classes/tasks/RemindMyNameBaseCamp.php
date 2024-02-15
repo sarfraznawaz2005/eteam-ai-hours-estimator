@@ -77,6 +77,8 @@ class RemindMyNameBaseCamp extends Task
                     return '<a href="' . htmlspecialchars($link) . '">' . htmlspecialchars($link) . '</a>';
                 }, $dueReminders));
 
+                $emailBody .= xSignature();
+
                 $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', 'You have been mentioned!', $emailBody);
 
                 if ($emailSent) {

@@ -109,4 +109,24 @@ function now()
     return date("Y-m-d H:i:s");
 }
 
+function xSignature()
+{
+    return <<<body
+<br>
+---
+
+Mr-X (eTeam AI Bot)
+Technical Assistant
+
+Enterprise Team (eTeam)
+607, Level 6,
+Ibrahim Trade Towers,
+Plot No.1 Block 7 & 8,
+MCHS, Main Shahrah-e-Faisal,
+Karachi-75400,
+Pakistan.
+Phone: +(9221) 37120414
+body;
+}
+
 //dd(BasecampClassicAPI::getAllProjects());
