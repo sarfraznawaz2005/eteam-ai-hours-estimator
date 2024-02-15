@@ -31,8 +31,8 @@ $tasks = [
     PostProjectIdea::class,
     ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class,
-    //RemindBaseCampCustomers::class,
-    RemindMyNameBaseCamp::class,
+    RemindBaseCampCustomers::class,
+    //RemindMyNameBaseCamp::class,
 ];
 
 foreach ($tasks as $task) {
