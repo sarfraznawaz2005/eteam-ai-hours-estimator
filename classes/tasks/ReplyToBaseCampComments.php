@@ -36,7 +36,7 @@ class ReplyToBaseCampComments extends Task
                         }
 
                         $lastAddedIdsDB = $DB->get(
-                            "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 500",
+                            "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 100",
                             [':description' => strtolower($messageTitle)]
                         );
 
