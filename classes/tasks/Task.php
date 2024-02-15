@@ -6,7 +6,7 @@ abstract class Task
 
     public static function getInfo(string $activityId)
     {
-        $DB = DB::getInstance();
+        $DB = new DB();
 
         $result = $DB->get("SELECT * FROM activities WHERE activity_id = :activity_id", [':activity_id' => $activityId]);
 
@@ -19,7 +19,7 @@ abstract class Task
 
     public static function isDone(string $activityId, string $description)
     {
-        $DB = DB::getInstance();
+        $DB = new DB();
 
         ### description is added in check because possibly id can be same for 
         ### posts and comments on basecamp for example.
@@ -32,7 +32,7 @@ abstract class Task
 
     public static function isDoneForToday(string $activityId, string $description)
     {
-        $DB = DB::getInstance();
+        $DB = new DB();
 
         //////////////////////////////////
         // delete older records
@@ -48,7 +48,7 @@ abstract class Task
 
     public static function markDone(string $activityId, string $description)
     {
-        $DB = DB::getInstance();
+        $DB = new DB();
 
         return $DB->insert('activities', [
             'activity_id' => $activityId,
