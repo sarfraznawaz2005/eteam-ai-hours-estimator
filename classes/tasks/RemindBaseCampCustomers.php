@@ -95,6 +95,8 @@ class RemindBaseCampCustomers extends Task
                 logMessage(__CLASS__ . ' : Reminder Email Sent', 'success');
             }
 
+        } else {
+            logMessage(__CLASS__ . ' : No Messages To Remind.');
         }
 
         if (!DEMO_MODE) {
