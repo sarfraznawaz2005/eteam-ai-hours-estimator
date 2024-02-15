@@ -114,7 +114,7 @@ class RemindBaseCampCustomers extends Task
 
         } catch (Exception $e) {
             // Rollback on error
-            $DB->rollBack();
+            @$DB->rollBack();
             logMessage('Transaction failed: ' . $e->getMessage(), 'danger');
         }
 
