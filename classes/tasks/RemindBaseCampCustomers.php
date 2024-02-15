@@ -6,6 +6,11 @@ class RemindBaseCampCustomers extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
+        if (DEMO_MODE) {
+            logMessage('DEMO_MODE: ' . __CLASS__);
+            return;
+        }
+        
         if (static::isAlreadyRunning()) {
             exit(1);
         }
@@ -20,7 +25,7 @@ class RemindBaseCampCustomers extends Task
 
         $projects = BasecampClassicAPI::getAllProjects();
 
-        $userIds = array_flip(BasecampClassicAPI::getAllUsers());
+        $userIds = array_keys(BasecampClassicAPI::getAllUsers());
 
         // check in comments
         foreach ($projects as $projectId => $projectName) {
@@ -81,7 +86,7 @@ class RemindBaseCampCustomers extends Task
             }
 
             if (DEMO_MODE) {
-                logMessage('DEMO_MODE: ' . __CLASS__);
+                logMessage('DEMO_MODE: ' . __CLASS__ . ' - Going to send email...');
                 return;
             }
 
@@ -95,7 +100,7 @@ class RemindBaseCampCustomers extends Task
                 }, $dueReminders));
 
                 $emailBody .= xSignature();
-                
+
                 EmailSender::sendEmail('sarfraz@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
 
                 logMessage(__CLASS__ . ' : Reminder Email Sent', 'success');
