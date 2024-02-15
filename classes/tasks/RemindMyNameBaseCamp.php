@@ -15,6 +15,11 @@ class RemindMyNameBaseCamp extends Task
         $allMessages = BasecampClassicAPI::getAllMessagesForAllProjectsParallel();
         $allComments = BasecampClassicAPI::getAllCommentsForAllPostsForAllProjectsParallel();
 
+        $jsonString = json_encode($allMessages, JSON_PRETTY_PRINT);
+        $jsonString2 = json_encode($allComments, JSON_PRETTY_PRINT);
+        file_put_contents(basePath() . '/allmessages.txt', $jsonString);
+        file_put_contents(basePath() . '/allcomments.txt', $jsonString2);
+
         // check in messages
         if (is_array($allMessages) && $allMessages) {
             foreach ($allMessages as $projectId => $messages) {
