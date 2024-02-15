@@ -5,6 +5,7 @@
 
 /**
  * TODOs
+ * run in parallel
  * whatsapp
  * give reply to basecamp url ???
  * read last post from x project and sent to my email ???
