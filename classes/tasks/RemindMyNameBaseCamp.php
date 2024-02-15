@@ -51,7 +51,7 @@ class RemindMyNameBaseCamp extends Task
                         $commentBody = $lastestComment['body'] ?? '';
 
                         if (str_contains(strtolower($commentBody), 'sarfraz')) {
-                            $unrepliedMessages[$messageId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
+                            $unrepliedMessages[$lastestComment['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
                         }
                     }
                 }

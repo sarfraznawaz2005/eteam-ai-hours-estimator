@@ -78,7 +78,7 @@ class RemindBaseCampCustomers extends Task
                         $postedOn = new DateTime($lastestComment['created-at']);
 
                         if ($postedOn < $days && $postedOn > $maxDays && !in_array($lastestComment['author-id'], $userIds)) {
-                            $unrepliedMessages[$messageId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
+                            $unrepliedMessages[$lastestComment['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
                         }
                     }
                 }
