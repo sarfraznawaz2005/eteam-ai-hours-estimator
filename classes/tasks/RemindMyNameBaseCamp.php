@@ -8,27 +8,17 @@ class RemindMyNameBaseCamp extends Task
 
         if (DEMO_MODE) {
             logMessage('DEMO_MODE: ' . __CLASS__);
-            //return;
+            return;
         }
 
         if (static::isAlreadyRunning()) {
             exit(1);
         }
 
-        $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
-
-        if ($isAlreadyDone) {
-            return;
-        }
-
         $unrepliedMessages = [];
 
         $projects = BasecampClassicAPI::getAllProjects();
 
-        $userIds = array_keys(BasecampClassicAPI::getAllUsers());
-
-        // getAllMessagesForAllProjectsParallel doesn't seem to work fine on hosting
-        // maybe due to some restrictions - didn't check further to fix it.
         $allMessages = BasecampClassicAPI::getAllMessagesForAllProjectsParallel();
 
         // check in messages
@@ -58,23 +48,15 @@ class RemindMyNameBaseCamp extends Task
                         $lastestComment = array_slice($comments, 0, 1, true);
                         $lastestComment = current($lastestComment) + ['key' => key($lastestComment)];
 
-                        // we will only check for messages that have been not replied in 2 days
-                        $days = new DateTime('2 days ago');
-                        $maxDays = new DateTime('15 days ago');
+                        $commentBody = $lastestComment['body'] ?? '';
 
-                        $postedOn = new DateTime($lastestComment['created-at']);
-
-                        if ($postedOn < $days && $postedOn > $maxDays && !in_array($lastestComment['author-id'], $userIds)) {
+                        if (str_contains(strtolower($commentBody), 'sarfraz')) {
                             $unrepliedMessages[$messageId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
                         }
                     }
                 }
             }
-
-            //sleep(1);
         }
-
-        //dd($unrepliedMessages);
 
         if ($unrepliedMessages) {
 
@@ -110,8 +92,8 @@ class RemindMyNameBaseCamp extends Task
 
             // send email
             if ($dueReminders) {
-                $emailBody = "Dear All,<br><br>";
-                $emailBody .= "Following customer messsages have not been replied since two days, please check if they need to be replied.<br><br>";
+                $emailBody = "Dear Sarfraz,<br><br>";
+                $emailBody .= "You have been mentioned in following messages on basecamp.<br><br>";
 
                 $emailBody .= implode('<br>', array_map(function ($link) {
                     return '<a href="' . htmlspecialchars($link) . '">' . htmlspecialchars($link) . '</a>';
@@ -119,18 +101,13 @@ class RemindMyNameBaseCamp extends Task
 
                 $emailBody .= xSignature();
 
-                EmailSender::sendEmail('sarfraz@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
+                $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', 'You have been mentioned!', $emailBody);
 
-                logMessage(__CLASS__ . ' : Reminder Email Sent', 'success');
+                if ($emailSent) {
+                    logMessage(__CLASS__ . ' : Name Reminder Sent', 'success');
+                }
             }
 
-        } else {
-            logMessage(__CLASS__ . ' : No Messages To Remind.');
-        }
-
-        if (!DEMO_MODE) {
-            // so we don't run this job again today
-            static::markDone(__CLASS__, __CLASS__);
         }
 
     }
