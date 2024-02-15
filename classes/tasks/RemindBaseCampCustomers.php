@@ -29,27 +29,6 @@ class RemindBaseCampCustomers extends Task
 
             $userIds = array_flip(BasecampClassicAPI::getAllUsers());
 
-            // check in messages
-            foreach ($projects as $projectId => $projectName) {
-                // returns 25 most recent messages by default
-                $messages = BasecampClassicAPI::getAllMessages($projectId);
-
-                if (is_array($messages) && $messages) {
-                    $lastestMessage = array_slice($messages, 0, 1, true);
-                    $lastestMessage = current($lastestMessage) + ['key' => key($lastestMessage)];
-
-                    // we will only check for messages that have been not replied in 2 days
-                    $days = new DateTime('2 days ago');
-                    $maxDays = new DateTime('15 days ago');
-
-                    $postedOn = new DateTime($lastestMessage['posted-on']);
-
-                    if ($postedOn < $days && $postedOn > $maxDays && !in_array($lastestMessage['author-id'], $userIds)) {
-                        $unrepliedMessages[$projectId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $lastestMessage['id'];
-                    }
-                }
-            }
-
             // check in comments
             foreach ($projects as $projectId => $projectName) {
                 // returns 25 most recent messages by default
