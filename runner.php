@@ -32,7 +32,7 @@ $tasks = [
     ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class,
     RemindBaseCampCustomers::class,
-    //RemindMyNameBaseCamp::class,
+    RemindMyNameBaseCamp::class,
 ];
 
 foreach ($tasks as $task) {
