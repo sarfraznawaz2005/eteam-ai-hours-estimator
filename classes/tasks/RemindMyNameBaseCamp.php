@@ -34,7 +34,7 @@ class RemindMyNameBaseCamp extends Task
                 }
             }
 
-            sleep(1);
+            sleep(1); // to avoid mysql server has gone away error
         }
 
         // check in comments
