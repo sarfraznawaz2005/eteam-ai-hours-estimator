@@ -91,16 +91,16 @@ class RemindBaseCampCustomers extends Task
             }
 
             // send email
-            $emailBody = "Dear All,<br><br>";
-            $emailBody .= "Following customer messsages have not been replied since two days, please check if they need to be replied.<br><br>";
-            $emailBody .= implode('<br>', $dueReminders);
+            if ($dueReminders) {
+                $emailBody = "Dear All,<br><br>";
+                $emailBody .= "Following customer messsages have not been replied since two days, please check if they need to be replied.<br><br>";
+                $emailBody .= implode('<br>', $dueReminders);
 
-            // $emailSent = EmailSender::sendEmail('everyone@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
+                EmailSender::sendEmail('sarfraz@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
+            }
 
-            // // so we don't run this job again today
-            // if ($emailSent) {
-            //     static::markDone(__CLASS__, __CLASS__);
-            // }
+            // so we don't run this job again today
+            static::markDone(__CLASS__, __CLASS__);
         }
 
     }

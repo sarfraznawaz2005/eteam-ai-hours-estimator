@@ -70,7 +70,7 @@ class RemindMyNameBaseCamp extends Task
             );
 
             $lastAddedIdsDB = $lastAddedIdsDB ?: [];
-            
+
             $lastAddedIdsDB = array_map(function ($item) {
                 return intval($item['activity_id'] ?? '0');
             }, $lastAddedIdsDB);
@@ -86,15 +86,18 @@ class RemindMyNameBaseCamp extends Task
             }
 
             // send email
-            $emailBody = "Dear Sarfraz,<br><br>";
-            $emailBody .= "You have been mentioned in following messages on basecamp.<br><br>";
-            $emailBody .= implode('<br>', $dueReminders);
+            if ($dueReminders) {
+                $emailBody = "Dear Sarfraz,<br><br>";
+                $emailBody .= "You have been mentioned in following messages on basecamp.<br><br>";
+                $emailBody .= implode('<br>', $dueReminders);
 
-            $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', 'You have been mentioned!', $emailBody);
+                $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', 'You have been mentioned!', $emailBody);
 
-            if ($emailSent) {
-                logMessage(__CLASS__ . ' : Name Reminder Sent', 'success');
+                if ($emailSent) {
+                    logMessage(__CLASS__ . ' : Name Reminder Sent', 'success');
+                }
             }
+
         }
 
     }
