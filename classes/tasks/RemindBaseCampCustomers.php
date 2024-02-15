@@ -6,102 +6,116 @@ class RemindBaseCampCustomers extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
-        $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
+        $DB = new DB();
 
-        if ($isAlreadyDone) {
-            return;
-        }
+        try {
+            // Start the transaction
+            $DB->beginTransaction();
 
-        if (DEMO_MODE) {
-            logMessage('DEMO_MODE: ' . __CLASS__);
-            return;
-        }
+            $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
-        $unrepliedMessages = [];
+            if ($isAlreadyDone) {
+                $DB->rollBack();
+                return;
+            }
 
-        $projects = BasecampClassicAPI::getAllProjects();
+            if (DEMO_MODE) {
+                logMessage('DEMO_MODE: ' . __CLASS__);
+                return;
+            }
 
-        $userIds = array_flip(BasecampClassicAPI::getAllUsers());
+            $unrepliedMessages = [];
 
-        // check in comments
-        foreach ($projects as $projectId => $projectName) {
-            // returns 25 most recent messages by default
-            $messages = BasecampClassicAPI::getAllMessages($projectId);
+            $projects = BasecampClassicAPI::getAllProjects();
 
-            if (is_array($messages) && $messages) {
-                foreach ($messages as $messageId => $messageDetails) {
-                    $comments = BasecampClassicAPI::getAllComments($messageId);
+            $userIds = array_flip(BasecampClassicAPI::getAllUsers());
 
-                    if (is_array($comments) && $comments) {
-                        $lastestComment = array_slice($comments, 0, 1, true);
-                        $lastestComment = current($lastestComment) + ['key' => key($lastestComment)];
+            // check in comments
+            foreach ($projects as $projectId => $projectName) {
+                // returns 25 most recent messages by default
+                $messages = BasecampClassicAPI::getAllMessages($projectId);
 
-                        // we will only check for messages that have been not replied in 2 days
-                        $days = new DateTime('2 days ago');
-                        $maxDays = new DateTime('15 days ago');
+                if (is_array($messages) && $messages) {
+                    foreach ($messages as $messageId => $messageDetails) {
+                        $comments = BasecampClassicAPI::getAllComments($messageId);
 
-                        $postedOn = new DateTime($lastestComment['created-at']);
+                        if (is_array($comments) && $comments) {
+                            $lastestComment = array_slice($comments, 0, 1, true);
+                            $lastestComment = current($lastestComment) + ['key' => key($lastestComment)];
 
-                        if ($postedOn < $days && $postedOn > $maxDays && !in_array($lastestComment['author-id'], $userIds)) {
-                            $unrepliedMessages[$messageId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
+                            // we will only check for messages that have been not replied in 2 days
+                            $days = new DateTime('2 days ago');
+                            $maxDays = new DateTime('15 days ago');
+
+                            $postedOn = new DateTime($lastestComment['created-at']);
+
+                            if ($postedOn < $days && $postedOn > $maxDays && !in_array($lastestComment['author-id'], $userIds)) {
+                                $unrepliedMessages[$messageId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
+                            }
                         }
                     }
                 }
+
+                //sleep(1);
             }
 
-            //sleep(1);
-        }
+            //dd($unrepliedMessages);
 
-        //dd($unrepliedMessages);
+            if ($unrepliedMessages) {
 
-        if ($unrepliedMessages) {
+                $dueReminders = [];
 
-            $dueReminders = [];
-            $DB = new DB();
+                // make sure we have not notified these before
+                $lastAddedIdsDB = $DB->get(
+                    "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 100",
+                    [':description' => strtolower(__CLASS__)]
+                );
 
-            // make sure we have not notified these before
-            $lastAddedIdsDB = $DB->get(
-                "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 100",
-                [':description' => strtolower(__CLASS__)]
-            );
+                $lastAddedIdsDB = $lastAddedIdsDB ?: [];
 
-            $lastAddedIdsDB = $lastAddedIdsDB ?: [];
+                $lastAddedIdsDB = array_map(function ($item) {
+                    return intval($item['activity_id'] ?? '0');
+                }, $lastAddedIdsDB);
 
-            $lastAddedIdsDB = array_map(function ($item) {
-                return intval($item['activity_id'] ?? '0');
-            }, $lastAddedIdsDB);
+                foreach (array_keys($unrepliedMessages) as $unrepliedMessageKey) {
+                    if (in_array($unrepliedMessageKey, $lastAddedIdsDB)) {
+                        continue;
+                    }
 
-            foreach (array_keys($unrepliedMessages) as $unrepliedMessageKey) {
-                if (in_array($unrepliedMessageKey, $lastAddedIdsDB)) {
-                    continue;
+                    $dueReminders[] = $unrepliedMessages[$unrepliedMessageKey];
+
+                    static::markDone($unrepliedMessageKey, __CLASS__);
                 }
 
-                $dueReminders[] = $unrepliedMessages[$unrepliedMessageKey];
+                // send email
+                if ($dueReminders) {
+                    $emailBody = "Dear All,<br><br>";
+                    $emailBody .= "Following customer messsages have not been replied since two days, please check if they need to be replied.<br><br>";
 
-                static::markDone($unrepliedMessageKey, __CLASS__);
+                    $emailBody .= implode('<br>', array_map(function ($link) {
+                        return '<a href="' . htmlspecialchars($link) . '">' . htmlspecialchars($link) . '</a>';
+                    }, $dueReminders));
+
+                    EmailSender::sendEmail('sarfraz@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
+
+                    logMessage(__CLASS__ . ' : Reminder Email Sent', 'success');
+                }
+
+            } else {
+                logMessage(__CLASS__ . ' : No Messages To Remind.');
             }
 
-            // send email
-            if ($dueReminders) {
-                $emailBody = "Dear All,<br><br>";
-                $emailBody .= "Following customer messsages have not been replied since two days, please check if they need to be replied.<br><br>";
-
-                $emailBody .= implode('<br>', array_map(function ($link) {
-                    return '<a href="' . htmlspecialchars($link) . '">' . htmlspecialchars($link) . '</a>';
-                }, $dueReminders));
-
-                EmailSender::sendEmail('sarfraz@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
-
-                logMessage(__CLASS__ . ' : Reminder Email Sent', 'success');
+            if (!DEMO_MODE) {
+                // so we don't run this job again today
+                static::markDone(__CLASS__, __CLASS__);
             }
 
-        } else {
-            logMessage(__CLASS__ . ' : No Messages To Remind.');
-        }
+            $DB->commit();
 
-        if (!DEMO_MODE) {
-            // so we don't run this job again today
-            static::markDone(__CLASS__, __CLASS__);
+        } catch (Exception $e) {
+            // Rollback on error
+            $DB->rollBack();
+            logMessage('Transaction failed: ' . $e->getMessage(), 'danger');
         }
 
     }

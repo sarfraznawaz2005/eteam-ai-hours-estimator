@@ -33,6 +33,21 @@ class DB
         }
     }
 
+    public function beginTransaction()
+    {
+        $this->conn->beginTransaction();
+    }
+
+    public function commit()
+    {
+        $this->conn->commit();
+    }
+
+    public function rollBack()
+    {
+        $this->conn->rollBack();
+    }
+
     // Execute a query (Create, Update, Delete)
     public function executeQuery($sql, $params = [])
     {
