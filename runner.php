@@ -19,7 +19,7 @@ set_time_limit(0);
 if (isLocalhost()) {
     define('DEMO_MODE', true);
 } else {
-    define('DEMO_MODE', false);
+    define('DEMO_MODE', true);
 }
 
 ### order is important
