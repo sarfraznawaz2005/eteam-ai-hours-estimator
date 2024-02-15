@@ -15,7 +15,7 @@ class RemindBaseCampCustomers extends Task
             $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
             if ($isAlreadyDone) {
-                $DB->rollBack();
+                @$DB->rollBack();
                 return;
             }
 
