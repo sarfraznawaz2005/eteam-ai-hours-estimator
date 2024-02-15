@@ -12,16 +12,16 @@ class PostProjectIdea extends Task
             return;
         }
 
-        if (DEMO_MODE) {
-            logMessage('DEMO_MODE: ' . __CLASS__);
-            return;
-        }
-
         // only on Mondays
         if (date('l') !== "Monday") {
             return;
         }
 
+        if (DEMO_MODE) {
+            logMessage('DEMO_MODE: ' . __CLASS__);
+            return;
+        }
+        
         $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamKnowledgeSharingProjectId();
 
         if (!$eteamKnowledgeSharingProjectId) {
