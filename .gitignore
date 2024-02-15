@@ -2,6 +2,7 @@ config.php
 application.log
 *.ini
 /*.ini
+tmp_data/*
 /.idea/*
 /.idea
 /.fleet

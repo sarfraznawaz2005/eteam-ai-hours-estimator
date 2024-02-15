@@ -110,9 +110,9 @@ class BasecampClassicAPI
 
     public static function getAllProjects(): array
     {
-        DateBasedStorage::initialize('basecamp_projects');
+        $storage = new DateBasedStorage('basecamp_projects');
 
-        $data = DateBasedStorage::read();
+        $data = $storage->read();
 
         if ($data) {
             return $data;
@@ -142,7 +142,7 @@ class BasecampClassicAPI
 
         asort($finalData);
 
-        DateBasedStorage::save($finalData);
+        $storage->save($finalData);
 
         return $finalData;
 
@@ -150,9 +150,9 @@ class BasecampClassicAPI
 
     public static function getAllUsers(array $excludedUserIds = []): array
     {
-        DateBasedStorage::initialize('basecamp_users');
+        $storage = new DateBasedStorage('basecamp_users');
 
-        $data = DateBasedStorage::read();
+        $data = $storage->read();
 
         if ($data) {
             return $data;
@@ -192,7 +192,7 @@ class BasecampClassicAPI
 
         asort($finalData);
 
-        DateBasedStorage::save($finalData);
+        $storage->save($finalData);
 
         return $finalData;
     }
@@ -223,6 +223,11 @@ class BasecampClassicAPI
                         ];
                     }
                 }
+
+                uasort($finalData, function ($a, $b) {
+                    return $b['id'] - $a['id']; // id descending
+                });
+
             } else if (isset($post['id'])) {
                 $finalData[$post['id']] = [
                     'id' => $post['id'],
@@ -263,6 +268,11 @@ class BasecampClassicAPI
                         ];
                     }
                 }
+
+                uasort($finalData, function ($a, $b) {
+                    return $b['id'] - $a['id']; // id descending
+                });
+
             } else if (isset($comment['id'])) {
                 $finalData[$comment['id']] = [
                     'id' => $comment['id'],

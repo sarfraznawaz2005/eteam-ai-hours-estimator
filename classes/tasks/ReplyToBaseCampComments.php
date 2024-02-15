@@ -52,7 +52,7 @@ class ReplyToBaseCampComments extends Task
 
                         foreach ($comments as $commentId => $commentDetails) {
 
-                            if (in_array($commentId, $lastAddedIdsDB, true)) {
+                            if (in_array($commentId, $lastAddedIdsDB)) {
                                 continue;
                             }
 

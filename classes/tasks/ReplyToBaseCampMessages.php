@@ -35,7 +35,7 @@ class ReplyToBaseCampMessages extends Task
 
                 foreach ($messages as $messageId => $messageDetails) {
 
-                    if (in_array($messageId, $lastAddedIdsDB, true)) {
+                    if (in_array($messageId, $lastAddedIdsDB)) {
                         continue;
                     }
 

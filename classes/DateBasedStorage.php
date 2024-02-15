@@ -2,45 +2,45 @@
 
 class DateBasedStorage
 {
-    private static $prefix;
-    private static $filePath;
-    private static $directory = 'tmp_data';
+    private $prefix;
+    private $filePath;
+    private $directory = 'tmp_data';
 
     // Sets the file prefix and automatically determines the file path
-    public static function initialize($prefix)
+    public function __construct($prefix)
     {
-        self::$prefix = $prefix;
+        $this->prefix = $prefix;
 
-        self::createDirectoryIfNeeded();
-        self::updateFilePath();
-        self::deleteOldFiles();
+        $this->createDirectoryIfNeeded();
+        $this->updateFilePath();
+        $this->deleteOldFiles();
     }
 
     // Checks if the directory exists and creates it if not
-    private static function createDirectoryIfNeeded()
+    private function createDirectoryIfNeeded()
     {
-        if (!is_dir(self::$directory)) {
-            mkdir(self::$directory, 0777, true);
+        if (!is_dir($this->directory)) {
+            mkdir($this->directory, 0777, true);
         }
     }
 
     // Updates the file path based on the current date
-    private static function updateFilePath()
+    private function updateFilePath()
     {
         $date = date('d-m-Y');
 
-        self::$filePath = sprintf('%s/%s-%s.dat', self::$directory, self::$prefix, $date);
+        $this->filePath = sprintf('%s/%s-%s.dat', $this->directory, $this->prefix, $date);
     }
 
     // Deletes files with the same prefix that are older than today
-    private static function deleteOldFiles()
+    private function deleteOldFiles()
     {
-        $files = glob(self::$directory . '/' . self::$prefix . '-*.dat'); // Get all files with the prefix
+        $files = glob($this->directory . '/' . $this->prefix . '-*.dat'); // Get all files with the prefix
         $today = new DateTime('today');
 
         foreach ($files as $file) {
             $filename = basename($file, ".dat");
-            $datePart = substr($filename, strlen(self::$prefix) + 1);
+            $datePart = substr($filename, strlen($this->prefix) + 1);
             $fileCreationDate = DateTime::createFromFormat('d-m-Y', $datePart);
 
             if ($fileCreationDate < $today) {
@@ -50,23 +50,25 @@ class DateBasedStorage
     }
 
     // Saves data to file
-    public static function save($data)
+    public function save($data)
     {
-        if (!isset(self::$filePath)) {
+        if (!isset($this->filePath)) {
             throw new Exception("File prefix is not set.");
         }
 
-        $serializedData = serialize($data);
+        if ($data) {
+            $serializedData = serialize($data);
 
-        file_put_contents(self::$filePath, $serializedData);
+            file_put_contents($this->filePath, $serializedData);
+        }
     }
 
     // Reads data from file
-    public static function read()
+    public function read()
     {
-        if (isset(self::$filePath) && file_exists(self::$filePath)) {
+        if (isset($this->filePath) && file_exists($this->filePath)) {
 
-            $serializedData = file_get_contents(self::$filePath);
+            $serializedData = file_get_contents($this->filePath);
 
             return unserialize($serializedData);
         }
@@ -75,16 +77,16 @@ class DateBasedStorage
     }
 
     // Sets new data (overwrites existing)
-    public static function set($newData)
+    public function set($newData)
     {
-        self::save($newData);
+        $this->save($newData);
     }
 
     // Utility function to manually delete the current day's file (optional)
-    public static function delete()
+    public function delete()
     {
-        if (isset(self::$filePath) && file_exists(self::$filePath)) {
-            @unlink(self::$filePath);
+        if (isset($this->filePath) && file_exists($this->filePath)) {
+            @unlink($this->filePath);
         }
     }
 }

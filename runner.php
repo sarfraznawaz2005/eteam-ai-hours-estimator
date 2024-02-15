@@ -5,11 +5,9 @@
 
 /**
  * TODOs
- *
- * give reply to basecamp url
- * read last post from x project and sent to my email
- * remind of un-replied customer messages on basecamp via an email
  * whatsapp
+ * give reply to basecamp url ???
+ * read last post from x project and sent to my email ???
  *
  */
 
@@ -33,6 +31,8 @@ $tasks = [
     PostProjectIdea::class,
     ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class,
+    RemindBaseCampCustomers::class,
+    RemindMyNameBaseCamp::class,
 ];
 
 foreach ($tasks as $task) {

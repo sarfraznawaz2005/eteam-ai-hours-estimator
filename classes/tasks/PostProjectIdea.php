@@ -17,6 +17,11 @@ class PostProjectIdea extends Task
             return;
         }
 
+        // only on Mondays
+        if (date('l') !== "Monday") {
+            return;
+        }
+
         $eteamKnowledgeSharingProjectId = BasecampClassicAPI::getEteamKnowledgeSharingProjectId();
 
         if (!$eteamKnowledgeSharingProjectId) {
@@ -65,6 +70,7 @@ class PostProjectIdea extends Task
 
             if ($response && $response['code'] === 201) {
                 static::markDone(__CLASS__, __CLASS__);
+                logMessage(__CLASS__ . " :  Post Daily Idea Success", 'success');
             } else {
                 logMessage(__CLASS__ . " : Could not post workplan", 'danger');
             }

@@ -64,10 +64,13 @@ class PostWorkPlan extends Task
                     $message = <<<message
                     AOA,<br><br>
 
-                    - Post Project Idea<br>
+                    - Post Project Ideas<br>
                     - Code Reviews<br>
                     - Email Communication<br>
                     - Basecamp Communication<br>
+                    - Send BaseCamp Customer Reminders<br>
+                    - Provide AI Tools Services<br>
+                    - Coordinate with Team<br>
                     - etc
                     message;
 
@@ -96,6 +99,7 @@ class PostWorkPlan extends Task
 
                     if ($response && $response['code'] === 201) {
                         static::markDone($messageId, __CLASS__);
+                        logMessage(__CLASS__ . " :  Workplan Post Success", 'success');
                     } else {
                         logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
                     }
