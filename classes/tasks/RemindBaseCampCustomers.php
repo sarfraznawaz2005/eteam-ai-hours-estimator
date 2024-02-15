@@ -98,7 +98,7 @@ class RemindBaseCampCustomers extends Task
             $lastAddedIdsDB = $lastAddedIdsDB ?: [];
 
             $lastAddedIdsDB = array_map(function ($item) {
-                return intval($item['activity_id']);
+                return intval($item['activity_id'] ?? '0');
             }, $lastAddedIdsDB);
 
             foreach (array_keys($unrepliedMessages) as $unrepliedMessageKey) {

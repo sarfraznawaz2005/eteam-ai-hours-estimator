@@ -43,7 +43,7 @@ class ReplyToBaseCampComments extends Task
                         $lastAddedIdsDB = $lastAddedIdsDB ?: [];
                         
                         $lastAddedIdsDB = array_map(function ($item) {
-                            return intval($item['activity_id']);
+                            return intval($item['activity_id'] ?? '0');
                         }, $lastAddedIdsDB);
                         //dd($lastAddedIdsDB);
 
