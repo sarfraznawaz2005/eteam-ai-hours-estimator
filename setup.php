@@ -112,19 +112,19 @@ function now()
 function xSignature()
 {
     return <<<body
+<br><br>
+---<br>
 <br>
----
-
-Mr-X (eTeam AI Bot)
-Technical Assistant
-
-Enterprise Team (eTeam)
-607, Level 6,
-Ibrahim Trade Towers,
-Plot No.1 Block 7 & 8,
-MCHS, Main Shahrah-e-Faisal,
-Karachi-75400,
-Pakistan.
+Mr-X (eTeam AI Bot)<br>
+Technical Assistant<br>
+<br>
+Enterprise Team (eTeam)<br>
+607, Level 6,<br>
+Ibrahim Trade Towers,<br>
+Plot No.1 Block 7 & 8,<br>
+MCHS, Main Shahrah-e-Faisal,<br>
+Karachi-75400,<br>
+Pakistan.<br>
 Phone: +(9221) 37120414
 body;
 }

@@ -12,7 +12,7 @@ class RemindMyNameBaseCamp extends Task
 
         if (DEMO_MODE) {
             logMessage('DEMO_MODE: ' . __CLASS__);
-            return;
+            //return;
         }
 
         $unrepliedMessages = [];
@@ -24,10 +24,12 @@ class RemindMyNameBaseCamp extends Task
         if (is_array($allMessages) && $allMessages) {
             foreach ($allMessages as $projectId => $messages) {
                 // we get messages sorted by latest, so we only check latest message
-                $message = array_slice($messages, 0, 1, true);
+                if (key($messages)) {
+                    $message = $messages[key($messages)];
 
-                if (isset($message['body']) && str_contains(strtolower($message['body']), 'sarfraz')) {
-                    $unrepliedMessages[$message['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $message['id'];
+                    if (str_contains(strtolower($message['body']), 'sarfraz')) {
+                        $unrepliedMessages[$message['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $message['id'];
+                    }
                 }
             }
         }
@@ -37,10 +39,12 @@ class RemindMyNameBaseCamp extends Task
             foreach ($allComments as $projectId => $messages) {
                 foreach ($messages as $messageId => $comments) {
                     // we get comments sorted by latest, so we only check latest comment
-                    $comment = array_slice($comments, 0, 1, true);
+                    if (key($comments)) {
+                        $comment = $comments[key($comments)];
 
-                    if (isset($comment['body']) && str_contains(strtolower($comment['body']), 'sarfraz')) {
-                        $unrepliedMessages[$comment['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $comment['id'];
+                        if (str_contains(strtolower($comment['body']), 'sarfraz')) {
+                            $unrepliedMessages[$comment['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $comment['id'];
+                        }
                     }
                 }
             }
