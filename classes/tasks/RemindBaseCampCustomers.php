@@ -10,7 +10,7 @@ class RemindBaseCampCustomers extends Task
             logMessage('DEMO_MODE: ' . __CLASS__);
             return;
         }
-        
+
         if (static::isAlreadyRunning()) {
             exit(1);
         }
@@ -26,6 +26,30 @@ class RemindBaseCampCustomers extends Task
         $projects = BasecampClassicAPI::getAllProjects();
 
         $userIds = array_keys(BasecampClassicAPI::getAllUsers());
+
+        // getAllMessagesForAllProjectsParallel doesn't seem to work fine on hosting
+        // maybe due to some restrictions - didn't check further to fix it.
+        $allMessages = BasecampClassicAPI::getAllMessagesForAllProjectsParallel();
+
+        // check in messages
+        if (is_array($allMessages) && $allMessages) {
+            foreach ($allMessages as $projectId => $messages) {
+                // we get messages sorted by latest, so we only check latest message
+                if (key($messages)) {
+                    $message = $messages[key($messages)];
+
+                    // we will only check for messages that have been not replied in 2 days
+                    $days = new DateTime('2 days ago');
+                    $maxDays = new DateTime('15 days ago');
+
+                    $postedOn = new DateTime($message['posted-at']);
+
+                    if ($postedOn < $days && $postedOn > $maxDays && !in_array($message['author-id'], $userIds)) {
+                        $unrepliedMessages[$message['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $message['id'];
+                    }
+                }
+            }
+        }
 
         // check in comments
         foreach ($projects as $projectId => $projectName) {
