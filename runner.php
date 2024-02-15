@@ -20,10 +20,9 @@ set_time_limit(0);
 if (isLocalhost()) {
     define('DEMO_MODE', true);
 } else {
-    define('DEMO_MODE', false);
+    define('DEMO_MODE', true);
 }
 
-### order is important
 $tasks = [
     //ReadBaseCampUrlContents::class,
     TestTask::class,
@@ -36,8 +35,25 @@ $tasks = [
     RemindMyNameBaseCamp::class,
 ];
 
-foreach ($tasks as $task) {
-    sleep(3);
+$children = [];
 
-    $task::execute();
+foreach ($tasks as $taskClass) {
+    $pid = pcntl_fork();
+
+    if ($pid == -1) {
+        die('Could not fork');
+    } else if ($pid) {
+        // parent process
+        $children[] = $pid;
+    } else {
+        // child process
+        $task = new $taskClass();
+        $task->execute();
+        exit(0);
+    }
+}
+
+// Wait for all child processes to finish
+foreach ($children as $child) {
+    pcntl_waitpid($child, $status);
 }
