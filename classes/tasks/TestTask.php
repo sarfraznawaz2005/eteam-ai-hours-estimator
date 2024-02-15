@@ -6,12 +6,6 @@ class TestTask extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
-        $DB = new DB();
-        $dbTime = $DB->get('SELECT NOW() AS dbTime');
-
-        logMessage("DB Time: " . $dbTime[0]['dbTime']);
-        logMessage("Script Time: " . now());
-
         $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {
