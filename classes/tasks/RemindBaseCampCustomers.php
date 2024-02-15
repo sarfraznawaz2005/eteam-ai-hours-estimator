@@ -97,6 +97,8 @@ class RemindBaseCampCustomers extends Task
                 $emailBody .= implode('<br>', $dueReminders);
 
                 EmailSender::sendEmail('sarfraz@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
+
+                logMessage(__CLASS__ . ' : Reminder Email Sent', 'success');
             }
 
             // so we don't run this job again today
