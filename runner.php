@@ -11,7 +11,7 @@
  *
  */
 
- date_default_timezone_set('UTC');
+ date_default_timezone_set('Asia/Karachi');
 
 require_once __DIR__ . '/setup.php';
 
