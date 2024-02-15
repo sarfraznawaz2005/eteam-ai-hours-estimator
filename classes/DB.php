@@ -19,6 +19,10 @@ class DB
     {
         if (self::$instance === null) {
             self::$instance = new self();
+        } else {
+            if (!self::$instance->conn || !self::$instance->ping()) {
+                self::$instance->connect();
+            }
         }
 
         return self::$instance;
@@ -26,17 +30,31 @@ class DB
 
     private function connect()
     {
-        $this->conn = null;
-
         try {
-            $dsn = 'mysql:host=' . CONFIG['db_host'] . ';dbname=' . CONFIG['db_name'];
 
-            $this->conn = new PDO($dsn, CONFIG['db_user'], CONFIG['db_pass']);
+            $dsn = 'mysql:host=' . CONFIG['db_host'] . ';dbname=' . CONFIG['db_name'] . ';charset=utf8';
 
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_PERSISTENT => true, // Enable persistent connection
+            ];
 
+            $this->conn = new PDO($dsn, CONFIG['db_user'], CONFIG['db_pass'], $options);
         } catch (PDOException $e) {
             logMessage('DB Connection Error: ' . $e->getMessage(), 'danger');
+
+            $this->conn = null;
+        }
+    }
+
+    // Method to check if the connection is alive
+    private function ping()
+    {
+        try {
+            $this->conn->query('SELECT 1');
+            return true;
+        } catch (PDOException $e) {
+            return false;
         }
     }
 
