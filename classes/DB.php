@@ -50,7 +50,7 @@ class DB
                 }
             }
 
-            logMessage($debugQuery);
+            //logMessage($debugQuery);
 
             $stmt = $this->conn->prepare($sql);
 
