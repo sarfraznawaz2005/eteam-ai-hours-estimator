@@ -31,7 +31,7 @@ $tasks = [
     PostProjectIdea::class,
     ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class,
-    RemindBaseCampCustomers::class,
+    //RemindBaseCampCustomers::class,
     RemindMyNameBaseCamp::class,
 ];
 
