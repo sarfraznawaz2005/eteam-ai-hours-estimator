@@ -25,14 +25,14 @@ if (isLocalhost()) {
 ### order is important
 $tasks = [
     //ReadBaseCampUrlContents::class,
-    //TestTask::class,
-    //ReplyToEmails::class,
-    //PostWorkPlan::class,
-    //PostProjectIdea::class,
-    //ReplyToBaseCampMessages::class,
-    //ReplyToBaseCampComments::class,
+    TestTask::class,
+    ReplyToEmails::class,
+    PostWorkPlan::class,
+    PostProjectIdea::class,
+    ReplyToBaseCampMessages::class,
+    ReplyToBaseCampComments::class,
     RemindBaseCampCustomers::class,
-    //RemindMyNameBaseCamp::class,
+    RemindMyNameBaseCamp::class,
 ];
 
 foreach ($tasks as $task) {
