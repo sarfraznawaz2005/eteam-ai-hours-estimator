@@ -8,6 +8,10 @@ class ReplyToBaseCampMessages extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
+        if (static::isAlreadyRunning()) {
+            exit(1);
+        }
+
         $projects = BasecampClassicAPI::getAllProjects();
 
         $DB = new DB();

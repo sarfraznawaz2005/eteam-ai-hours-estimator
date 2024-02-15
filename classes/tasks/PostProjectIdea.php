@@ -6,6 +6,10 @@ class PostProjectIdea extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
+        if (static::isAlreadyRunning()) {
+            exit(1);
+        }
+
         $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {

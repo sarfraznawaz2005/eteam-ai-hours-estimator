@@ -8,6 +8,10 @@ class PostWorkPlan extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
+        if (static::isAlreadyRunning()) {
+            exit(1);
+        }
+
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
         //dd($eteamMiscTasksProjectId);
 

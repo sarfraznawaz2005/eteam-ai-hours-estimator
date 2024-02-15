@@ -6,6 +6,10 @@ class RemindMyNameBaseCamp extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
+        if (static::isAlreadyRunning()) {
+            exit(1);
+        }
+
         if (DEMO_MODE) {
             logMessage('DEMO_MODE: ' . __CLASS__);
             return;
