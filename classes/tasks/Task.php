@@ -36,12 +36,12 @@ abstract class Task
 
         //////////////////////////////////
         // delete older records
-        $sql = "DELETE FROM activities WHERE activity_id = '$activityId' AND description = '$description' AND DATE(created_at) = CURDATE()";
+        $sql = "DELETE FROM activities WHERE activity_id = '$activityId' AND description = '$description' AND created_at < NOW() - INTERVAL 1 DAY";
         $DB->executeQuery($sql);
         //////////////////////////////////
 
         return $DB->get(
-            "SELECT id FROM activities WHERE DATE(created_at) = DATE(NOW()) AND activity_id = :activity_id AND description = :description",
+            "SELECT id FROM activities WHERE DATE(created_at) = CURDATE() AND activity_id = :activity_id AND description = :description",
             [':activity_id' => $activityId, ':description' => $description]
         );
     }

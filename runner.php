@@ -29,9 +29,9 @@ $tasks = [
     ReplyToEmails::class,
     PostWorkPlan::class,
     PostProjectIdea::class,
-    //ReplyToBaseCampMessages::class,
-    //ReplyToBaseCampComments::class,
-    //RemindBaseCampCustomers::class,
+    ReplyToBaseCampMessages::class,
+    ReplyToBaseCampComments::class,
+    RemindBaseCampCustomers::class,
     //RemindMyNameBaseCamp::class,
 ];
 
