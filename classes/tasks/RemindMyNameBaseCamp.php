@@ -33,6 +33,8 @@ class RemindMyNameBaseCamp extends Task
                     $unrepliedMessages[$projectId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $lastestMessage['id'];
                 }
             }
+
+            sleep(1);
         }
 
         // check in comments
