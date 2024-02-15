@@ -22,7 +22,7 @@ class PostWorkPlan extends Task
 
         if (is_array($eteamMiscProjectMessages) && $eteamMiscProjectMessages) {
 
-            $DB = DB::getInstance();
+            $DB = new DB();
 
             //////////////////////////////////
             // delete older records

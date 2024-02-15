@@ -63,7 +63,7 @@ class RemindMyNameBaseCamp extends Task
         if ($unrepliedMessages) {
 
             $dueReminders = [];
-            $DB = DB::getInstance();
+            $DB = new DB();
 
             // make sure we have not notified these before
             $lastAddedIdsDB = $DB->get(

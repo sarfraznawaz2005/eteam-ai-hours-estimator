@@ -8,7 +8,7 @@ class ReplyToBaseCampComments extends Task
 
         $projects = BasecampClassicAPI::getAllProjects();
 
-        $DB = DB::getInstance();
+        $DB = new DB();
 
         foreach ($projects as $projectId => $projectName) {
 
