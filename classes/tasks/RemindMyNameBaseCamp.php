@@ -12,7 +12,7 @@ class RemindMyNameBaseCamp extends Task
 
         if (DEMO_MODE) {
             logMessage('DEMO_MODE: ' . __CLASS__);
-            //return;
+            return;
         }
 
         $unrepliedMessages = [];
