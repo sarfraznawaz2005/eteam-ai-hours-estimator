@@ -12,7 +12,7 @@
  */
 
  date_default_timezone_set('UTC');
- 
+
 require_once __DIR__ . '/setup.php';
 
 ini_set("memory_limit", "-1");
@@ -21,7 +21,7 @@ set_time_limit(0);
 if (isLocalhost()) {
     define('DEMO_MODE', true);
 } else {
-    define('DEMO_MODE', false);
+    define('DEMO_MODE', true);
 }
 
 ### order is important
