@@ -40,6 +40,8 @@ class ReplyToBaseCampComments extends Task
                             [':description' => strtolower($messageTitle)]
                         );
 
+                        $lastAddedIdsDB = $lastAddedIdsDB ?: [];
+                        
                         $lastAddedIdsDB = array_map(function ($item) {
                             return intval($item['activity_id']);
                         }, $lastAddedIdsDB);

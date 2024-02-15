@@ -69,6 +69,8 @@ class RemindMyNameBaseCamp extends Task
                 [':description' => strtolower(__CLASS__)]
             );
 
+            $lastAddedIdsDB = $lastAddedIdsDB ?: [];
+            
             $lastAddedIdsDB = array_map(function ($item) {
                 return intval($item['activity_id']);
             }, $lastAddedIdsDB);

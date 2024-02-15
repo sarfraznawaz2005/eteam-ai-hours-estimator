@@ -25,6 +25,8 @@ class ReplyToBaseCampMessages extends Task
                     [':description' => strtolower($projectName)]
                 );
 
+                $lastAddedIdsDB = $lastAddedIdsDB ?: [];
+                
                 $lastAddedIdsDB = array_map(function ($item) {
                     return intval($item['activity_id']);
                 }, $lastAddedIdsDB);
