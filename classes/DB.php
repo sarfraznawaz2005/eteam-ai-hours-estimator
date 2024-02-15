@@ -3,29 +3,10 @@
 class DB
 {
     private $conn;
-    private static $instance = null;
 
-    // Constructor is private to prevent external instantiation
-    private function __construct()
+    public function __construct()
     {
         $this->connect();
-    }
-
-    // Clone method is private to prevent cloning of the instance
-    private function __clone()
-    {}
-
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        } else {
-            if (!self::$instance->conn || !self::$instance->ping()) {
-                self::$instance->connect();
-            }
-        }
-
-        return self::$instance;
     }
 
     private function connect()
@@ -47,20 +28,14 @@ class DB
         }
     }
 
-    // Method to check if the connection is alive
-    private function ping()
-    {
-        try {
-            $this->conn->query('SELECT 1');
-            return true;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-
     // Execute a query (Create, Update, Delete)
     public function executeQuery($sql, $params = [])
     {
+        if ($this->conn === null) {
+            logMessage('DB Query Error: No active database connection', 'danger');
+            return false;
+        }
+
         try {
             // Constructing a representation of the final query for debugging purposes
             $debugQuery = $sql;
@@ -101,11 +76,7 @@ class DB
     {
         $stmt = $this->executeQuery($sql, $params);
 
-        if ($stmt) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            return false; // Indicate failure
-        }
+        return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : false;
     }
 
     // Insert data into a table
