@@ -8,7 +8,6 @@ abstract class Task
     // double entries using lock file mechanism.
     public static function isAlreadyRunning()
     {
-
         $lockFile = basePath() . '/' . get_called_class() . '.lock';
 
         if (file_exists($lockFile)) {
