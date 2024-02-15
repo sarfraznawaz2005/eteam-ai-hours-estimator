@@ -76,7 +76,7 @@ class PostWorkPlan extends Task
                     - etc
                     message;
 
-                    GoogleAI::setPrompt("Please provide a inspirational quote tailored to our software engineering company. This inspirational quote should boost the morale of our team.");
+                    GoogleAI::setPrompt("Please provide a inspirational quote tailored to a software engineering company. This inspirational quote should boost the morale of our team.");
 
                     $response = GoogleAI::GenerateContentWithRetry();
 
