@@ -26,7 +26,6 @@ class RemindMyNameBaseCamp extends Task
         $projects = BasecampClassicAPI::getAllProjects();
 
         $userIds = array_keys(BasecampClassicAPI::getAllUsers());
-        dd($userIds);
 
         // getAllMessagesForAllProjectsParallel doesn't seem to work fine on hosting
         // maybe due to some restrictions - didn't check further to fix it.
