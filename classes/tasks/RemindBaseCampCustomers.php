@@ -6,22 +6,9 @@ class RemindBaseCampCustomers extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
-        //////////////////////////////////////////////////////////////////////////////
-        // since this script runs longer than a minute (cron time), we can avoid
-        // double entries using lock file
-        $lockFile = 'script.lock';
-
-        if (file_exists($lockFile)) {
+        if (static::isAlreadyRunning()) {
             exit(1);
         }
-
-        file_put_contents($lockFile, "Running");
-
-        register_shutdown_function(function () use ($lockFile) {
-            // Remove lock file on script shutdown
-            unlink($lockFile);
-        });
-        //////////////////////////////////////////////////////////////////////////////
 
         $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 

@@ -4,6 +4,24 @@ abstract class Task
 {
     abstract public static function execute();
 
+    // for tasks running longer than a minute (cron time), we can avoid
+    // double entries using lock file mechanism.
+    public static function isAlreadyRunning()
+    {
+
+        $lockFile = basePath() . '/' . get_called_class() . '.lock';
+
+        if (file_exists($lockFile)) {
+            return true;
+        }
+
+        file_put_contents($lockFile, "Running");
+
+        register_shutdown_function(function () use ($lockFile) {
+            @unlink($lockFile);
+        });
+    }
+
     public static function getInfo(string $activityId)
     {
         $DB = new DB();
@@ -21,7 +39,7 @@ abstract class Task
     {
         $DB = new DB();
 
-        ### description is added in check because possibly id can be same for 
+        ### description is added in check because possibly id can be same for
         ### posts and comments on basecamp for example.
 
         return $DB->get(
