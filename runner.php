@@ -11,6 +11,8 @@
  *
  */
 
+ date_default_timezone_set('UTC');
+ 
 require_once __DIR__ . '/setup.php';
 
 ini_set("memory_limit", "-1");
