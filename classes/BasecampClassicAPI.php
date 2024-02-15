@@ -288,6 +288,175 @@ class BasecampClassicAPI
         return $finalData;
     }
 
+    public static function getAllMessagesForAllProjectsParallel(): array
+    {
+        $multiHandle = curl_multi_init();
+        $curlHandles = [];
+        $responses = [];
+
+        $projectIds = array_keys(static::getAllProjects());
+
+        // Initiate multiple curl handles for each project
+        foreach ($projectIds as $projectId) {
+            $session = static::getCurlInstance();
+            $url = 'https://' . static::$companyName . '.basecamphq.com/projects/' . $projectId . '/posts.xml';
+
+            curl_setopt($session, CURLOPT_URL, $url);
+            curl_setopt($session, CURLOPT_HTTPGET, true);
+            curl_setopt($session, CURLOPT_HEADER, false);
+
+            curl_multi_add_handle($multiHandle, $session);
+            $curlHandles[$projectId] = $session;
+        }
+
+        // Execute the handles
+        $running = null;
+
+        do {
+            curl_multi_exec($multiHandle, $running);
+            curl_multi_select($multiHandle);
+        } while ($running > 0);
+
+        // Collect responses and remove handles
+        foreach ($curlHandles as $projectId => $session) {
+            $response = curl_multi_getcontent($session);
+            @$responseXml = simplexml_load_string($response);
+
+            if ($responseXml) {
+                $responseArray = (array) $responseXml;
+                $responses[$projectId] = $responseArray['post'] ?? [];
+            } else {
+                $responses[$projectId] = [];
+            }
+
+            curl_multi_remove_handle($multiHandle, $session);
+            curl_close($session);
+        }
+
+        curl_multi_close($multiHandle);
+
+        // Process responses
+        $finalData = [];
+        foreach ($responses as $projectId => $data) {
+            $projectMessages = [];
+
+            if (is_array($data)) {
+                foreach ($data as $xml) {
+                    $array = (array) $xml;
+
+                    if (isset($array['id'])) {
+                        $projectMessages[$array['id']] = [
+                            'id' => $array['id'],
+                            'title' => $array['title'],
+                            'body' => $array['body'],
+                            'author-id' => $array['author-id'],
+                            'author-name' => $array['author-name'],
+                            'posted-on' => $array['posted-on'],
+                        ];
+                    }
+                }
+
+                uasort($projectMessages, function ($a, $b) {
+                    return $b['id'] - $a['id']; // Sort by id descending
+                });
+                
+            } else if (isset($data['id'])) {
+                $projectMessages[$data['id']] = [
+                    'id' => $data['id'],
+                    'title' => $data['title'],
+                    'body' => $data['body'],
+                    'author-id' => $data['author-id'],
+                    'author-name' => $data['author-name'],
+                    'posted-on' => $data['posted-on'],
+                ];
+            }
+
+            $finalData[$projectId] = $projectMessages;
+        }
+
+        return $finalData;
+    }
+
+    public static function getAllCommentsForAllPostsForAllProjectsParallel(): array
+    {
+        $allPosts = static::getAllMessagesForAllProjectsParallel();
+
+        $projectPosts = [];
+
+        foreach ($allPosts as $projectId => $posts) {
+            if (!empty($posts)) {
+                $projectPosts[$projectId] = array_keys($posts); // Extract post IDs
+            }
+        }
+
+        // Now, fetch comments for all these posts in parallel
+        $multiHandle = curl_multi_init();
+        $curlHandles = [];
+
+        // Prepare and add curl handles for each post in each project
+        foreach ($projectPosts as $projectId => $postIds) {
+            foreach ($postIds as $postId) {
+                $session = static::getCurlInstance();
+
+                $url = 'https://' . static::$companyName . '.basecamphq.com/posts/' . $postId . '/comments.xml';
+
+                curl_setopt($session, CURLOPT_URL, $url);
+                curl_setopt($session, CURLOPT_HTTPGET, true);
+                curl_setopt($session, CURLOPT_HEADER, false);
+
+                curl_multi_add_handle($multiHandle, $session);
+                $curlHandles[$projectId . '_' . $postId] = $session;
+            }
+        }
+
+        // Execute the handles in parallel
+        $running = null;
+        do {
+            curl_multi_exec($multiHandle, $running);
+            curl_multi_select($multiHandle);
+        } while ($running > 0);
+
+        // Collect and process responses
+        $finalCommentsData = [];
+        foreach ($curlHandles as $key => $session) {
+            $response = curl_multi_getcontent($session);
+            @$responseXml = simplexml_load_string($response);
+
+            $comments = [];
+            if ($responseXml && isset($responseXml->comment)) {
+                foreach ($responseXml->comment as $comment) {
+                    $array = (array) $comment;
+
+                    $comments[$array['id']] = [
+                        'id' => $array['id'],
+                        'body' => $array['body'],
+                        'author-id' => $array['author-id'],
+                        'author-name' => $array['author-name'],
+                        'created-at' => $array['created-at'],
+                    ];
+                }
+            }
+
+            // Sort comments by ID in descending order
+            uasort($comments, function ($a, $b) {
+                return $b['id'] <=> $a['id'];
+            });
+
+            list($projectId, $postId) = explode('_', $key);
+
+            if (!isset($finalCommentsData[$projectId])) {
+                $finalCommentsData[$projectId] = [];
+            }
+
+            $finalCommentsData[$projectId][$postId] = $comments;
+            curl_close($session);
+        }
+
+        curl_multi_close($multiHandle);
+
+        return $finalCommentsData;
+    }
+
     public static function getEteamMiscTasksProjectId()
     {
         $projects = static::getAllProjects();

@@ -16,26 +16,31 @@ class RemindMyNameBaseCamp extends Task
         }
 
         $unrepliedMessages = [];
-        $projects = BasecampClassicAPI::getAllProjects();
+
+        $allMessages = BasecampClassicAPI::getAllMessagesForAllProjectsParallel();
+        $allComments = BasecampClassicAPI::getAllCommentsForAllPostsForAllProjectsParallel();
+
+        // check in messages
+        if (is_array($allMessages) && $allMessages) {
+            foreach ($allMessages as $projectId => $messages) {
+                // we get messages sorted by latest, so we only check latest message
+                $message = array_slice($messages, 0, 1, true);
+
+                if (isset($message['body']) && str_contains(strtolower($message['body']), 'sarfraz')) {
+                    $unrepliedMessages[$message['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $message['id'];
+                }
+            }
+        }
 
         // check in comments
-        foreach ($projects as $projectId => $projectName) {
-            // returns 25 most recent messages by default
-            $messages = BasecampClassicAPI::getAllMessages($projectId);
+        if (is_array($allComments) && $allComments) {
+            foreach ($allComments as $projectId => $messages) {
+                foreach ($messages as $messageId => $comments) {
+                    // we get comments sorted by latest, so we only check latest comment
+                    $comment = array_slice($comments, 0, 1, true);
 
-            if (is_array($messages) && $messages) {
-                foreach ($messages as $messageId => $messageDetails) {
-                    $comments = BasecampClassicAPI::getAllComments($messageId);
-
-                    if (is_array($comments) && $comments) {
-                        $lastestComment = array_slice($comments, 0, 1, true);
-                        $lastestComment = current($lastestComment) + ['key' => key($lastestComment)];
-
-                        $commentBody = $lastestComment['body'] ?? '';
-
-                        if (str_contains(strtolower(trim(strip_tags($commentBody))), 'sarfraz')) {
-                            $unrepliedMessages[$messageId] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $lastestComment['id'];
-                        }
+                    if (isset($comment['body']) && str_contains(strtolower($comment['body']), 'sarfraz')) {
+                        $unrepliedMessages[$comment['id']] = 'https://eteamid.basecamphq.com/projects/' . $projectId . '/posts/' . $messageId . '/comments#comment_' . $comment['id'];
                     }
                 }
             }
