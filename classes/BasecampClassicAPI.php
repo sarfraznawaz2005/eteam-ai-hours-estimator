@@ -200,6 +200,7 @@ class BasecampClassicAPI
     // returns 25 most recent messages by default
     public static function getAllMessages($projectId): array
     {
+        /*
         $storage = new DateTimeBasedStorage(__FUNCTION__ . '_' . $projectId, 'time');
 
         $data = $storage->read();
@@ -208,6 +209,7 @@ class BasecampClassicAPI
             //logMessage('reading saved messages');
             return $data;
         }
+        */
 
         $finalData = [];
 
@@ -250,13 +252,15 @@ class BasecampClassicAPI
 
         }
 
-        $storage->save($finalData);
+        //$storage->save($finalData);
 
         return $finalData;
     }
 
     public static function getAllComments($postId): array
     {
+        /*
+        // too many files were created involving i/o operations
         $storage = new DateTimeBasedStorage(__FUNCTION__ . '_' . $postId, 'time');
 
         $data = $storage->read();
@@ -265,6 +269,7 @@ class BasecampClassicAPI
             //logMessage('reading saved comments');
             return $data;
         }
+        */
 
         $finalData = [];
 
@@ -305,7 +310,7 @@ class BasecampClassicAPI
 
         }
 
-        $storage->save($finalData);
+        //$storage->save($finalData);
 
         return $finalData;
     }
