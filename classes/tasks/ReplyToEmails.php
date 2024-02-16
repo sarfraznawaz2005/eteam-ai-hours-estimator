@@ -73,7 +73,7 @@ class ReplyToEmails extends Task
 
                     Parsedown::instance()->setSafeMode(false);
                     Parsedown::instance()->setBreaksEnabled(true);
-                    Parsedown::instance()->setMarkupEscaped(true);
+                    Parsedown::instance()->setMarkupEscaped(false);
                     Parsedown::instance()->setUrlsLinked(true);
 
                     $signaturePosition = strpos($email_body, 'Mr-X');
