@@ -61,6 +61,11 @@ class ReplyToEmails extends Task
                         continue;
                     }
 
+                    // do not reply to self
+                    if ($fromEmail === 'mr-x@eteamid.com') {
+                        continue;
+                    }
+
                     // Include CC recipients in the reply
                     $ccEmails = [];
                     if (isset($header->cc) && is_array($header->cc)) {
@@ -123,7 +128,20 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
-                              
+                                $decodedEmailBody = quoted_printable_decode($email_body);
+                                $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
+
+                                // Prepare the email content with the response and the original message
+                                $response .= <<<original
+                                <br>
+                                ---
+                                <br>
+                                <i>
+                                Original Message:
+                                <br>
+                                $decodedEmailBody
+                                </i>
+                                original;
 
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
