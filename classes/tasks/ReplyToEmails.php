@@ -8,21 +8,25 @@ class ReplyToEmails extends Task
 
     public static function execute()
     {
-        logMessage('Running: ' . __CLASS__);
+        //logMessage('Running: ' . __CLASS__);
 
-        try {
+        if (static::isAlreadyRunning()) {
+            exit(1);
+        }
 
-            // IMAP connection details
-            //$hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // this was giving certificate error online
-            $hostname = '{imap.eteamid.com:993/imap/ssl/novalidate-cert}';
-            $username = 'mr-x@eteamid.com';
-            $password = '8gxe#71b`GIb';
+        // IMAP connection details
+        //$hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // this was giving certificate error online
+        $hostname = '{imap.eteamid.com:993/imap/ssl/novalidate-cert}';
+        $username = 'mr-x@eteamid.com';
+        $password = '8gxe#71b`GIb';
+
+        retry(function () use ($hostname, $username, $password) {
 
             // Connect to the mailbox
             $inbox = imap_open($hostname, $username, $password);
 
             if (!$inbox) {
-                logMessage('Error: ' . imap_last_error(), 'error');
+                logMessage('Error: ' . imap_last_error(), 'danger');
                 return;
             }
 
@@ -38,6 +42,9 @@ class ReplyToEmails extends Task
             if ($emails) {
 
                 foreach ($emails as $email_number) {
+
+                    sleep(1);
+
                     // Fetch full header information
                     $header = imap_headerinfo($inbox, $email_number);
 
@@ -48,6 +55,22 @@ class ReplyToEmails extends Task
                     $toEmail = $header->to[0]->mailbox . "@" . $header->to[0]->host;
                     $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
                     $fromName = isset($header->from[0]->personal) ? $header->from[0]->personal : $fromEmail;
+
+                    // do not reply to excluded sender emails
+                    if (in_array($fromEmail, static::$excludedEmails, true)) {
+                        continue;
+                    }
+
+                    // do not reply to self
+                    if ($fromEmail === 'mr-x@eteamid.com') {
+                        continue;
+                    }
+
+                    // do not reply in this case otherwise due to strange reasons
+                    // mr-x keeps on repliying
+                    if (str_contains(strtolower($subject), 're:')) {
+                        //continue;
+                    }
 
                     // Include CC recipients in the reply
                     $ccEmails = [];
@@ -69,20 +92,20 @@ class ReplyToEmails extends Task
                         $prompt = <<<PROMPT
                             \n\n
 
-                            You are helpful assistant tasked with replying emails in a polite and professional manner. Your job is to
-                            see contents of email and reply in detail with clear and easy to understand manner.
+                            You are helpful assistant tasked with replying emails in a polite and professional manner. When someone mentions you
+                            by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner.
 
                             Use following format for reply:
 
-                                Dear $fromName,
+                            Dear $fromName,
 
-                                [Your reply to $email_body goes here]
+                            [Your reply to $email_body goes here]
 
-                                _Thanks_
+                            _Thanks_
 
                             ---
 
-                            Mr-X (eTeam Bot)
+                            Mr-X (eTeam AI Bot)
                             Technical Assistant
 
                             Enterprise Team (eTeam)
@@ -93,43 +116,68 @@ class ReplyToEmails extends Task
                             Karachi-75400,
                             Pakistan.
                             Phone: +(9221) 37120414
-
                         PROMPT;
 
                         GoogleAI::setPrompt($prompt);
 
                         $response = GoogleAI::GenerateContentWithRetry();
 
+                        // if there is nothing to reply, don't do anything
+                        if (strtolower($response) === 'ok') {
+                            continue;
+                        }
+
                         try {
                             $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
 
                             if (!str_contains(strtolower($response), 'no response')) {
-                                $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails);
+
+                                /*
+                                $decodedEmailBody = quoted_printable_decode($email_body);
+                                $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
+
+                                // Prepare the email content with the response and the original message
+                                $response .= <<<original
+                                <br>
+                                ---
+                                <br>
+                                <i>
+                                Original Message:
+                                <br>
+                                $decodedEmailBody
+                                </i>
+                                original;
+                                 */
+
+                                $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
                                 if ($emailSent) {
-                                    logMessage(__CLASS__ . " : Email has been sent: {$subject}");
-                                    //echo __CLASS__ . " : Email has been sent: {$subject}\n";
+                                    logMessage(__CLASS__ . " : Email has been sent: {$subject}", 'success');
+
+                                    // Mark the message for deletion after successfully sending the reply
+                                    imap_delete($inbox, $email_number);
+
                                 } else {
-                                    logMessage(__CLASS__ . " : Error or no response: {$subject}", 'error');
+                                    logMessage(__CLASS__ . " : Error or no response: {$subject}", 'danger');
                                 }
                             } else {
-                                logMessage(__CLASS__ . " : Error or no response: {$subject}", 'error');
+                                logMessage(__CLASS__ . " : Error or no response: {$subject}", 'danger');
                             }
 
                         } catch (Exception $e) {
-                            logMessage(__CLASS__ . ' : Email could not be sent. Mailer Error: ' . $e->getMessage(), 'error');
+                            logMessage(__CLASS__ . ' : Email could not be sent. Mailer Error: ' . $e->getMessage(), 'danger');
+                            imap_close($inbox);
                         }
                     }
-
-                    sleep(3);
                 }
             }
 
+            // Clean up and expunge messages marked for deletion
+            imap_expunge($inbox);
+
             imap_close($inbox);
 
-        } catch (\Exception $e) {
-            logMessage(__CLASS__ . " : Error : " . $e->getMessage() . "", 'error');
-        }
+        }, 2);
 
     }
 }
