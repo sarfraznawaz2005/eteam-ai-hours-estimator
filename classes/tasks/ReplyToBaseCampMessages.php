@@ -75,8 +75,7 @@ class ReplyToBaseCampMessages extends Task
                         \n\n
 
                         You are helpful assistant. When someone mentions you by "@mrx", your job then is to answer queries in detailed,
-                        polite and very easy to understand manner. You must only reply if there is some sort of question or query, if you
-                        think there is nothing to reply then ignore further instructions and just reply with "OK".
+                        polite and very easy to understand manner.
 
                         \n\n[Your reply to $messageBody goes here]
 

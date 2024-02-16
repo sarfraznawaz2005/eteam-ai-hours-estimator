@@ -83,8 +83,6 @@ class ReplyToEmails extends Task
 
                             You are helpful assistant tasked with replying emails in a polite and professional manner. When someone mentions you
                             by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner.
-                            You must only reply if there is some sort of question or query, if you think there is nothing to reply then ignore
-                            further instructions and just reply with "OK".
 
                             Use following format for reply:
 
