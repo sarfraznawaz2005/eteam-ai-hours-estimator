@@ -13,6 +13,11 @@ class EmailSender
 
     public static function sendEmail(string $toEmail, string $toName, string $subject, string $body, array $ccs = [], array $bccs = [])
     {
+        // do not reply to self
+        if ($toEmail === 'mr-x@eteamid.com') {
+            return;
+        }
+
         $mail = new PHPMailer(true);
 
         try {
