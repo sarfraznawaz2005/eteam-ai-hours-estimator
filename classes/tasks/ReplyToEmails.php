@@ -126,7 +126,6 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
-                                /*
                                 $decodedEmailBody = quoted_printable_decode($email_body);
                                 $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
 
@@ -141,7 +140,6 @@ class ReplyToEmails extends Task
                                 $decodedEmailBody
                                 </i>
                                 original;
-                                 */
 
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
