@@ -136,6 +136,7 @@ class ReplyToEmails extends Task
 
                         } catch (Exception $e) {
                             logMessage(__CLASS__ . ' : Email could not be sent. Mailer Error: ' . $e->getMessage(), 'danger');
+                            imap_close($inbox);
                         }
                     }
                 }

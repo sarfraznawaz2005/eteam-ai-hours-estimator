@@ -129,44 +129,50 @@ Phone: +(9221) 37120414
 body;
 }
 
-function runTasksParallel(array $tasks, $maxConcurrentTasks = 10)
+function runTasksParallel(array $tasks)
 {
     $children = [];
-    $taskQueue = $tasks;
-    $concurrentTasks = 0;
 
-    while (!empty($taskQueue) || !empty($children)) {
-        // Fork new tasks as long as we haven't reached the limit
-        while ($concurrentTasks < $maxConcurrentTasks && !empty($taskQueue)) {
-            $taskClass = array_shift($taskQueue); // Get the next task
-            $pid = pcntl_fork();
+    foreach ($tasks as $taskClass) {
+        $pid = pcntl_fork();
 
-            if ($pid == -1) {
-                die('Could not fork');
-            } else if ($pid) {
-                // Parent process
-                $children[$pid] = true;
-                $concurrentTasks++;
-            } else {
-                // Child process
+        if ($pid == -1) {
+            // Handle fork failure
+            logMessage('Could not fork a child process', 'danger');
+            continue; // Optionally, decide how to handle this failure: skip, retry, or abort
+        } elseif ($pid) {
+            // Parent process
+            $children[$pid] = true;
+        } else {
+            // Child process
+            try {
                 $task = new $taskClass();
                 $task->execute();
-                exit(0);
+            } catch (Exception $e) {
+                logMessage('Task execution failed: ' . $e->getMessage(), 'danger');
             }
-        }
 
-        // Check for any child processes that have exited
-        foreach ($children as $pid => $status) {
+            exit(0);
+        }
+    }
+
+    // Non-blocking wait for all child processes to finish
+    while (!empty($children)) {
+        foreach ($children as $pid => $_) {
+            $status = null;
             $res = pcntl_waitpid($pid, $status, WNOHANG);
-            if ($res == -1 || $res > 0) {
-                // Child has exited, remove from the list
+
+            if ($res == -1) {
+                // Handle waitpid failure
+                logMessage("Failed to wait for process $pid", 'danger');
+                unset($children[$pid]); // Remove the child from the list to avoid infinite loop
+            } elseif ($res > 0) {
+                // Child has exited
                 unset($children[$pid]);
-                $concurrentTasks--;
             }
         }
 
-        // Prevent tight loop: sleep for a bit to reduce CPU usage
-        usleep(100000); // sleep for 0.1 seconds
+        usleep(100000); // Sleep for 0.1 seconds to reduce CPU usage
     }
 }
 
@@ -178,7 +184,7 @@ function retry(callable $callable, int $maxAttempts = 3)
             return; // Exit the function on success
         } catch (Exception $e) {
             if ($attempt === $maxAttempts) {
-                logMessage("Error : " . $e->getMessage() . "", 'danger');
+                logMessage("Error : " . $e->getMessage(), 'danger');
             }
         }
     }
