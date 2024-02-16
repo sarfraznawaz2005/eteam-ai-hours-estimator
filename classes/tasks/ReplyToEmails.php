@@ -87,7 +87,8 @@ class ReplyToEmails extends Task
                             \n\n
 
                             You are helpful assistant tasked with replying emails in a polite and professional manner. When someone mentions you
-                            by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner.
+                            by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner. If
+                            there is nothing to reply or reply emails are missing then just reply with "OK" and ignore further instructions.
 
                             Use following format for reply:
 
@@ -119,7 +120,7 @@ class ReplyToEmails extends Task
                         $response = GoogleAI::GenerateContentWithRetry();
 
                         // if there is nothing to reply, don't do anything
-                        if (strtolower($response) === 'ok') {
+                        if (strtolower(trim(strip_tags($response))) === 'ok') {
                             continue;
                         }
 
@@ -128,8 +129,7 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
-                                $decodedEmailBody = quoted_printable_decode($email_body);
-                                $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
+                                $emailBody = Parsedown::instance()->parse($email_body);
 
                                 // Prepare the email content with the response and the original message
                                 $response .= <<<original
@@ -139,7 +139,7 @@ class ReplyToEmails extends Task
                                 <i>
                                 Original Message:
                                 <br>
-                                $decodedEmailBody
+                                $emailBody
                                 </i>
                                 original;
 
