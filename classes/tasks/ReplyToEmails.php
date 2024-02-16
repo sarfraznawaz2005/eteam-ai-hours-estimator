@@ -92,6 +92,9 @@ class ReplyToEmails extends Task
 
                                 _Thanks_
 
+                                Original Message:
+                                _{$email_body}_
+
                             ---
 
                             Mr-X (eTeam AI Bot)
