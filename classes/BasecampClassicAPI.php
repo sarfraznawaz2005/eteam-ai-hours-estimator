@@ -205,7 +205,7 @@ class BasecampClassicAPI
         $data = $storage->read();
 
         if ($data) {
-            logMessage('reading saved messages');
+            //logMessage('reading saved messages');
             return $data;
         }
 
@@ -262,7 +262,7 @@ class BasecampClassicAPI
         $data = $storage->read();
 
         if ($data) {
-            logMessage('reading saved comments');
+            //logMessage('reading saved comments');
             return $data;
         }
 
@@ -312,15 +312,6 @@ class BasecampClassicAPI
 
     public static function getAllMessagesForAllProjectsParallel(): array
     {
-        $storage = new DateTimeBasedStorage(__FUNCTION__, 'time');
-
-        $data = $storage->read();
-
-        if ($data) {
-            logMessage('reading saved messages for all projects');
-            return $data;
-        }
-
         $multiHandle = curl_multi_init();
         $curlHandles = [];
         $responses = [];
@@ -405,22 +396,11 @@ class BasecampClassicAPI
             $finalData[$projectId] = $projectMessages;
         }
 
-        $storage->save($finalData);
-
         return $finalData;
     }
 
     public static function getAllCommentsForAllPostsForAllProjectsParallel(): array
     {
-        $storage = new DateTimeBasedStorage(__FUNCTION__, 'time');
-
-        $data = $storage->read();
-
-        if ($data) {
-            logMessage('reading saved comments for all projects');
-            return $data;
-        }
-
         $allPosts = static::getAllMessagesForAllProjectsParallel();
 
         $projectPosts = [];
@@ -495,8 +475,6 @@ class BasecampClassicAPI
         }
 
         curl_multi_close($multiHandle);
-
-        $storage->save($finalCommentsData);
 
         return $finalCommentsData;
     }
