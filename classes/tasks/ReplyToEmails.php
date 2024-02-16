@@ -71,6 +71,8 @@ class ReplyToEmails extends Task
 
                     $mentionText = MENTION_TEXT;
 
+                    $originalMessage = strip_tags($email_body);
+
                     // we want to reply when we are mentioned or email is sent to our email address
                     if (
                         str_contains(strtolower($email_body), $mentionText) ||
@@ -108,15 +110,14 @@ class ReplyToEmails extends Task
 
                             ---
 
-                            <i>Original Message:
-                            $email_body
-                            </i>
+                            **Original Message:**
+                            $originalMessage
 
                         PROMPT;
 
                         GoogleAI::setPrompt($prompt);
 
-                        $response = GoogleAI::GenerateContentWithRetry(false);
+                        $response = GoogleAI::GenerateContentWithRetry();
 
                         // if there is nothing to reply, don't do anything
                         if (strtolower($response) === 'ok') {
