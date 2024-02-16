@@ -71,7 +71,18 @@ class ReplyToEmails extends Task
 
                     $mentionText = MENTION_TEXT;
 
-                    $originalMessage = strip_tags($email_body);
+                    Parsedown::instance()->setSafeMode(false);
+                    Parsedown::instance()->setBreaksEnabled(true);
+                    Parsedown::instance()->setMarkupEscaped(true);
+                    Parsedown::instance()->setUrlsLinked(true);
+
+                    $signaturePosition = strpos($email_body, 'Mr-X');
+
+                    if ($signaturePosition !== false) {
+                        $email_body = substr($email_body, 0, $signaturePosition);
+                    }
+
+                    $originalMessage = Parsedown::instance()->text($email_body);
 
                     // we want to reply when we are mentioned or email is sent to our email address
                     if (
