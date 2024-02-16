@@ -86,11 +86,12 @@ class ReplyToEmails extends Task
 
                             Use following format for reply:
 
-                            [quote original message here without any signatures]
-
                             Dear $fromName,
 
                             [Your reply to $email_body goes here]
+
+                            **Original Message**
+                            _[quote original message here without any signatures]_
 
                             _Thanks_
 
