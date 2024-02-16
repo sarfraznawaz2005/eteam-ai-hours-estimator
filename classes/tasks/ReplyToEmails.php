@@ -144,9 +144,11 @@ class ReplyToEmails extends Task
                                 <br>
                                 ---
                                 <br>
-                                <i>Original Message:</i>
-                                
+                                <i>
+                                Original Message:
+                                <br>
                                 $decodedEmailBody
+                                </i>
                                 original;
 
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
