@@ -137,6 +137,9 @@ class DateTimeBasedStorage
             throw new Exception("File prefix is not set.");
         }
 
+        // Convert SimpleXMLElement to array before serialization
+        $data = $this->convertSimpleXMLElementToArray($data);
+
         $serializedData = serialize($data);
         $file = fopen($this->filePath, 'c');
 
@@ -151,7 +154,7 @@ class DateTimeBasedStorage
         fclose($file);
     }
 
-    // Reads data from file
+    // Modify the read method to potentially convert arrays back to SimpleXMLElement
     public function read()
     {
         if (isset($this->filePath) && file_exists($this->filePath)) {
@@ -166,7 +169,13 @@ class DateTimeBasedStorage
             flock($file, LOCK_UN);
             fclose($file);
 
-            return unserialize($serializedData);
+            $data = unserialize($serializedData);
+
+            // Convert array back to SimpleXMLElement if needed
+            // Note: This step depends on your specific use case
+            $data = $this->convertArrayToSimpleXMLElement($data);
+
+            return $data;
         }
 
         return null; // Return null if the file does not exist
@@ -184,5 +193,27 @@ class DateTimeBasedStorage
         if (isset($this->filePath) && file_exists($this->filePath)) {
             @unlink($this->filePath);
         }
+    }
+
+    // Helper method to convert SimpleXMLElement objects to arrays before serialization
+    private function convertSimpleXMLElementToArray($data)
+    {
+        if ($data instanceof SimpleXMLElement) {
+            $data = (array) $data; // Convert SimpleXMLElement to array
+        } elseif (is_array($data)) {
+            foreach ($data as &$value) {
+                $value = $this->convertSimpleXMLElementToArray($value);
+            }
+        }
+        return $data;
+    }
+
+    // Helper method to potentially convert back to SimpleXMLElement after deserialization
+    // Note: Implementing the reverse conversion depends on your specific needs and might not be straightforward
+    // This is a placeholder to highlight the concept
+    private function convertArrayToSimpleXMLElement($data)
+    {
+        // Conversion logic here, depending on your specific requirements
+        return $data;
     }
 }
