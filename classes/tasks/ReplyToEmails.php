@@ -66,13 +66,7 @@ class ReplyToEmails extends Task
                         continue;
                     }
 
-                    // do not reply in this case otherwise due to strange reasons
-                    // mr-x keeps on repliying
-                    if (str_contains(strtolower($subject), 're:')) {
-                        //continue;
-                    }
-
-                    // Include CC recipients in the reply
+                    // include CC recipients in the reply
                     $ccEmails = [];
                     if (isset($header->cc) && is_array($header->cc)) {
                         foreach ($header->cc as $cc) {
