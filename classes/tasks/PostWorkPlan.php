@@ -31,7 +31,7 @@ class PostWorkPlan extends Task
             //////////////////////////////////
             // delete older records
             $description = __CLASS__;
-            $sql = "DELETE FROM activities WHERE description = '$description' AND DATE(created_at) <= DATE(NOW() - INTERVAL 1 DAY)";
+            $sql = "DELETE FROM activities WHERE description = '$description' AND DATE(created_at) < DATE(NOW() - INTERVAL 1 DAY)";
             $DB->executeQuery($sql);
             //////////////////////////////////
 

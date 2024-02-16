@@ -186,6 +186,7 @@ function retry(callable $callable, int $maxAttempts = 3)
 {
     for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
         try {
+            usleep(100000); // Sleep for 0.1 seconds to reduce CPU usage
             call_user_func($callable);
             return; // Exit the function on success
         } catch (Exception $e) {

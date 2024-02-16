@@ -2,6 +2,8 @@
 
 class ReplyToEmails extends Task
 {
+    const MRX_EMAIL_ADDRESS = 'mr-x@eteamid.com';
+
     private static $excludedEmails = [
         'notifications@eteamid.basecamphq.com',
     ];
@@ -17,7 +19,7 @@ class ReplyToEmails extends Task
         // IMAP connection details
         //$hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // this was giving certificate error online
         $hostname = '{imap.eteamid.com:993/imap/ssl/novalidate-cert}';
-        $username = 'mr-x@eteamid.com';
+        $username = self::MRX_EMAIL_ADDRESS;
         $password = '8gxe#71b`GIb';
 
         retry(function () use ($hostname, $username, $password) {
@@ -43,7 +45,7 @@ class ReplyToEmails extends Task
 
                 foreach ($emails as $email_number) {
 
-                    sleep(1);
+                    usleep(500000);
 
                     // Fetch full header information
                     $header = imap_headerinfo($inbox, $email_number);
@@ -62,9 +64,11 @@ class ReplyToEmails extends Task
                     }
 
                     // do not reply to self
-                    if ($fromEmail === 'mr-x@eteamid.com') {
+                    if ($fromEmail === self::MRX_EMAIL_ADDRESS) {
                         continue;
                     }
+
+                    logMessage(__CLASS__ . " : Going to send email to: $toEmail");
 
                     // include CC recipients in the reply
                     $ccEmails = [];
@@ -74,13 +78,13 @@ class ReplyToEmails extends Task
                         }
                     }
 
-                    $mentionText = MENTION_TEXT;
+                    $mentionText = strtolower(MENTION_TEXT);
 
                     // we want to reply when we are mentioned or email is sent to our email address
                     if (
                         str_contains(strtolower($email_body), $mentionText) ||
                         str_contains(strtolower($subject), $mentionText) ||
-                        $toEmail === 'mr-x@eteamid.com'
+                        $toEmail === self::MRX_EMAIL_ADDRESS
                     ) {
 
                         $prompt = <<<PROMPT
@@ -122,7 +126,8 @@ class ReplyToEmails extends Task
                         }
 
                         try {
-                            $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
+                            
+                            $subject = 'Re: ' . $subject;
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
