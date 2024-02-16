@@ -49,12 +49,19 @@ function logMessage($message, $type = 'info', $logFile = 'application.log')
 
     $filePath = $rootFolder . DIRECTORY_SEPARATOR . $logFile;
 
-    // Open the file depending on its size: 'w' mode if it's larger than 1MB, 'a+' otherwise
-    if (file_exists($filePath) && filesize($filePath) > 1048576) {
-        $fileHandle = fopen($filePath, 'w');
-    } else {
-        $fileHandle = fopen($filePath, 'a+');
+    // Check if file exists and delete it if it has more than 100 entries
+    if (file_exists($filePath)) {
+        $lineCount = count(file($filePath)); // Count the number of lines in the file
+        if ($lineCount > 100) {
+            @unlink($filePath); // Delete the file if more than 100 entries
+            logMessage($message, $type);
+            return;
+        }
     }
+
+    // Open the file depending on its size: 'w' mode if it's larger than 1MB, 'a+' otherwise
+    // Note: The logic to open in 'w' mode if larger than 1MB is removed, as it's conflicting with the requirement to delete based on line count.
+    $fileHandle = fopen($filePath, 'a+');
 
     if ($fileHandle === false) {
         // Unable to open the file, possibly due to permissions or other errors

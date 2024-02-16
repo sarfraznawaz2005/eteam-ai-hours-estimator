@@ -110,7 +110,7 @@ class BasecampClassicAPI
 
     public static function getAllProjects(): array
     {
-        $storage = new DateBasedStorage('basecamp_projects');
+        $storage = new DateTimeBasedStorage('basecamp_projects');
 
         $data = $storage->read();
 
@@ -150,7 +150,7 @@ class BasecampClassicAPI
 
     public static function getAllUsers(array $excludedUserIds = []): array
     {
-        $storage = new DateBasedStorage('basecamp_users');
+        $storage = new DateTimeBasedStorage('basecamp_users');
 
         $data = $storage->read();
 
@@ -200,6 +200,15 @@ class BasecampClassicAPI
     // returns 25 most recent messages by default
     public static function getAllMessages($projectId): array
     {
+        $storage = new DateTimeBasedStorage('basecamp_messages', 'time', 5);
+
+        $data = $storage->read();
+
+        if ($data) {
+            logMessage("basecamp_messages:reading from saved file.");
+            return $data;
+        }
+
         $finalData = [];
 
         $data = static::getInfo("/projects/$projectId/posts.xml");
@@ -241,11 +250,22 @@ class BasecampClassicAPI
 
         }
 
+        $storage->save($finalData);
+
         return $finalData;
     }
 
     public static function getAllComments($postId): array
     {
+        $storage = new DateTimeBasedStorage('basecamp_comments', 'time', 5);
+
+        $data = $storage->read();
+
+        if ($data) {
+            logMessage("basecamp_comments:reading from saved file.");
+            return $data;
+        }
+
         $finalData = [];
 
         $data = static::getInfo("/posts/$postId/comments.xml");
@@ -285,11 +305,22 @@ class BasecampClassicAPI
 
         }
 
+        $storage->save($finalData);
+
         return $finalData;
     }
 
     public static function getAllMessagesForAllProjectsParallel(): array
     {
+        $storage = new DateTimeBasedStorage('basecamp_messages_all_projects', 'time', 5);
+
+        $data = $storage->read();
+
+        if ($data) {
+            logMessage("basecamp_messages_all_projects:reading from saved file.");
+            return $data;
+        }
+
         $multiHandle = curl_multi_init();
         $curlHandles = [];
         $responses = [];
@@ -359,7 +390,7 @@ class BasecampClassicAPI
                 uasort($projectMessages, function ($a, $b) {
                     return $b['id'] - $a['id']; // Sort by id descending
                 });
-                
+
             } else if (isset($data['id'])) {
                 $projectMessages[$data['id']] = [
                     'id' => $data['id'],
@@ -374,11 +405,22 @@ class BasecampClassicAPI
             $finalData[$projectId] = $projectMessages;
         }
 
+        $storage->save($finalData);
+
         return $finalData;
     }
 
     public static function getAllCommentsForAllPostsForAllProjectsParallel(): array
     {
+        $storage = new DateTimeBasedStorage('basecamp_comments_all_projects', 'time', 5);
+
+        $data = $storage->read();
+
+        if ($data) {
+            logMessage("basecamp_comments_all_projects:reading from saved file.");
+            return $data;
+        }
+
         $allPosts = static::getAllMessagesForAllProjectsParallel();
 
         $projectPosts = [];
@@ -453,6 +495,8 @@ class BasecampClassicAPI
         }
 
         curl_multi_close($multiHandle);
+
+        $storage->save($finalCommentsData);
 
         return $finalCommentsData;
     }

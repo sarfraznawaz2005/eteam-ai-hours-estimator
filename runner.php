@@ -6,6 +6,7 @@
 /**
  * TODOs
  * python
+ * integrate in IDE, understand codebase
  * Google Sheet Attendence Marker
  * whatsapp
  * give reply to basecamp url ???

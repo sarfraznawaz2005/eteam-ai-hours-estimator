@@ -74,7 +74,7 @@ class PostWorkPlan extends Task
                     - Code Reviews<br>
                     - Email Communication<br>
                     - Basecamp Communication<br>
-                    - Send Customer Reminders<br>
+                    - Basecamp Customer Reply Reminders<br>
                     - Provide AI Tools Services<br>
                     - Coordinate with Team<br>
                     - etc
