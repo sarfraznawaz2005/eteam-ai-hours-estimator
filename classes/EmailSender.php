@@ -11,7 +11,7 @@ class EmailSender
     private static $port = 465;
     private static $secure = 'ssl'; // Use 'tls' if required
 
-    public static function sendEmail(string $toEmail, string $toName, string $subject, string $body, array $ccs = [])
+    public static function sendEmail(string $toEmail, string $toName, string $subject, string $body, array $ccs = [], array $bcc = [])
     {
         $mail = new PHPMailer(true);
 
@@ -31,6 +31,12 @@ class EmailSender
 
             foreach ($ccs as $cc) {
                 $mail->addCC($cc);
+            }
+
+            if (!empty($bccs)) {
+                foreach ($bccs as $bcc) {
+                    $mail->addBCC($bcc);
+                }
             }
 
             // Content

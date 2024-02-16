@@ -121,7 +121,7 @@ class ReplyToEmails extends Task
                             $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
 
                             if (!str_contains(strtolower($response), 'no response')) {
-                                $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails);
+                                $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
                                 if ($emailSent) {
                                     logMessage(__CLASS__ . " : Email has been sent: {$subject}", 'success');
