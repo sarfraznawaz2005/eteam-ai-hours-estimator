@@ -262,7 +262,7 @@ class BasecampClassicAPI
         $data = $storage->read();
 
         if ($data) {
-            logMessage('reading saved messages');
+            logMessage('reading saved comments');
             return $data;
         }
 
