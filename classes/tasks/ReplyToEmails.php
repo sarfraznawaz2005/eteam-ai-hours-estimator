@@ -121,6 +121,7 @@ class ReplyToEmails extends Task
 
                             ---
 
+                            [ignore below text]
                             **Original Message:**
                             $originalMessage
 
