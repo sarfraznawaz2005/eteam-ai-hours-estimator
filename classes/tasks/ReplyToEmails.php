@@ -101,8 +101,6 @@ class ReplyToEmails extends Task
 
                             [Your reply to $email_body goes here]
 
-                            [ignore below text]
-
                             _Thanks_
 
                             ---
