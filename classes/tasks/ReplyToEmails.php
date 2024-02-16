@@ -136,10 +136,16 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
-                                //$originalMessage = strip_tags($email_body);
+                                $originalMessage = htmlentities($email_body, ENT_QUOTES, 'UTF-8');
 
+                                // Prepare the email content with the response and the original message
                                 $response .= <<<original
-                                $email_body
+                                
+                                ---
+                                
+                                Original Message:
+                                
+                                $originalMessage
                                 original;
 
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
