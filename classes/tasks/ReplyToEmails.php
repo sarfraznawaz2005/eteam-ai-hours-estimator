@@ -88,7 +88,7 @@ class ReplyToEmails extends Task
 
                             Dear $fromName,
 
-                            [Your reply to $email_body goes here]
+                            [Your reply to "$email_body" goes here]
 
                             _Thanks_
 
@@ -110,7 +110,7 @@ class ReplyToEmails extends Task
 
                             _Original Message_
 
-                            _{$email_body}_
+                            _["$email_body" goes here. use plain text instead of html or special characters.]_
                         PROMPT;
 
                         GoogleAI::setPrompt($prompt);
