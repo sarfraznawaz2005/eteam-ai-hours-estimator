@@ -86,14 +86,11 @@ class ReplyToEmails extends Task
 
                             Use following format for reply:
 
-                                Dear $fromName,
+                            Dear $fromName,
 
-                                [Your reply to $email_body goes here]
+                            [Your reply to $email_body goes here]
 
-                                _Thanks_
-
-                                Original Message:
-                                _{$email_body}_
+                            _Thanks_
 
                             ---
 
@@ -108,6 +105,11 @@ class ReplyToEmails extends Task
                             Karachi-75400,
                             Pakistan.
                             Phone: +(9221) 37120414
+
+                            ---
+
+                            _Original Message:_
+                            _{$email_body}_
 
                         PROMPT;
 
