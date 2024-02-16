@@ -116,7 +116,7 @@ class ReplyToEmails extends Task
 
                         GoogleAI::setPrompt($prompt);
 
-                        $response = GoogleAI::GenerateContentWithRetry();
+                        $response = GoogleAI::GenerateContentWithRetry(false);
 
                         // if there is nothing to reply, don't do anything
                         if (strtolower($response) === 'ok') {
