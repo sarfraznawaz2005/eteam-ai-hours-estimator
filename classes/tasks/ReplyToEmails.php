@@ -71,19 +71,6 @@ class ReplyToEmails extends Task
 
                     $mentionText = MENTION_TEXT;
 
-                    Parsedown::instance()->setSafeMode(false);
-                    Parsedown::instance()->setBreaksEnabled(true);
-                    Parsedown::instance()->setMarkupEscaped(false);
-                    Parsedown::instance()->setUrlsLinked(true);
-
-                    $signaturePosition = strpos($email_body, 'Mr-X');
-
-                    if ($signaturePosition !== false) {
-                        $email_body = substr($email_body, 0, $signaturePosition);
-                    }
-
-                    $originalMessage = Parsedown::instance()->text($email_body);
-
                     // we want to reply when we are mentioned or email is sent to our email address
                     if (
                         str_contains(strtolower($email_body), $mentionText) ||
@@ -99,11 +86,11 @@ class ReplyToEmails extends Task
 
                             Use following format for reply:
 
+                            [quote original message here without any signatures]
+
                             Dear $fromName,
 
                             [Your reply to $email_body goes here]
-
-                            [ignore below text]
 
                             _Thanks_
 
@@ -135,21 +122,6 @@ class ReplyToEmails extends Task
                             $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
 
                             if (!str_contains(strtolower($response), 'no response')) {
-
-                                $decodedEmailBody = quoted_printable_decode($email_body);
-                                $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
-
-                                // Prepare the email content with the response and the original message
-                                $response .= <<<original
-                                <br>
-                                ---
-                                <br>
-                                <i>
-                                Original Message:
-                                <br>
-                                $decodedEmailBody
-                                </i>
-                                original;
 
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
