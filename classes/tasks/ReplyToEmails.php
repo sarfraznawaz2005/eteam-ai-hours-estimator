@@ -88,7 +88,9 @@ class ReplyToEmails extends Task
 
                             Dear $fromName,
 
-                            [Your reply to "$email_body" goes here]
+                            [Your reply to $email_body goes here]
+
+                            [ignore below text]
 
                             _Thanks_
 
@@ -105,12 +107,6 @@ class ReplyToEmails extends Task
                             Karachi-75400,
                             Pakistan.
                             Phone: +(9221) 37120414
-
-                            ---
-
-                            _Original Message_
-
-                            _["$email_body" goes here. use plain text instead of html or special characters.]_
                         PROMPT;
 
                         GoogleAI::setPrompt($prompt);
@@ -126,6 +122,8 @@ class ReplyToEmails extends Task
                             $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
 
                             if (!str_contains(strtolower($response), 'no response')) {
+
+                              
 
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
