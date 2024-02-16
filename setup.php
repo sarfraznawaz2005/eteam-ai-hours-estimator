@@ -181,7 +181,7 @@ function retry(callable $callable, int $maxAttempts = 3)
     for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
         try {
             call_user_func($callable);
-            return; // Exit the function on success
+            exit(1); // Exit the function on success
         } catch (Exception $e) {
             if ($attempt === $maxAttempts) {
                 logMessage("Error : " . $e->getMessage(), 'danger');
