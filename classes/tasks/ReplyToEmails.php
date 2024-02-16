@@ -14,13 +14,13 @@ class ReplyToEmails extends Task
             exit(1);
         }
 
-        try {
+        // IMAP connection details
+        //$hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // this was giving certificate error online
+        $hostname = '{imap.eteamid.com:993/imap/ssl/novalidate-cert}';
+        $username = 'mr-x@eteamid.com';
+        $password = '8gxe#71b`GIb';
 
-            // IMAP connection details
-            //$hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // this was giving certificate error online
-            $hostname = '{imap.eteamid.com:993/imap/ssl/novalidate-cert}';
-            $username = 'mr-x@eteamid.com';
-            $password = '8gxe#71b`GIb';
+        retry(function () use ($hostname, $username, $password) {
 
             // Connect to the mailbox
             $inbox = imap_open($hostname, $username, $password);
@@ -143,9 +143,7 @@ class ReplyToEmails extends Task
 
             imap_close($inbox);
 
-        } catch (\Exception $e) {
-            logMessage(__CLASS__ . " : Error : " . $e->getMessage() . "", 'danger');
-        }
+        }, 2);
 
     }
 }

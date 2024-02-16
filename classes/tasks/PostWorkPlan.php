@@ -70,11 +70,11 @@ class PostWorkPlan extends Task
                     $message = <<<message
                     AOA,<br><br>
 
-                    - Post Project Ideas<br>
+                    - Give Project Ideas<br>
                     - Code Reviews<br>
                     - Email Communication<br>
                     - Basecamp Communication<br>
-                    - Send BaseCamp Customer Reminders<br>
+                    - Send Customer Reminders<br>
                     - Provide AI Tools Services<br>
                     - Coordinate with Team<br>
                     - etc
