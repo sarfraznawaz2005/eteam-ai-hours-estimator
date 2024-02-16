@@ -120,12 +120,6 @@ class ReplyToEmails extends Task
                             Karachi-75400,
                             Pakistan.
                             Phone: +(9221) 37120414
-
-                            ---
-                            
-                            **Original Message:**
-                            $originalMessage
-
                         PROMPT;
 
                         GoogleAI::setPrompt($prompt);
@@ -141,6 +135,15 @@ class ReplyToEmails extends Task
                             $subject = 'Re: ' . imap_headerinfo($inbox, $email_number)->subject;
 
                             if (!str_contains(strtolower($response), 'no response')) {
+
+                                $response .= <<<original
+
+                                ---
+
+                                **Original Message:**
+                                <i>$email_body</i>
+                                original;
+
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
                                 if ($emailSent) {
