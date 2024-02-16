@@ -90,9 +90,6 @@ class ReplyToEmails extends Task
 
                             [Your reply to $email_body goes here]
 
-                            **Original Message**
-                            _[quote original message here without any signatures]_
-
                             _Thanks_
 
                             ---
@@ -108,6 +105,12 @@ class ReplyToEmails extends Task
                             Karachi-75400,
                             Pakistan.
                             Phone: +(9221) 37120414
+
+                            ---
+
+                            _Original Message_
+
+                            _[quote original message here without sender signature, original message is "$email_body"]_
                         PROMPT;
 
                         GoogleAI::setPrompt($prompt);
