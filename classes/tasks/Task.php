@@ -53,7 +53,7 @@ abstract class Task
 
         //////////////////////////////////
         // delete older records
-        $sql = "DELETE FROM activities WHERE activity_id = '$activityId' AND description = '$description' AND DATE(created_at) < DATE(NOW() - INTERVAL 1 DAY)";
+        $sql = "DELETE FROM activities WHERE activity_id = '$activityId' AND description = '$description' AND DATE(created_at) < DATE(NOW() - INTERVAL 10 DAY)";
         $DB->executeQuery($sql);
         //////////////////////////////////
 
