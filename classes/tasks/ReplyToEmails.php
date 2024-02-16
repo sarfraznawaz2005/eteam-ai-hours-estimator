@@ -108,8 +108,9 @@ class ReplyToEmails extends Task
 
                             ---
 
-                            _Original Message:_
+                            <i>Original Message:
                             $email_body
+                            </i>
 
                         PROMPT;
 
