@@ -137,13 +137,14 @@ class ReplyToEmails extends Task
                             if (!str_contains(strtolower($response), 'no response')) {
 
                                 $decodedEmailBody = quoted_printable_decode($email_body);
+                                $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
 
                                 // Prepare the email content with the response and the original message
                                 $response .= <<<original
-                                
+                                <br>
                                 ---
-                                
-                                Original Message:
+                                <br>
+                                <i>Original Message:</i>
                                 
                                 $decodedEmailBody
                                 original;
