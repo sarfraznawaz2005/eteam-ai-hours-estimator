@@ -66,6 +66,12 @@ class ReplyToEmails extends Task
                         continue;
                     }
 
+                    // do not reply in this case otherwise due to strange reasons
+                    // mr-x keeps on repliying
+                    if (str_contains(strtolower($subject), 're:')) {
+                        continue;
+                    }
+
                     // Include CC recipients in the reply
                     $ccEmails = [];
                     if (isset($header->cc) && is_array($header->cc)) {
@@ -87,8 +93,7 @@ class ReplyToEmails extends Task
                             \n\n
 
                             You are helpful assistant tasked with replying emails in a polite and professional manner. When someone mentions you
-                            by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner. If
-                            there is nothing to reply or reply emails are missing then just reply with "OK" and ignore further instructions.
+                            by "@mrx", your job then is to see contents of email and reply in detail with clear and easy to understand manner.
 
                             Use following format for reply:
 
@@ -120,7 +125,7 @@ class ReplyToEmails extends Task
                         $response = GoogleAI::GenerateContentWithRetry();
 
                         // if there is nothing to reply, don't do anything
-                        if (strtolower(trim(strip_tags($response))) === 'ok') {
+                        if (strtolower($response) === 'ok') {
                             continue;
                         }
 
@@ -129,7 +134,8 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
-                                $emailBody = Parsedown::instance()->parse($email_body);
+                                $decodedEmailBody = quoted_printable_decode($email_body);
+                                $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
 
                                 // Prepare the email content with the response and the original message
                                 $response .= <<<original
@@ -139,7 +145,7 @@ class ReplyToEmails extends Task
                                 <i>
                                 Original Message:
                                 <br>
-                                $emailBody
+                                $decodedEmailBody
                                 </i>
                                 original;
 
