@@ -6,11 +6,6 @@ class RemindBaseCampCustomers extends Task
     {
         //logMessage('Running: ' . __CLASS__);
 
-        if (DEMO_MODE) {
-            logMessage('DEMO_MODE: ' . __CLASS__);
-            return;
-        }
-
         if (static::isAlreadyRunning()) {
             exit(1);
         }
