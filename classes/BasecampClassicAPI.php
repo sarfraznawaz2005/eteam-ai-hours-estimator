@@ -256,7 +256,7 @@ class BasecampClassicAPI
 
     public static function getAllComments($postId): array
     {
-        $storage = new DateTimeBasedStorage(__FUNCTION__ . '_' . $postId, 'time', 5);
+        $storage = new DateTimeBasedStorage('getAllComments_' . $postId, 'time', 5);
 
         $data = $storage->read();
 
