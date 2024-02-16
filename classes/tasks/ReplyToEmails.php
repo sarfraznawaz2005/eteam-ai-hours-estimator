@@ -43,7 +43,7 @@ class ReplyToEmails extends Task
 
                 foreach ($emails as $email_number) {
 
-                    sleep(3);
+                    sleep(1);
 
                     // Fetch full header information
                     $header = imap_headerinfo($inbox, $email_number);
