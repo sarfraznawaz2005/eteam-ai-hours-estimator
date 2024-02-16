@@ -133,14 +133,21 @@ class DateTimeBasedStorage
     // Saves data to file
     public function save($data)
     {
+        if (!$data) {
+            return;
+        }
+
         if (!isset($this->filePath)) {
             throw new Exception("File prefix is not set.");
         }
 
-        // Convert SimpleXMLElement to array before serialization
-        $data = $this->convertSimpleXMLElementToArray($data);
+        // Convert data to JSON before saving, using JSON_PRETTY_PRINT for readability
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
 
-        $serializedData = serialize($data);
+        if ($jsonData === false) {
+            throw new Exception("Failed to convert data to JSON.");
+        }
+
         $file = fopen($this->filePath, 'c');
 
         if (!$file || !flock($file, LOCK_EX)) {
@@ -148,7 +155,7 @@ class DateTimeBasedStorage
         }
 
         ftruncate($file, 0); // Clear the file content
-        fwrite($file, $serializedData);
+        fwrite($file, $jsonData);
         fflush($file); // Flush output before releasing the lock
         flock($file, LOCK_UN); // Release the lock
         fclose($file);
@@ -164,16 +171,15 @@ class DateTimeBasedStorage
                 throw new Exception("Failed to lock file for reading: " . $this->filePath);
             }
 
-            $serializedData = stream_get_contents($file);
+            $jsonData = stream_get_contents($file);
 
             flock($file, LOCK_UN);
             fclose($file);
 
-            $data = unserialize($serializedData);
-
-            // Convert array back to SimpleXMLElement if needed
-            // Note: This step depends on your specific use case
-            $data = $this->convertArrayToSimpleXMLElement($data);
+            $data = json_decode($jsonData, true); // Decode as associative array
+            if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception("Failed to decode JSON data.");
+            }
 
             return $data;
         }

@@ -153,10 +153,9 @@ function runTasksParallel(array $tasks)
         } else {
             // Child process
             try {
-                $task = new $taskClass();
-                $task->execute();
+                $taskClass::execute();
             } catch (Exception $e) {
-                logMessage('Task execution failed: ' . $e->getMessage(), 'danger');
+                logMessage($taskClass . ' - execution failed: ' . $e->getMessage(), 'danger');
             }
 
             exit(0);
