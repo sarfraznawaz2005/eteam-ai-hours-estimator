@@ -69,7 +69,7 @@ class ReplyToEmails extends Task
                     // do not reply in this case otherwise due to strange reasons
                     // mr-x keeps on repliying
                     if (str_contains(strtolower($subject), 're:')) {
-                        continue;
+                        //continue;
                     }
 
                     // Include CC recipients in the reply
@@ -132,6 +132,7 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
+                                /*
                                 $decodedEmailBody = quoted_printable_decode($email_body);
                                 $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
 
@@ -146,6 +147,7 @@ class ReplyToEmails extends Task
                                 $decodedEmailBody
                                 </i>
                                 original;
+                                 */
 
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
