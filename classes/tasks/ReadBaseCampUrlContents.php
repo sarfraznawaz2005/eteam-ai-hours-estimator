@@ -30,7 +30,7 @@ class ReadBaseCampUrlContents extends Task
                 echo "Error or element with ID 'OriginalPost' not found.";
             }
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
 

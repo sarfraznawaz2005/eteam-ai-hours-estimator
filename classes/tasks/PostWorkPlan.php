@@ -2,7 +2,7 @@
 
 class PostWorkPlan extends Task
 {
-    protected static $totalNewPostsToFetch = 1;
+    protected static int $totalNewPostsToFetch = 1;
 
     public static function execute()
     {
@@ -24,7 +24,7 @@ class PostWorkPlan extends Task
         $eteamMiscProjectMessages = BasecampClassicAPI::getAllMessages($eteamMiscTasksProjectId);
         //dd($eteamMiscProjectMessages);
 
-        if (is_array($eteamMiscProjectMessages) && $eteamMiscProjectMessages) {
+        if ($eteamMiscProjectMessages) {
 
             $DB = new DB();
 
@@ -41,7 +41,7 @@ class PostWorkPlan extends Task
             );
 
             $lastAddedIdsDB = $lastAddedIdsDB ?: [];
-            
+
             $lastAddedIdsDB = array_map(function ($item) {
                 return intval($item['activity_id'] ?? '0');
             }, $lastAddedIdsDB);

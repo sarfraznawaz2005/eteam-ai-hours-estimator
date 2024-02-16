@@ -4,7 +4,7 @@ class ReplyToEmails extends Task
 {
     const MRX_EMAIL_ADDRESS = 'mr-x@eteamid.com';
 
-    private static $excludedEmails = [
+    private static array $excludedEmails = [
         'notifications@eteamid.basecamphq.com',
     ];
 
@@ -16,13 +16,12 @@ class ReplyToEmails extends Task
             exit(1);
         }
 
-        // IMAP connection details
-        //$hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // this was giving certificate error online
-        $hostname = '{imap.eteamid.com:993/imap/ssl/novalidate-cert}';
-        $username = self::MRX_EMAIL_ADDRESS;
-        $password = '8gxe#71b`GIb';
+        retry(function () {
+            $password = '8gxe#71b`GIb';
+            $username = self::MRX_EMAIL_ADDRESS;
 
-        retry(function () use ($hostname, $username, $password) {
+            //$hostname = '{imap.eteamid.com:993/imap/ssl}INBOX'; // this was giving certificate error online
+            $hostname = '{imap.eteamid.com:993/imap/ssl/novalidate-cert}';
 
             // Connect to the mailbox
             $inbox = imap_open($hostname, $username, $password);
@@ -56,7 +55,7 @@ class ReplyToEmails extends Task
 
                     $toEmail = $header->to[0]->mailbox . "@" . $header->to[0]->host;
                     $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
-                    $fromName = isset($header->from[0]->personal) ? $header->from[0]->personal : $fromEmail;
+                    $fromName = $header->from[0]->personal ?? $fromEmail;
 
                     // do not reply to excluded sender emails
                     if (in_array($fromEmail, static::$excludedEmails, true)) {
@@ -126,7 +125,7 @@ class ReplyToEmails extends Task
                         }
 
                         try {
-                            
+
                             $subject = 'Re: ' . $subject;
 
                             if (!str_contains(strtolower($response), 'no response')) {

@@ -45,7 +45,7 @@ class ReplyToBaseCampComments extends Task
                         );
 
                         $lastAddedIdsDB = $lastAddedIdsDB ?: [];
-                        
+
                         $lastAddedIdsDB = array_map(function ($item) {
                             return intval($item['activity_id'] ?? '0');
                         }, $lastAddedIdsDB);
@@ -70,7 +70,7 @@ class ReplyToBaseCampComments extends Task
                             }
 
                             // do not reply to self
-                            if ((string) $authorId === BasecampClassicAPI::$userId) {
+                            if ((string)$authorId === BasecampClassicAPI::$userId) {
                                 continue;
                             }
 

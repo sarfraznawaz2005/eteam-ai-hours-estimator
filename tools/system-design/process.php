@@ -51,7 +51,7 @@ PROMPT;
 
         $response .= GoogleAI::GenerateContentWithRetry();
 
-        echo json_encode(['result' =>  $response]);
+        echo json_encode(['result' => $response]);
         http_response_code(200); // OK
 
     } catch (Exception $e) {

@@ -2,12 +2,15 @@
 
 class DateTimeBasedStorage
 {
-    private $prefix;
-    private $filePath;
-    private $directory = 'tmp_data';
-    private $mode; // 'date' or 'time'
-    private $timeInterval; // Time interval in minutes for time mode
+    private string $prefix;
+    private string $filePath;
+    private string $directory = 'tmp_data';
+    private string $mode; // 'date' or 'time'
+    private int $timeInterval; // Time interval in minutes for time mode
 
+    /**
+     * @throws Exception
+     */
     public function __construct($prefix, $mode = 'date', $timeInterval = 5)
     {
         $this->prefix = $prefix;
@@ -25,7 +28,7 @@ class DateTimeBasedStorage
         if (!in_array($this->mode, ['date', 'time'])) {
             throw new Exception("Invalid mode specified. Use 'date' or 'time'.");
         }
-        if ($this->mode === 'time' && ($this->timeInterval === null || $this->timeInterval < 0)) {
+        if ($this->mode === 'time' && (!$this->timeInterval)) {
             throw new Exception("Time mode requires a valid time interval in minutes.");
         }
     }
@@ -53,7 +56,7 @@ class DateTimeBasedStorage
         if ($this->mode === 'date') {
             // In date mode, we only care if there's a file for today, regardless of the time
             foreach ($directoryFiles as $file) {
-                if (strpos($file, $currentDateTime) !== false) {
+                if (str_contains($file, $currentDateTime)) {
                     // A file for today exists, so use it
                     $this->filePath = $file;
                     return;
@@ -131,6 +134,10 @@ class DateTimeBasedStorage
     }
 
     // Saves data to file
+
+    /**
+     * @throws Exception
+     */
     public function save($data)
     {
         if (!$data) {
@@ -199,27 +206,5 @@ class DateTimeBasedStorage
         if (isset($this->filePath) && file_exists($this->filePath)) {
             @unlink($this->filePath);
         }
-    }
-
-    // Helper method to convert SimpleXMLElement objects to arrays before serialization
-    private function convertSimpleXMLElementToArray($data)
-    {
-        if ($data instanceof SimpleXMLElement) {
-            $data = (array) $data; // Convert SimpleXMLElement to array
-        } elseif (is_array($data)) {
-            foreach ($data as &$value) {
-                $value = $this->convertSimpleXMLElementToArray($value);
-            }
-        }
-        return $data;
-    }
-
-    // Helper method to potentially convert back to SimpleXMLElement after deserialization
-    // Note: Implementing the reverse conversion depends on your specific needs and might not be straightforward
-    // This is a placeholder to highlight the concept
-    private function convertArrayToSimpleXMLElement($data)
-    {
-        // Conversion logic here, depending on your specific requirements
-        return $data;
     }
 }

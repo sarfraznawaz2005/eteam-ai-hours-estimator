@@ -35,7 +35,7 @@ PROMPT;
         if (!empty($niche)) {
             GoogleAI::setPrompt(file_get_contents('prompt_niche.txt') . $prompt);
         } else {
-            GoogleAI::setPrompt(file_get_contents('prompt.txt'). $prompt);
+            GoogleAI::setPrompt(file_get_contents('prompt.txt') . $prompt);
         }
 
         $response = GoogleAI::GenerateContentWithRetry();

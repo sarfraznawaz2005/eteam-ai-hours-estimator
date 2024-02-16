@@ -34,7 +34,7 @@ define('CONFIG', require_once 'config.php');
 // setup our error handler to convert erros into exceptions
 set_error_handler(/**
  * @throws ErrorException
- */function ($errorNumber, $errorText, $errorFile, $errorLine) {
+ */ function ($errorNumber, $errorText, $errorFile, $errorLine) {
     throw new ErrorException($errorText, 0, $errorNumber, $errorFile, $errorLine);
 });
 
@@ -60,7 +60,8 @@ function logMessage($message, $type = 'info', $logFile = 'application.log')
     }
 
     // Open the file depending on its size: 'w' mode if it's larger than 1MB, 'a+' otherwise
-    // Note: The logic to open in 'w' mode if larger than 1MB is removed, as it's conflicting with the requirement to delete based on line count.
+    // Note: The logic to open in 'w' mode if larger than 1MB is removed, as it's conflicting
+    // with the requirement to delete based on the line count.
     $fileHandle = fopen($filePath, 'a+');
 
     if ($fileHandle === false) {

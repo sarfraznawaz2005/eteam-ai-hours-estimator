@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         http_response_code(400); // Bad Request
         exit;
     }
-    
+
     $prompt = <<<PROMPT
 \n\n
 Project Description:

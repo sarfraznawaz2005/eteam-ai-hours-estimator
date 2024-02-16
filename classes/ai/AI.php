@@ -10,7 +10,6 @@ abstract class AI
 
     public static function generateContentWithRetry(bool $useParseDown = true, $retryCount = 3, $sleepInterval = 3): string
     {
-
         //print_r(static::$prompts);
 
         do {

@@ -17,7 +17,7 @@ class RemindMyNameBaseCamp extends Task
         $allMessages = BasecampClassicAPI::getAllMessagesForAllProjectsParallel();
 
         // check in messages
-        if (is_array($allMessages) && $allMessages) {
+        if ($allMessages) {
             foreach ($allMessages as $projectId => $messages) {
                 // we get messages sorted by latest, so we only check latest message
                 if (key($messages)) {
@@ -35,11 +35,11 @@ class RemindMyNameBaseCamp extends Task
             // returns 25 most recent messages by default
             $messages = BasecampClassicAPI::getAllMessages($projectId);
 
-            if (is_array($messages) && $messages) {
+            if ($messages) {
                 foreach ($messages as $messageId => $messageDetails) {
                     $comments = BasecampClassicAPI::getAllComments($messageId);
 
-                    if (is_array($comments) && $comments) {
+                    if ($comments) {
                         $lastestComment = array_slice($comments, 0, 1, true);
                         $lastestComment = current($lastestComment) + ['key' => key($lastestComment)];
 

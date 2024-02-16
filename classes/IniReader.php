@@ -2,9 +2,9 @@
 
 class IniReader
 {
-    private static $filePath;
-    private static $data = [];
-    private static $section = 'settings'; // Default section for all operations
+    private static string $filePath;
+    private static array $data = [];
+    private static string $section = 'settings'; // Default section for all operations
 
     public static function initialize()
     {
@@ -26,7 +26,7 @@ class IniReader
                 // we want to delete these so they can run again
                 static::delete(PostWorkPlan::class);
                 static::delete(PostProjectIdea::class);
-                
+
             } else {
                 self::$data[self::$section] = [];
                 self::write(true);

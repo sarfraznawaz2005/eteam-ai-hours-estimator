@@ -97,7 +97,7 @@ class GoogleAI extends AI
                 return Parsedown::instance()->text($text);
             }
 
-            return mb_convert_encoding($text, 'UTF-8');
+            return $text;
         }
     }
 }

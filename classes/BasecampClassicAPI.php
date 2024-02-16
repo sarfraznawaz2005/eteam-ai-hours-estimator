@@ -12,15 +12,15 @@
 
 class BasecampClassicAPI
 {
-    public static $userId = '13043551';
-    private static $companyId = '732202';
-    private static $companyName = 'eteamid';
-    private static $userAPIToken = '0ddc5efa6908b0df2abd7fe68d5096fdd7d55a26';
-    private static $userEmail = 'mr-x@eteamid.com';
-    private static $eteamMiscTasksProjectName = 'ETeam Miscellaneous Tasks';
-    private static $eteamKnowledgeSharingProjectName = 'ETeam Knowledge Sharing';
+    public static string $userId = '13043551';
+    private static string $companyId = '732202';
+    private static string $companyName = 'eteamid';
+    private static string $userAPIToken = '0ddc5efa6908b0df2abd7fe68d5096fdd7d55a26';
+    private static string $userEmail = 'mr-x@eteamid.com';
+    private static string $eteamMiscTasksProjectName = 'ETeam Miscellaneous Tasks';
+    private static string $eteamKnowledgeSharingProjectName = 'ETeam Knowledge Sharing';
 
-    public static function getCurlInstance(): CurlHandle | bool
+    public static function getCurlInstance(): CurlHandle|bool
     {
         $session = curl_init();
 
@@ -35,7 +35,7 @@ class BasecampClassicAPI
         return $session;
     }
 
-    public static function getInfo($action, string $queryString = ''): array | string
+    public static function getInfo($action, string $queryString = ''): array|string
     {
         $url = 'https://' . static::$companyName . '.basecamphq.com/' . $action . '/' . $queryString;
 
@@ -48,7 +48,7 @@ class BasecampClassicAPI
         curl_close($session);
 
         @$response = simplexml_load_string($response);
-        $response = (array) $response;
+        $response = (array)$response;
 
         //$array = json_decode(json_encode($response), 1);
 
@@ -59,7 +59,7 @@ class BasecampClassicAPI
         return $response;
     }
 
-    public static function postInfo($action, $xmlData): array | bool
+    public static function postInfo($action, $xmlData): array|bool
     {
         $url = 'https://' . static::$companyName . '.basecamphq.com/' . $action;
 
@@ -79,7 +79,7 @@ class BasecampClassicAPI
         ];
     }
 
-    public static function deleteResource($action): int | bool
+    public static function deleteResource($action): int|bool
     {
         $url = 'https://' . static::$companyName . '.basecamphq.com/' . $action;
 
@@ -95,7 +95,7 @@ class BasecampClassicAPI
         return curl_getinfo($session, CURLINFO_HTTP_CODE);
     }
 
-    public static function getResourceCreatedId($content): array | string | null
+    public static function getResourceCreatedId($content): array|string|null
     {
         preg_match('#location: .+#', $content, $matches);
 
@@ -124,11 +124,11 @@ class BasecampClassicAPI
 
         if (isset($data['project'])) {
 
-            $project = (array) $data['project'];
+            $project = (array)$data['project'];
 
             if (isset($project[0])) {
                 foreach ($data['project'] as $xml) {
-                    $array = (array) $xml;
+                    $array = (array)$xml;
 
                     if (isset($array['id'], $array['company']) && $array['status'] === 'active') {
                         $finalData[$array['id']] = ucwords($array['name']);
@@ -165,13 +165,13 @@ class BasecampClassicAPI
         if (isset($data['person'])) {
 
             // for when single record is returned
-            $entry = (array) $data['person'];
+            $entry = (array)$data['person'];
 
             if (isset($entry['id'], $entry['first-name'])) {
                 $finalData[$entry['id']] = ucwords($entry['first-name']) . ' ' . ucwords($entry['last-name']);
             } else {
                 foreach ($data['person'] as $xml) {
-                    $array = (array) $xml;
+                    $array = (array)$xml;
 
                     // consider only company employees
                     if ($array['company-id'] !== static::$companyId) {
@@ -217,11 +217,11 @@ class BasecampClassicAPI
 
         if (isset($data['post'])) {
 
-            $post = (array) $data['post'];
+            $post = (array)$data['post'];
 
             if (isset($post[0])) {
                 foreach ($data['post'] as $xml) {
-                    $array = (array) $xml;
+                    $array = (array)$xml;
 
                     if (isset($array['id'])) {
                         $finalData[$array['id']] = [
@@ -277,11 +277,11 @@ class BasecampClassicAPI
 
         if (isset($data['comment'])) {
 
-            $comment = (array) $data['comment'];
+            $comment = (array)$data['comment'];
 
             if (isset($comment[0])) {
                 foreach ($data['comment'] as $xml) {
-                    $array = (array) $xml;
+                    $array = (array)$xml;
 
                     if (isset($array['id'])) {
                         $finalData[$array['id']] = [
@@ -350,7 +350,7 @@ class BasecampClassicAPI
             @$responseXml = simplexml_load_string($response);
 
             if ($responseXml) {
-                $responseArray = (array) $responseXml;
+                $responseArray = (array)$responseXml;
                 $responses[$projectId] = $responseArray['post'] ?? [];
             } else {
                 $responses[$projectId] = [];
@@ -369,7 +369,7 @@ class BasecampClassicAPI
 
             if (is_array($data)) {
                 foreach ($data as $xml) {
-                    $array = (array) $xml;
+                    $array = (array)$xml;
 
                     if (isset($array['id'])) {
                         $projectMessages[$array['id']] = [
@@ -452,7 +452,7 @@ class BasecampClassicAPI
             $comments = [];
             if ($responseXml && isset($responseXml->comment)) {
                 foreach ($responseXml->comment as $comment) {
-                    $array = (array) $comment;
+                    $array = (array)$comment;
 
                     $comments[$array['id']] = [
                         'id' => $array['id'],
