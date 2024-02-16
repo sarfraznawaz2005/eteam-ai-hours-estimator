@@ -110,7 +110,7 @@ class BasecampClassicAPI
 
     public static function getAllProjects(): array
     {
-        $storage = new DateTimeBasedStorage('basecamp_projects');
+        $storage = new DateTimeBasedStorage(__FUNCTION__);
 
         $data = $storage->read();
 
@@ -150,7 +150,7 @@ class BasecampClassicAPI
 
     public static function getAllUsers(array $excludedUserIds = []): array
     {
-        $storage = new DateTimeBasedStorage('basecamp_users');
+        $storage = new DateTimeBasedStorage(__FUNCTION__);
 
         $data = $storage->read();
 
@@ -200,12 +200,11 @@ class BasecampClassicAPI
     // returns 25 most recent messages by default
     public static function getAllMessages($projectId): array
     {
-        $storage = new DateTimeBasedStorage('basecamp_messages', 'time', 5);
+        $storage = new DateTimeBasedStorage(__FUNCTION__ . '_' . $projectId, 'time', 5);
 
         $data = $storage->read();
 
         if ($data) {
-            logMessage("basecamp_messages:reading from saved file.");
             return $data;
         }
 
@@ -257,12 +256,11 @@ class BasecampClassicAPI
 
     public static function getAllComments($postId): array
     {
-        $storage = new DateTimeBasedStorage('basecamp_comments', 'time', 5);
+        $storage = new DateTimeBasedStorage(__FUNCTION__ . '_' . $postId, 'time', 5);
 
         $data = $storage->read();
 
         if ($data) {
-            logMessage("basecamp_comments:reading from saved file.");
             return $data;
         }
 
@@ -312,12 +310,11 @@ class BasecampClassicAPI
 
     public static function getAllMessagesForAllProjectsParallel(): array
     {
-        $storage = new DateTimeBasedStorage('basecamp_messages_all_projects', 'time', 5);
+        $storage = new DateTimeBasedStorage(__FUNCTION__, 'time', 5);
 
         $data = $storage->read();
 
         if ($data) {
-            logMessage("basecamp_messages_all_projects:reading from saved file.");
             return $data;
         }
 
@@ -412,12 +409,11 @@ class BasecampClassicAPI
 
     public static function getAllCommentsForAllPostsForAllProjectsParallel(): array
     {
-        $storage = new DateTimeBasedStorage('basecamp_comments_all_projects', 'time', 5);
+        $storage = new DateTimeBasedStorage(__FUNCTION__, 'time', 5);
 
         $data = $storage->read();
 
         if ($data) {
-            logMessage("basecamp_comments_all_projects:reading from saved file.");
             return $data;
         }
 
