@@ -110,7 +110,7 @@ class ReplyToEmails extends Task
 
                             _Original Message_
 
-                            _[quote original message here without sender signature, original message is "$email_body"]_
+                            _[quote original message here without sender signature instead of this text, original message is "$email_body". use plain text instead of html or special characters.]_
                         PROMPT;
 
                         GoogleAI::setPrompt($prompt);
