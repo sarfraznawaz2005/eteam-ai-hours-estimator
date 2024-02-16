@@ -129,29 +129,44 @@ Phone: +(9221) 37120414
 body;
 }
 
-function runTasksParallel(array $tasks)
+function runTasksParallel(array $tasks, $maxConcurrentTasks = 10)
 {
     $children = [];
+    $taskQueue = $tasks;
+    $concurrentTasks = 0;
 
-    foreach ($tasks as $taskClass) {
-        $pid = pcntl_fork();
+    while (!empty($taskQueue) || !empty($children)) {
+        // Fork new tasks as long as we haven't reached the limit
+        while ($concurrentTasks < $maxConcurrentTasks && !empty($taskQueue)) {
+            $taskClass = array_shift($taskQueue); // Get the next task
+            $pid = pcntl_fork();
 
-        if ($pid == -1) {
-            die('Could not fork');
-        } else if ($pid) {
-            // parent process
-            $children[] = $pid;
-        } else {
-            // child process
-            $task = new $taskClass();
-            $task->execute();
-            exit(0);
+            if ($pid == -1) {
+                die('Could not fork');
+            } else if ($pid) {
+                // Parent process
+                $children[$pid] = true;
+                $concurrentTasks++;
+            } else {
+                // Child process
+                $task = new $taskClass();
+                $task->execute();
+                exit(0);
+            }
         }
-    }
 
-    // Wait for all child processes to finish
-    foreach ($children as $child) {
-        pcntl_waitpid($child, $status);
+        // Check for any child processes that have exited
+        foreach ($children as $pid => $status) {
+            $res = pcntl_waitpid($pid, $status, WNOHANG);
+            if ($res == -1 || $res > 0) {
+                // Child has exited, remove from the list
+                unset($children[$pid]);
+                $concurrentTasks--;
+            }
+        }
+
+        // Prevent tight loop: sleep for a bit to reduce CPU usage
+        usleep(100000); // sleep for 0.1 seconds
     }
 }
 
