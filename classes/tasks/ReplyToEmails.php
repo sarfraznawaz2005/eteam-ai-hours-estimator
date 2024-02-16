@@ -139,12 +139,7 @@ class ReplyToEmails extends Task
                                 //$originalMessage = strip_tags($email_body);
 
                                 $response .= <<<original
-                                <br><br>
-                                ---
-                                <br><br>
-                                Original Message:
-                                ---
-                                <i>$originalMessage</i>
+                                $email_body
                                 original;
 
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
