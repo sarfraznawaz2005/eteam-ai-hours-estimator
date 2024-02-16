@@ -76,7 +76,6 @@ class ReplyToEmails extends Task
                     Parsedown::instance()->setMarkupEscaped(false);
                     Parsedown::instance()->setUrlsLinked(true);
 
-                    /*
                     $signaturePosition = strpos($email_body, 'Mr-X');
 
                     if ($signaturePosition !== false) {
@@ -84,7 +83,6 @@ class ReplyToEmails extends Task
                     }
 
                     $originalMessage = Parsedown::instance()->text($email_body);
-                    */
 
                     // we want to reply when we are mentioned or email is sent to our email address
                     if (
@@ -138,7 +136,7 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
-                                $originalMessage = strip_tags($email_body);
+                                //$originalMessage = strip_tags($email_body);
 
                                 $response .= <<<original
                                 <br><br>
