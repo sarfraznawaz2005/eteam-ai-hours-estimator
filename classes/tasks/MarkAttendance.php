@@ -4,7 +4,7 @@ class MarkAttendance extends Task
 {
     const SPREAD_SHEET_ID = '10Za5gH9C5QkxxuAKTRhSItwXaC7L1Qblb564_HumNNk';
 
-    protected static int $totalNewPostsToFetch = 25;
+    protected static int $totalNewPostsToFetch = 1; // since we check only latest single post
 
     public static function execute()
     {
@@ -38,7 +38,7 @@ class MarkAttendance extends Task
             //////////////////////////////////
 
             $lastAddedIdsDB = $DB->get(
-                "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
+                "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 50",
                 [':description' => strtolower(__CLASS__)]
             );
 
@@ -52,16 +52,6 @@ class MarkAttendance extends Task
             $messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
 
             foreach ($messages as $messageId => $messageDetails) {
-
-                if (in_array($messageId, $lastAddedIdsDB, true)) {
-                    continue;
-                }
-
-                // do not count mr-x
-                if (BasecampClassicAPI::$userId == $messageDetails['author-id']) {
-                    continue;
-                }
-
                 $messageTitle = $messageDetails['title'];
 
                 if (
@@ -69,75 +59,111 @@ class MarkAttendance extends Task
                     str_starts_with(strtolower(trim($messageTitle)), 'work plan')
                 ) {
 
-                    $messageAuthorName = $messageDetails['author-name'];
-
-                    if (DEMO_MODE) {
-                        logMessage('DEMO_MODE: ' . __CLASS__ . " : Going to mark attendance for $messageAuthorName");
-                        continue;
+                    // mark for message poster
+                    if (!in_array($messageId, $lastAddedIdsDB)) {
+                        //echo "\nfor message poster";
+                        static::checkAndMarkAttendance($messageId, $messageDetails, $messageId);
                     }
 
-                    $result = self::getAttendance($messageAuthorName);
+                    // mark for message commenters
+                    $messageComments = BasecampClassicAPI::getAllComments($messageId);
 
-                    if ($result && trim($result) === '') {
-                        $attendanceValue = 'P';
-                        $messageBody = $messageDetails['body'];
-
-                        if (
-                            str_contains(strtolower($messageBody), 'home') ||
-                            strtolower($messageAuthorName) === 'Sarfraz Ahmed' ||
-                            strtolower($messageAuthorName) === 'Usama Kafeel'
-                        ) {
-                            $attendanceValue = 'W';
+                    if ($messageComments) {
+                        foreach ($messageComments as $commentId => $commentDetails) {
+                            static::checkAndMarkAttendance($messageId, $commentDetails, $commentId, $lastAddedIdsDB);
                         }
-
-                        if (date('l') === "Saturday" || date('l') === "Sunday") {
-                            $attendanceValue = 'C';
-                        }
-
-                        $result = self::markAttendance($messageAuthorName, $attendanceValue);
-
-                        if ($result) {
-
-                            static::markDone($messageId, __CLASS__);
-                            logMessage(__CLASS__ . " :  Success", 'success');
-
-                            /*
-                        $message = <<<message
-                        Dear $messageAuthorName<br><br>
-                        I have marked your attendace for today!<br><br>
-                        Thanks
-                        message;
-
-                        $action = "posts/$messageId/comments.xml";
-
-                        $xmlData = <<<data
-                        <comment>
-                        <body><![CDATA[$message]]></body>
-                        </comment>
-                        data;
-
-                        BasecampClassicAPI::postInfo($action, $xmlData);
-                         */
-
-                        } else {
-                            logMessage(__CLASS__ . " :  Unable to mark attendance for $messageAuthorName", 'error');
-                        }
-
-                    } else {
-                        logMessage(__CLASS__ . " :  Unable to get attendance value for $messageAuthorName", 'error');
                     }
                 }
             }
         }
     }
 
-    private static function sendRequest($employeeName, $isPost = false)
+    private static function checkAndMarkAttendance($messageId, $details, $activityId, $prevAddedIds = [])
     {
-        $url = "https://script.google.com/macros/s/AKfycbxcr08TTVPDXRhPDt4h2DK-pmNeLXYNjfKOcu1Bsb8xp-oFjC9-QA5_CERqsQjC1yZr/exec";
+        if (DEMO_MODE) {
+            //logMessage('DEMO_MODE: ' . __CLASS__ . " : Going to mark attendance for " . $details['author-name']);
+            //return;
+        }
+
+        $userIds = array_keys(BasecampClassicAPI::getAllUsers());
+
+        if (in_array($messageId, $prevAddedIds)) {
+            //echo "\nAlready marked for " . $details['author-name'];
+            return;
+        }
+
+        // we do this only for company employees
+        if (!in_array($details['author-id'], $userIds)) {
+            return;
+        }
+
+        // do not count mr-x
+        if (BasecampClassicAPI::$userId == $details['author-id']) {
+            return;
+        }
+
+        $messageAuthorName = $details['author-name'];
+
+        $result = self::getAttendance($messageAuthorName);
+
+        if ($result && trim($result) !== '') {
+            $attendanceValue = 'P';
+            $body = $details['body'];
+
+            if (
+                str_contains(strtolower($body), 'home') ||
+                strtolower($messageAuthorName) === 'sarfraz ahmed' ||
+                strtolower($messageAuthorName) === 'usama kafeel'
+            ) {
+                $attendanceValue = 'W';
+            }
+
+            if (date('l') === "Saturday" || date('l') === "Sunday") {
+                $attendanceValue = 'C';
+            }
+
+            $result = self::markAttendance($messageAuthorName, $attendanceValue);
+
+            if ($result) {
+
+                static::markDone($activityId, __CLASS__);
+                logMessage(__CLASS__ . " :  $messageAuthorName", 'success');
+
+                /*
+            $comment = <<<comment
+            Dear $messageAuthorName<br><br>
+            I have marked your attendace for today!<br><br>
+            Thanks
+            comment;
+
+            $action = "posts/$messageId/comments.xml";
+
+            $xmlData = <<<data
+            <comment>
+            <body><![CDATA[$comment]]></body>
+            </comment>
+            data;
+
+            BasecampClassicAPI::postInfo($action, $xmlData);
+             */
+
+            } else {
+                logMessage(__CLASS__ . " :  Unable to mark attendance for $messageAuthorName", 'error');
+            }
+
+        } else {
+            logMessage(__CLASS__ . " :  Unable to get attendance value for $messageAuthorName", 'error');
+        }
+    }
+
+    private static function sendRequest($employeeName, $isPost = false, $attendanceValue = 'P')
+    {
+        $url = "https://script.google.com/macros/s/AKfycbyiUDs2pZRhwg0OK1WBZVB08skhpxsvf5i424kGBbJ9QwXlemqJOW_ddYbJLq76HQcg/exec";
 
         $payloadArray = [
             "spreadsheetId" => self::SPREAD_SHEET_ID,
             "employeeName" => $employeeName,
+            "attendanceValue" => $attendanceValue,
         ];
 
         if ($isPost) {
@@ -184,9 +210,9 @@ class MarkAttendance extends Task
         return false;
     }
 
-    private static function markAttendance($employeeName, $value = 'P')
+    private static function markAttendance($employeeName, $attendanceValue = 'P')
     {
-        $result = self::sendRequest($employeeName, true);
+        $result = self::sendRequest($employeeName, true, $attendanceValue);
 
         if ($result) {
             if ($result['status'] ?? '' === "success") {
