@@ -92,6 +92,7 @@ class ReplyToEmails extends Task
 
                             EmailSender::setHighPriority();
                             $emailSent = EmailSender::sendEmail($email, $word, 'You have been mentioned!', $body);
+                            // because it is static class, don't want to affect other places this class is used in.
                             EmailSender::resetHighPriority();
 
                             if ($emailSent) {
