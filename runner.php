@@ -29,6 +29,7 @@ $tasks = [
     //ReadBaseCampUrlContents::class,
     TestTask::class,
     PostWorkPlan::class,
+    MarkAttendance::class,
     PostProjectIdea::class,
     ReplyToEmails::class,
     ReplyToBaseCampMessages::class,
