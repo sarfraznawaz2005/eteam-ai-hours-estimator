@@ -85,8 +85,8 @@ class ReplyToEmails extends Task
                             (str_contains(strtolower($emailBody), strtolower($word)) || str_contains(strtolower($subject), strtolower($word))
                             )) {
 
-                            $body = "Dear $word,<br><br>";
-                            $body .= "You have been mentioned in following message on basecamp.<br><br>";
+                            $body = "Dear $email,<br><br>";
+                            $body .= "The '$word' has been mentioned in following message on basecamp.<br><br>";
                             $body .= "---<br><br><i>$emailBody</i><br><br>---";
                             $body .= xSignature();
 
