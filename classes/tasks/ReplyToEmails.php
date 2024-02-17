@@ -8,6 +8,12 @@ class ReplyToEmails extends Task
         'notifications@eteamid.basecamphq.com',
     ];
 
+    // for basecampe, if email body contains these words (value of array),
+    // we can remind them by sending an email
+    private static array $reminderWords = [
+        'sarfraz@eteamid.com' => 'Sarfraz',
+    ];
+
     public static function execute()
     {
         //logMessage('Running: ' . __CLASS__);
@@ -42,16 +48,16 @@ class ReplyToEmails extends Task
 
             if ($emails) {
 
-                foreach ($emails as $email_number) {
+                foreach ($emails as $emailNumber) {
 
-                    usleep(500000);
+                    usleep(500000); // 0.5 seconds
 
                     // Fetch full header information
-                    $header = imap_headerinfo($inbox, $email_number);
+                    $header = imap_headerinfo($inbox, $emailNumber);
 
-                    $overview = imap_fetch_overview($inbox, $email_number, 0);
+                    $overview = imap_fetch_overview($inbox, $emailNumber, 0);
                     $subject = $overview[0]->subject;
-                    $email_body = imap_fetchbody($inbox, $email_number, 2);
+                    $emailBody = imap_fetchbody($inbox, $emailNumber, 2);
 
                     $toEmail = $header->to[0]->mailbox . "@" . $header->to[0]->host;
                     $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
@@ -59,12 +65,43 @@ class ReplyToEmails extends Task
 
                     // do not reply to excluded sender emails
                     if (in_array($fromEmail, static::$excludedEmails, true)) {
+                        static::imapCleanup($inbox, $emailNumber);
+
                         continue;
                     }
 
                     // do not reply to self
                     if ($fromEmail === self::MRX_EMAIL_ADDRESS) {
+                        static::imapCleanup($inbox, $emailNumber);
+
                         continue;
+                    }
+
+                    // send basecamp mention reminders
+                    foreach (static::$reminderWords as $email => $word) {
+                        // we remind only for basecamp notifications
+                        if (
+                            str_contains(strtolower($fromEmail), 'basecamphq') &&
+                            (str_contains(strtolower($emailBody), strtolower($word)) || str_contains(strtolower($subject), strtolower($word))
+                            )) {
+
+                            $body = "Dear $word,<br><br>";
+                            $body .= "You have been mentioned in following message on basecamp.<br><br>";
+                            $body .= "---<br><br><i>$emailBody</i><br><br>---";
+                            $body .= xSignature();
+
+                            EmailSender::setHighPriority();
+                            $emailSent = EmailSender::sendEmail($email, $word, 'You have been mentioned!', $body);
+                            EmailSender::resetHighPriority();
+
+                            if ($emailSent) {
+                                logMessage(__CLASS__ . " : Name Reminder Sent For $word", 'success');
+
+                                static::imapCleanup($inbox, $emailNumber);
+
+                                continue;
+                            }
+                        }
                     }
 
                     logMessage(__CLASS__ . " : Going to send email to: $toEmail");
@@ -77,12 +114,10 @@ class ReplyToEmails extends Task
                         }
                     }
 
-                    $mentionText = strtolower(MENTION_TEXT);
-
                     // we want to reply when we are mentioned or email is sent to our email address
                     if (
-                        str_contains(strtolower($email_body), $mentionText) ||
-                        str_contains(strtolower($subject), $mentionText) ||
+                        str_contains(strtolower($emailBody), strtolower(MENTION_TEXT)) ||
+                        str_contains(strtolower($subject), strtolower(MENTION_TEXT)) ||
                         $toEmail === self::MRX_EMAIL_ADDRESS
                     ) {
 
@@ -96,7 +131,7 @@ class ReplyToEmails extends Task
 
                             Dear $fromName,
 
-                            [Your reply to $email_body goes here]
+                            [Your reply to $emailBody goes here]
 
                             _Thanks_
 
@@ -120,7 +155,9 @@ class ReplyToEmails extends Task
                         $response = GoogleAI::GenerateContentWithRetry();
 
                         // if there is nothing to reply, don't do anything
-                        if (strtolower($response) === 'ok') {
+                        if (strtolower(strip_tags($response)) === 'ok') {
+                            static::imapCleanup($inbox, $emailNumber);
+
                             continue;
                         }
 
@@ -130,7 +167,7 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
-                                $decodedEmailBody = quoted_printable_decode($email_body);
+                                $decodedEmailBody = quoted_printable_decode(strip_tags($emailBody));
                                 $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
 
                                 // Prepare the email content with the response and the original message
@@ -151,7 +188,7 @@ class ReplyToEmails extends Task
                                     logMessage(__CLASS__ . " : Email has been sent: {$subject}", 'success');
 
                                     // Mark the message for deletion after successfully sending the reply
-                                    imap_delete($inbox, $email_number);
+                                    imap_delete($inbox, $emailNumber);
 
                                 } else {
                                     logMessage(__CLASS__ . " : Error or no response: {$subject}", 'danger');
@@ -168,12 +205,22 @@ class ReplyToEmails extends Task
                 }
             }
 
+            static::imapCleanup($inbox, $emailNumber);
+
+        }, 2);
+
+    }
+
+    private static function imapCleanup($inbox, $emailNumber)
+    {
+        try {
+            // Mark the message for deletion after successfully sending the reply
+            imap_delete($inbox, $emailNumber);
+
             // Clean up and expunge messages marked for deletion
             imap_expunge($inbox);
 
             imap_close($inbox);
-
-        }, 2);
-
+        } catch (Exception) {}
     }
 }

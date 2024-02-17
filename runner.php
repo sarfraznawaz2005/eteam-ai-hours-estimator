@@ -34,14 +34,13 @@ $tasks = [
     ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class,
     RemindBaseCampCustomers::class,
-    RemindMyNameBaseCamp::class,
 ];
 
 if (function_exists('pcntl_fork')) {
     runTasksParallel($tasks);
 } else {
     foreach ($tasks as $task) {
-        sleep(1);
+        usleep(500000); // 0.5 seconds
 
         $task::execute();
     }
