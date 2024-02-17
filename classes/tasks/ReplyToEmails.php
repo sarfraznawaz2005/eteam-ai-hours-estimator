@@ -205,7 +205,8 @@ class ReplyToEmails extends Task
                 }
             }
 
-            static::imapCleanup($inbox, $emailNumber);
+            imap_expunge($inbox);
+            imap_close($inbox);
 
         }, 2);
 
