@@ -43,7 +43,7 @@ class MarkAttendance extends Task
 
                 // we only process for today post
                 if (!isDateToday($messageDate)) {
-                    return;
+                    //return;
                 }
             }
 
