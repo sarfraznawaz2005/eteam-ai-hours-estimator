@@ -2,7 +2,7 @@
 
 class MarkAttendance extends Task
 {
-    const SPREAD_SHEET_ID = '10Za5gH9C5QkxxuAKTRhSItwXaC7L1Qblb564_HumNNk';
+    const SPREAD_SHEET_ID = '1A6VP8uTogoO1xMXvfpkFidPl1ER791OYOhoYnLMbRsQ';
 
     protected static int $totalNewPostsToFetch = 1; // since we check only latest single post
 
@@ -24,7 +24,6 @@ class MarkAttendance extends Task
 
         // returns 25 most recent messages by default
         $eteamMiscProjectMessages = BasecampClassicAPI::getAllMessages($eteamMiscTasksProjectId);
-        //dd($eteamMiscProjectMessages);
 
         if ($eteamMiscProjectMessages) {
 
@@ -37,6 +36,17 @@ class MarkAttendance extends Task
             $DB->executeQuery($sql);
             //////////////////////////////////
 
+            $messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
+
+            if ($messages) {
+                $messageDate = $messages[key($messages)]['posted-on'];
+
+                // we only process for today post
+                if (!isDateToday($messageDate)) {
+                    return;
+                }
+            }
+
             $lastAddedIdsDB = $DB->get(
                 "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 50",
                 [':description' => strtolower(__CLASS__)]
@@ -48,8 +58,6 @@ class MarkAttendance extends Task
                 return intval($item['activity_id'] ?? '0');
             }, $lastAddedIdsDB);
             //dd($lastAddedIdsDB);
-
-            $messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
 
             foreach ($messages as $messageId => $messageDetails) {
                 $messageTitle = $messageDetails['title'];
@@ -81,8 +89,8 @@ class MarkAttendance extends Task
     private static function checkAndMarkAttendance($messageId, $details, $activityId, $prevAddedIds = [])
     {
         if (DEMO_MODE) {
-            //logMessage('DEMO_MODE: ' . __CLASS__ . " : Going to mark attendance for " . $details['author-name']);
-            //return;
+            logMessage('DEMO_MODE: ' . __CLASS__ . " : Going to mark attendance for " . $details['author-name']);
+            return;
         }
 
         $userIds = array_keys(BasecampClassicAPI::getAllUsers());
@@ -106,7 +114,7 @@ class MarkAttendance extends Task
 
         $result = self::getAttendance($messageAuthorName);
 
-        if ($result && trim($result) !== '') {
+        if ($result !== false && (trim($result) === '' || trim($result) === 'O')) {
             $attendanceValue = 'P';
             $body = $details['body'];
 
@@ -129,30 +137,27 @@ class MarkAttendance extends Task
                 static::markDone($activityId, __CLASS__);
                 logMessage(__CLASS__ . " :  $messageAuthorName", 'success');
 
-                /*
-            $comment = <<<comment
-            Dear $messageAuthorName<br><br>
-            I have marked your attendace for today!<br><br>
-            Thanks
-            comment;
+                $comment = <<<comment
+                Dear $messageAuthorName<br><br>
+                I have marked your attendace for today, Thanks!
+                comment;
 
-            $action = "posts/$messageId/comments.xml";
+                $action = "posts/$messageId/comments.xml";
 
-            $xmlData = <<<data
-            <comment>
-            <body><![CDATA[$comment]]></body>
-            </comment>
-            data;
+                $xmlData = <<<data
+                <comment>
+                <body><![CDATA[$comment]]></body>
+                </comment>
+                data;
 
-            BasecampClassicAPI::postInfo($action, $xmlData);
-             */
+                BasecampClassicAPI::postInfo($action, $xmlData);
 
             } else {
                 logMessage(__CLASS__ . " :  Unable to mark attendance for $messageAuthorName", 'error');
             }
 
         } else {
-            logMessage(__CLASS__ . " :  Unable to get attendance value for $messageAuthorName", 'error');
+            logMessage(__CLASS__ . " :  Attendance already marked by $messageAuthorName");
         }
     }
 

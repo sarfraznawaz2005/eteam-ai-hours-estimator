@@ -117,6 +117,14 @@ function now()
     return date("Y-m-d H:i:s");
 }
 
+function isDateToday($date)
+{
+    $inputDate = new DateTime($date);
+    $today = new DateTime();
+
+    return $inputDate->format('Y-m-d') === $today->format('Y-m-d');
+}
+
 function xSignature()
 {
     return <<<body

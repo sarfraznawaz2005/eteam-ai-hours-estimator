@@ -35,6 +35,17 @@ class PostWorkPlan extends Task
             $DB->executeQuery($sql);
             //////////////////////////////////
 
+            $messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
+
+            if ($messages) {
+                $messageDate = $messages[key($messages)]['posted-on'];
+
+                // we only process for today post
+                if (!isDateToday($messageDate)) {
+                    return;
+                }
+            }
+
             $lastAddedIdsDB = $DB->get(
                 "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
                 [':description' => strtolower(__CLASS__)]
@@ -46,8 +57,6 @@ class PostWorkPlan extends Task
                 return intval($item['activity_id'] ?? '0');
             }, $lastAddedIdsDB);
             //dd($lastAddedIdsDB);
-
-            $messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
 
             foreach ($messages as $messageId => $messageDetails) {
 
@@ -70,6 +79,7 @@ class PostWorkPlan extends Task
                     $message = <<<message
                     AOA,<br><br>
 
+                    - Mark Attendances<br>
                     - Post Project Ideas<br>
                     - Code Reviews<br>
                     - Email Communication<br>
