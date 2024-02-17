@@ -137,20 +137,20 @@ class MarkAttendance extends Task
                 static::markDone($activityId, __CLASS__);
                 logMessage(__CLASS__ . " :  $messageAuthorName", 'success');
 
-                $comment = <<<comment
-                Dear $messageAuthorName<br><br>
-                I have marked your attendace for today, Thanks!
-                comment;
+                // $comment = <<<comment
+                // Dear $messageAuthorName<br><br>
+                // I have marked your attendace for today, Thanks!
+                // comment;
 
-                $action = "posts/$messageId/comments.xml";
+                // $action = "posts/$messageId/comments.xml";
 
-                $xmlData = <<<data
-                <comment>
-                <body><![CDATA[$comment]]></body>
-                </comment>
-                data;
+                // $xmlData = <<<data
+                // <comment>
+                // <body><![CDATA[$comment]]></body>
+                // </comment>
+                // data;
 
-                BasecampClassicAPI::postInfo($action, $xmlData);
+                // BasecampClassicAPI::postInfo($action, $xmlData);
 
             } else {
                 logMessage(__CLASS__ . " :  Unable to mark attendance for $messageAuthorName", 'error');
