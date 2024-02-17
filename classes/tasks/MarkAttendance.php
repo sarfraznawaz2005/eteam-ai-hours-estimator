@@ -78,7 +78,9 @@ class MarkAttendance extends Task
 
                     if ($messageComments) {
                         foreach ($messageComments as $commentId => $commentDetails) {
-                            static::checkAndMarkAttendance($messageId, $commentDetails, $commentId, $lastAddedIdsDB);
+                            if (!in_array($commentId, $lastAddedIdsDB)) {
+                                static::checkAndMarkAttendance($messageId, $commentDetails, $commentId, $lastAddedIdsDB);
+                            }
                         }
                     }
                 }
