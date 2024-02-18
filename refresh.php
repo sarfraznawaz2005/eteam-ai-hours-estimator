@@ -9,13 +9,20 @@ $skipLockFiles = ['composer', 'package'];
 $files = glob('*.lock');
 
 foreach ($files as $file) {
+    $skipFile = false;
 
     // Check if file name starts with one of the prefixes in $skipLockFiles
     foreach ($skipLockFiles as $prefix) {
         if (strpos($file, $prefix) === 0) {
-            echo "Skipping lock file: $file<br>";
-            continue;
+            $skipFile = true;
+            break;
         }
+    }
+
+    // If file is to be skipped, continue to the next file
+    if ($skipFile) {
+        echo "Skipping lock file: $file<br>";
+        continue;
     }
 
     // Try to open the file
