@@ -1,7 +1,7 @@
 <?php
-/////////////////////////////////////
-// delete tasks lock files
-/////////////////////////////////////
+/////////////////////////////////////////////////////////////
+// delete tasks lock files that are no longer locked
+/////////////////////////////////////////////////////////////
 
 // Array of prefixes for lock files to skip (e.g., 'composer', 'package', etc.)
 $skipLockFiles = ['composer', 'package'];
@@ -36,9 +36,9 @@ foreach ($files as $file) {
             flock($handle, LOCK_UN);
             fclose($handle);
 
-            //if (@unlink($file)) {
+            if (@unlink($file)) {
                 echo "Deleted lock file: $file<br>";
-            //}
+            }
         } else {
             // Couldn't lock the file, it might be in use, so close the handle and skip deletion
             fclose($handle);
