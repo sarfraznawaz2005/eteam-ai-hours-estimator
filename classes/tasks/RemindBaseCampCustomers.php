@@ -10,6 +10,11 @@ class RemindBaseCampCustomers extends Task
             exit(1);
         }
 
+        // we do not run this after this time
+        if (!isTimeInRange('11:00PM')) {
+            return;
+        }
+
         $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {

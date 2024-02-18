@@ -12,6 +12,11 @@ class PostWorkPlan extends Task
             exit(1);
         }
 
+        // we do not run this after this time
+        if (!isTimeInRange('1:00PM')) {
+            return;
+        }
+
         $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
         //dd($eteamMiscTasksProjectId);
 

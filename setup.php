@@ -123,6 +123,32 @@ function isDateToday($date)
     return $inputDate->format('Y-m-d') === $today->format('Y-m-d');
 }
 
+// compares time between 6am and the given time
+function isTimeInRange($endTimeAmPm)
+{
+    date_default_timezone_set('Asia/Karachi');
+
+    $currentTime = strtotime(date('Y-m-d H:i'));
+
+    // Start time (6 AM) as a timestamp for today, ensuring comparison is at the start of the minute
+    $startTime = strtotime('today 6:00 AM');
+
+    // Adjust end time to the end of the minute (59 seconds past) for inclusivity in comparison
+    $endTime = strtotime("today " . $endTimeAmPm) + 59;
+
+    // Debugging output to understand what's being compared
+    //echo "Start Time: " . date('h:i A', $startTime) . "\n";
+    //echo "End Time: " . date('h:i A', $endTime) . "\n";
+    //echo "Current Time: " . date('h:i A', $currentTime) . "\n";
+
+    // Check if current timestamp is between start time and end time timestamps
+    if ($currentTime >= $startTime && $currentTime <= $endTime) {
+        return true;
+    }
+
+    return false;
+}
+
 function xSignature()
 {
     return <<<body

@@ -12,6 +12,11 @@ class ReplyToBaseCampMessages extends Task
             exit(1);
         }
 
+        // we do not run this after this time
+        if (!isTimeInRange('11:00PM')) {
+            return;
+        }
+
         $projects = BasecampClassicAPI::getAllProjects();
 
         $DB = new DB();
@@ -53,7 +58,7 @@ class ReplyToBaseCampMessages extends Task
                     $messageBody = $messageDetails['body'] ?? '';
 
                     // do not reply to self
-                    if ((string)$authorId === BasecampClassicAPI::$userId) {
+                    if ((string) $authorId === BasecampClassicAPI::$userId) {
                         continue;
                     }
 

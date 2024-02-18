@@ -10,6 +10,14 @@ class TestTask extends Task
             exit(1);
         }
 
+        // we do not run this after this time
+        if (!isTimeInRange('6:53PM')) {
+            logMessage('Time Over: ' . __CLASS__);
+            return;
+        } else {
+            logMessage('Within Time: ' . __CLASS__);
+        }
+
         $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {
