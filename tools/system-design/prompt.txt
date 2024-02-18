@@ -13,7 +13,9 @@ You are an expert at software system design and web application architecture. If
         
         Please note the following numbers are for this exercise only as they are not real numbers
         from Twitter.
-        
+
+        Thought Process:
+
         Assumptions:
             • 300 million monthly active users.
             • 50% of users use Twitter daily.
