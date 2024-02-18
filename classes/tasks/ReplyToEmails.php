@@ -63,13 +63,6 @@ class ReplyToEmails extends Task
                     $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
                     $fromName = $header->from[0]->personal ?? $fromEmail;
 
-                    // do not reply to excluded sender emails
-                    if (in_array($fromEmail, static::$excludedEmails, true)) {
-                        static::imapCleanup($inbox, $emailNumber);
-
-                        continue;
-                    }
-
                     // do not reply to self
                     if ($fromEmail === self::MRX_EMAIL_ADDRESS) {
                         static::imapCleanup($inbox, $emailNumber);
@@ -105,6 +98,13 @@ class ReplyToEmails extends Task
                         }
                     }
 
+                    // do not reply to excluded sender emails
+                    if (in_array($fromEmail, static::$excludedEmails, true)) {
+                        static::imapCleanup($inbox, $emailNumber);
+
+                        continue;
+                    }
+                    
                     logMessage(__CLASS__ . " : Going to send email to: $toEmail");
 
                     // include CC recipients in the reply

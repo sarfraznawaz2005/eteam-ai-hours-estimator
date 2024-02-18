@@ -144,10 +144,7 @@ class MarkAttendance extends Task
                 static::markDone($activityId, __CLASS__);
                 logMessage(__CLASS__ . " :  $messageAuthorName", 'success');
 
-                $comment = <<<comment
-                Dear $messageAuthorName<br><br>
-                I have marked your attendace for today, Thanks!
-                comment;
+                $comment = "Dear $messageAuthorName, I have marked your attendance for today, Thanks!";
 
                 $action = "posts/$messageId/comments.xml";
 

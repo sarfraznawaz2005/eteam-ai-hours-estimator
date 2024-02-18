@@ -10,6 +10,16 @@ class PostProjectIdea extends Task
             exit(1);
         }
 
+        // only on Mondays
+        if (date('l') !== "Monday") {
+            return;
+        }
+
+        if (DEMO_MODE) {
+            logMessage('DEMO_MODE: ' . __CLASS__);
+            return;
+        }
+        
         // we do not run this after this time
         if (!isTimeInRange('3:00PM')) {
             return;
@@ -18,16 +28,6 @@ class PostProjectIdea extends Task
         $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {
-            return;
-        }
-
-        // only on Mondays
-        if (date('l') !== "Monday") {
-            return;
-        }
-
-        if (DEMO_MODE) {
-            logMessage('DEMO_MODE: ' . __CLASS__);
             return;
         }
 
