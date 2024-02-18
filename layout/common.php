@@ -7,5 +7,5 @@
 
 <div class="mt-5 success"
     style="display:none; width: fit-content; margin: 0 auto;">
-    <pre></pre>
+    <pre class="border-animated"></pre>
 </div>

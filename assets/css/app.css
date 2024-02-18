@@ -70,6 +70,51 @@ pre code {
 	border-radius: 10px;
 }
 
+@keyframes gradientAnimation {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+hr.colorful {
+	border: none;
+	height: 5px; /* Thickness of the strip */
+	background: linear-gradient(270deg, 
+	#C70039, /* Vivid dark red */
+	#FF5733, /* Vivid dark orange */
+	#FFC300, /* Vivid dark yellow */
+	#1E7F00, /* Vivid dark green */
+	#0057FF, /* Vivid dark blue */
+	#4A148C, /* Vivid dark indigo */
+	#8E44AD); /* Vivid dark violet */
+	background-size: 200% 200%; /* Extend the background size to allow for the animation */
+	animation: gradientAnimation 8s ease infinite; /* Adjust the timing to control the speed */
+}
+
+@keyframes colorfulBorderAnimation {
+	0%, 100% { border-color: #556270; } /* Dark Bluish Grey */
+	20% { border-color: #4ECDC4; } /* Sea Foam */
+	40% { border-color: #C7F464; } /* Lime Green */
+	60% { border-color: #FF6B6B; } /* Soft Red */
+	80% { border-color: #C44D58; } /* Dark Pastel Red */
+  }
+  
+  .border-animated {
+	animation: colorfulBorderAnimation 20s infinite linear;
+	border: 5px solid; /* Initial border setup */
+	width: auto; /* Dynamic width */
+	height: auto; /* Dynamic height */
+	padding: 15px;
+	overflow: hidden; /* To handle content overflow */
+	box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  }
+  
 /*!
   Theme: Default
   Description: Original highlight.js style

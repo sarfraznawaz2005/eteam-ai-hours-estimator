@@ -8,7 +8,7 @@
             <h2 class="display-4" style="display: inline;">eTeam AI Tools</h2>
             <a href="#" data-bs-toggle="modal" data-bs-target="#whyModal"><sup>(Why)</sup></a>
             <p class="lead">Please click a tool below to open it.</p>
-            <hr class="my-4">
+            <hr class="colorful">
             <p class="lead">
                 <a class="btn btn-warning" href="./tools/idea-generator/index.php" role="button">
                     <i class="bi bi bi-lightbulb-fill"></i> Idea Generator

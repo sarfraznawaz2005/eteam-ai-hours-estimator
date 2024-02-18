@@ -5,7 +5,7 @@
         <div class="jumbotron text-center">
             <h2 class="display-4" style="display: inline;">Idea Generator</h2>
             <p class="lead">Please click a button below on how you want to generate a project idea.</p>
-            <hr class="my-4">
+            <hr class="colorful">
             <p class="lead">
             <div class="btn-group" role="group">
                 <a class="btn btn-success rounded" role="button" data-bs-toggle="modal" data-bs-target="#ideaModal">
