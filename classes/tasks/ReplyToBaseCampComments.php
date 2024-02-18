@@ -4,7 +4,7 @@ class ReplyToBaseCampComments extends Task
 {
     public static function execute()
     {
-        //logMessage('Running: ' . __CLASS__);
+        logMessage('Running: ' . __CLASS__);
 
         if (static::isAlreadyRunning()) {
             exit(1);
