@@ -105,6 +105,7 @@ function getRandomLoadingImage() {
         '/assets/giphy15.gif',
         '/assets/giphy16.gif',
         '/assets/giphy17.gif',
+        '/assets/giphy18.gif',
     ];
     
     const randomIndex = Math.floor(Math.random() * loadingImages.length);
