@@ -13,6 +13,8 @@
  *
  */
 
+date_default_timezone_set('Asia/Karachi');
+
 require_once __DIR__ . '/setup.php';
 
 ini_set("memory_limit", "-1");
