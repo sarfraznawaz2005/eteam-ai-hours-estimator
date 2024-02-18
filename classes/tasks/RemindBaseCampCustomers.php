@@ -13,11 +13,11 @@ class RemindBaseCampCustomers extends Task
         $isAlreadyDone = static::isDoneForToday(__CLASS__, __CLASS__);
 
         if ($isAlreadyDone) {
-            logMessage('already done: ' . __CLASS__);
+            //logMessage('already done: ' . __CLASS__);
             return;
         }
 
-        logMessage('proceeding : ' . __CLASS__);
+        //logMessage('proceeding : ' . __CLASS__);
 
         $unrepliedMessages = [];
 
