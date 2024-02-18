@@ -29,9 +29,9 @@ foreach ($files as $file) {
             flock($handle, LOCK_UN);
             fclose($handle);
 
-            if (@unlink($file)) {
+            //if (@unlink($file)) {
                 echo "Deleted lock file: $file<br>";
-            }
+            //}
         } else {
             // Couldn't lock the file, it might be in use, so close the handle and skip deletion
             fclose($handle);
