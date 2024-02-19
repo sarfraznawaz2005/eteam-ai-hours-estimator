@@ -224,10 +224,17 @@ class ReplyToEmails extends Task
             }
 
             try {
-                // Clean up and expunge messages marked for deletion
-                @imap_expunge($inbox);
 
-                @imap_close($inbox);
+                // Clean up and expunge messages marked for deletion
+                if (is_object($inbox)) {
+                    //@imap_ping($inbox); // Suppress errors to handle them manually
+
+                    if (empty(imap_errors())) {
+                        @imap_expunge($inbox);
+                        @imap_close($inbox);
+                    }
+                }
+
             } catch (Exception) {
             }
 
@@ -238,13 +245,21 @@ class ReplyToEmails extends Task
     private static function imapCleanup($inbox, $emailNumber): void
     {
         try {
-            // Mark the message for deletion after successfully sending the reply
-            @imap_delete($inbox, $emailNumber);
 
-            // Clean up and expunge messages marked for deletion
-            @imap_expunge($inbox);
+            if (is_object($inbox)) {
+                //@imap_ping($inbox); // Suppress errors to handle them manually
 
-            @imap_close($inbox);
+                if (empty(imap_errors())) {
+                    // Mark the message for deletion after successfully sending the reply
+                    @imap_delete($inbox, $emailNumber);
+
+                    // Clean up and expunge messages marked for deletion
+                    @imap_expunge($inbox);
+
+                    @imap_close($inbox);
+                }
+            }
+
         } catch (Exception) {
         }
     }
