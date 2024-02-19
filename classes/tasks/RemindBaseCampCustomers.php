@@ -70,6 +70,8 @@ class RemindBaseCampCustomers extends Task
 
             if ($messages) {
                 foreach ($messages as $messageId => $messageDetails) {
+                    usleep(500000); // 0.5 seconds
+
                     $comments = BasecampClassicAPI::getAllComments($messageId);
 
                     if ($comments) {
@@ -88,8 +90,6 @@ class RemindBaseCampCustomers extends Task
                     }
                 }
             }
-
-            usleep(500000); // 0.5 seconds
         }
 
         //dd($unrepliedMessages);

@@ -46,6 +46,8 @@ class ReplyToBaseCampMessages extends Task
 
                 foreach ($messages as $messageId => $messageDetails) {
 
+                    usleep(500000); // 0.5 seconds
+
                     if (in_array($messageId, $lastAddedIdsDB)) {
                         continue;
                     }

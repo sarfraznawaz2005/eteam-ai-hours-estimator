@@ -83,6 +83,8 @@ class MarkAttendance extends Task
 
                     if ($messageComments) {
                         foreach ($messageComments as $commentId => $commentDetails) {
+                            usleep(500000); // 0.5 seconds
+
                             if (!in_array($commentId, $lastAddedIdsDB)) {
                                 static::checkAndMarkAttendance($messageId, $commentDetails, $commentId, $lastAddedIdsDB);
                             }
