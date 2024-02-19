@@ -80,7 +80,9 @@ class ReplyToEmails extends Task
                             )) {
 
                             // do not consider if message has been sent by actual user himself.
-                            if ($toEmail === $email) {
+                            $pattern = "/$word).*?posted a new message:/i";
+
+                            if (preg_match($pattern, $word, $matches)) {
                                 static::imapCleanup($inbox, $emailNumber);
 
                                 continue;
