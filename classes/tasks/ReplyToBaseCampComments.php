@@ -34,6 +34,8 @@ class ReplyToBaseCampComments extends Task
 
                 foreach ($messages as $messageId => $messageDetails) {
 
+                    usleep(500000); // 0.5 seconds
+
                     $messageComments = BasecampClassicAPI::getAllComments($messageId);
 
                     if (is_array($messageComments) && $messageComments) {
@@ -57,11 +59,13 @@ class ReplyToBaseCampComments extends Task
                         //dd($lastAddedIdsDB);
 
                         // mrx can reply to only "latest" $numComments comments of the project
-                        $numComments = 20;
+                        $numComments = 10;
                         $comments = array_slice($messageComments, 0, $numComments, true);
                         //dd($comments);
 
                         foreach ($comments as $commentId => $commentDetails) {
+
+                            usleep(500000); // 0.5 seconds
 
                             if (in_array($commentId, $lastAddedIdsDB)) {
                                 continue;
