@@ -73,10 +73,10 @@ class MarkAttendance extends Task
                 ) {
 
                     // mark for message poster
-                    if (!in_array($messageId, $lastAddedIdsDB)) {
+                    //if (!in_array($messageId, $lastAddedIdsDB)) {
                         //echo "\nfor message poster";
                         static::checkAndMarkAttendance($messageId, $messageDetails, $messageId);
-                    }
+                    //}
 
                     // mark for message commenters
                     $messageComments = BasecampClassicAPI::getAllComments($messageId);
