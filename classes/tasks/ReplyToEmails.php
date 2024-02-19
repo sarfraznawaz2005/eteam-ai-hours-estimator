@@ -82,14 +82,14 @@ class ReplyToEmails extends Task
                             // do not consider if message has been sent by actual user himself.
                             $pattern = "/$word).*?posted a new message:/i";
 
-                            if (preg_match($pattern, $word, $matches)) {
+                            if (preg_match($pattern, $word)) {
                                 static::imapCleanup($inbox, $emailNumber);
 
                                 continue;
                             }
 
                             // do not consider if message email contains basecamp footer mention
-                            if (str_contains($emailBody, 'xxxxxxxxxxxxxxxxx')) {
+                            if (str_contains(strtolower($emailBody), 'xxxxxxxxxxxxxxxxx')) {
                                 static::imapCleanup($inbox, $emailNumber);
 
                                 continue;
@@ -185,7 +185,7 @@ class ReplyToEmails extends Task
 
                             if (!str_contains(strtolower($response), 'no response')) {
 
-                                $decodedEmailBody = quoted_printable_decode(strip_tags($emailBody));
+                                $decodedEmailBody = quoted_printable_decode($emailBody);
                                 $decodedEmailBody = '<blockquote>' . $decodedEmailBody . '</blockquote>';
 
                                 // Prepare the email content with the response and the original message

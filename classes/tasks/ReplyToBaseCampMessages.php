@@ -2,7 +2,7 @@
 
 class ReplyToBaseCampMessages extends Task
 {
-    protected static $totalNewPostsToFetch = 1;
+    protected static int $totalNewPostsToFetch = 3; // can reply to that number of most recent messages only
 
     public static function execute()
     {
