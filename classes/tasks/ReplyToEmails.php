@@ -70,26 +70,25 @@ class ReplyToEmails extends Task
                         continue;
                     }
 
+                    ////////////////////////////////////////////////
                     // send basecamp mention reminders
+                    ////////////////////////////////////////////////
+
+                    // remove basecamp footer
+                    $messageBody = preg_replace('/This (comment|message) was sent to.*/s', '', $emailBody);
+
                     foreach (static::$reminderWords as $email => $word) {
 
                         // we remind only for basecamp notifications
                         if (
                             str_contains(strtolower($fromEmail), 'basecamphq') &&
-                            (str_contains(strtolower($emailBody), strtolower($word)) || str_contains(strtolower($subject), strtolower($word))
+                            (str_contains(strtolower($messageBody), strtolower($word)) || str_contains(strtolower($subject), strtolower($word))
                             )) {
 
                             // do not consider if message has been sent by actual user himself.
                             $pattern = "/$word).*?posted a new message:/i";
 
-                            if (preg_match_all($pattern, $emailBody)) {
-                                static::imapCleanup($inbox, $emailNumber);
-
-                                continue;
-                            }
-
-                            // do not consider if message email contains basecamp footer mention
-                            if (str_contains(strtolower($emailBody), 'xxxxxxxxxxxxxxxxx')) {
+                            if (preg_match_all($pattern, $messageBody)) {
                                 static::imapCleanup($inbox, $emailNumber);
 
                                 continue;
@@ -97,7 +96,7 @@ class ReplyToEmails extends Task
 
                             $body = "Dear $email,<br><br>";
                             $body .= "The '$word' has been mentioned in following message on basecamp.<br><br>";
-                            $body .= "---<br><br><i>$emailBody</i><br><br>---";
+                            $body .= "---<br><br><i>$messageBody</i><br><br>---";
                             $body .= xSignature();
 
                             EmailSender::setHighPriority();
@@ -114,6 +113,7 @@ class ReplyToEmails extends Task
                             }
                         }
                     }
+                    ////////////////////////////////////////////////
 
                     // do not reply to excluded sender emails
                     if (in_array($fromEmail, static::$excludedEmails, true)) {
