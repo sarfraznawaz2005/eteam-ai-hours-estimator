@@ -28,7 +28,7 @@ class ReplyToBaseCampComments extends Task
             if (is_array($projectMessages) && $projectMessages) {
 
                 // mrx can reply to only "latest" $numMessages messages of the project
-                $numMessages = 10;
+                $numMessages = 5;
                 $messages = array_slice($projectMessages, 0, $numMessages, true);
                 //dd($messages);
 
@@ -59,7 +59,7 @@ class ReplyToBaseCampComments extends Task
                         //dd($lastAddedIdsDB);
 
                         // mrx can reply to only "latest" $numComments comments of the project
-                        $numComments = 3;
+                        $numComments = 2;
                         $comments = array_slice($messageComments, 0, $numComments, true);
                         //dd($comments);
 
