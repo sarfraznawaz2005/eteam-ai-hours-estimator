@@ -59,7 +59,7 @@ class ReplyToBaseCampComments extends Task
                         //dd($lastAddedIdsDB);
 
                         // mrx can reply to only "latest" $numComments comments of the project
-                        $numComments = 10;
+                        $numComments = 3;
                         $comments = array_slice($messageComments, 0, $numComments, true);
                         //dd($comments);
 
