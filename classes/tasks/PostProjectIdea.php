@@ -38,7 +38,7 @@ class PostProjectIdea extends Task
             return;
         }
 
-        GoogleAI::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random software product idea based on given instructions. Your answer must not go more than 3 indentations.");
+        GoogleAI::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random web application or mobile product idea based on given instructions. Your answer must not go more than 3 indentations.");
 
         $response = GoogleAI::GenerateContentWithRetry();
 
@@ -52,7 +52,7 @@ class PostProjectIdea extends Task
                 $notifyPersonsXml .= "<notify>$key</notify>\n";
             }
 
-            $postTitle = 'Idea Of The Day - ' . date('d-m-Y');
+            $postTitle = 'Idea Of The Week - ' . date('d-m-Y');
 
             if (preg_match('/Idea Name: (.*?)\n/i', strip_tags($response), $matches)) {
                 $ideaName = $matches[1] ?? '';
@@ -79,9 +79,9 @@ class PostProjectIdea extends Task
 
             if ($response && $response['code'] === 201) {
                 static::markDone(__CLASS__, __CLASS__);
-                logMessage(__CLASS__ . " :  Post Daily Idea Success", 'success');
+                logMessage(__CLASS__ . " :  Post Idea Success", 'success');
             } else {
-                logMessage(__CLASS__ . " : Could not post workplan", 'danger');
+                logMessage(__CLASS__ . " : Could not post Idea", 'danger');
             }
 
         } else {

@@ -63,7 +63,7 @@ class ReplyToEmails extends Task
                     $fromEmail = $header->from[0]->mailbox . "@" . $header->from[0]->host;
                     $fromName = $header->from[0]->personal ?? $fromEmail;
 
-                    // do not reply to self
+                    // do not consider self
                     if ($fromEmail === self::MRX_EMAIL_ADDRESS) {
                         static::imapCleanup($inbox, $emailNumber);
 
@@ -72,11 +72,26 @@ class ReplyToEmails extends Task
 
                     // send basecamp mention reminders
                     foreach (static::$reminderWords as $email => $word) {
+
                         // we remind only for basecamp notifications
                         if (
                             str_contains(strtolower($fromEmail), 'basecamphq') &&
                             (str_contains(strtolower($emailBody), strtolower($word)) || str_contains(strtolower($subject), strtolower($word))
                             )) {
+
+                            // do not consider if message has been sent by actual user himself.
+                            if ($toEmail === $email) {
+                                static::imapCleanup($inbox, $emailNumber);
+
+                                continue;
+                            }
+
+                            // do not consider if message email contains basecamp footer mention
+                            if (str_contains($emailBody, 'xxxxxxxxxxxxxxxxx')) {
+                                static::imapCleanup($inbox, $emailNumber);
+
+                                continue;
+                            }
 
                             $body = "Dear $email,<br><br>";
                             $body .= "The '$word' has been mentioned in following message on basecamp.<br><br>";
@@ -104,7 +119,7 @@ class ReplyToEmails extends Task
 
                         continue;
                     }
-                    
+
                     logMessage(__CLASS__ . " : Going to send email to: $toEmail");
 
                     // include CC recipients in the reply
@@ -207,7 +222,7 @@ class ReplyToEmails extends Task
             }
 
             imap_expunge($inbox);
-            imap_close($inbox);
+            @imap_close($inbox);
 
         }, 2);
 
@@ -223,6 +238,7 @@ class ReplyToEmails extends Task
             imap_expunge($inbox);
 
             imap_close($inbox);
-        } catch (Exception) {}
+        } catch (Exception) {
+        }
     }
 }
