@@ -11,13 +11,11 @@ class MarkAttendance extends Task
         logMessage('Running: ' . __CLASS__);
 
         if (static::isAlreadyRunning()) {
-            logMessage('Already Running: ' . __CLASS__);
             exit(1);
         }
 
         // we do not run this after this time
         if (!isTimeInRange('3:00PM')) {
-            logMessage('not in time range...' . __CLASS__);
             return;
         }
 
@@ -50,7 +48,6 @@ class MarkAttendance extends Task
 
                 // we only process for today post
                 if (!isDateToday($messageDate)) {
-                    logMessage('date is not today... ' . __CLASS__);
                     return;
                 }
             }
@@ -78,7 +75,6 @@ class MarkAttendance extends Task
                     // mark for message poster
                     if (!in_array($messageId, $lastAddedIdsDB)) {
                         //echo "\nfor message poster";
-                        logMessage('already done for message poster' . __CLASS__);
                         static::checkAndMarkAttendance($messageId, $messageDetails, $messageId);
                     }
 
@@ -86,10 +82,8 @@ class MarkAttendance extends Task
                     $messageComments = BasecampClassicAPI::getAllComments($messageId);
 
                     if ($messageComments) {
-                        logMessage('check in messages' . __CLASS__);
                         foreach ($messageComments as $commentId => $commentDetails) {
                             if (!in_array($commentId, $lastAddedIdsDB)) {
-                                logMessage('proceeding in messages' . __CLASS__);
                                 static::checkAndMarkAttendance($messageId, $commentDetails, $commentId, $lastAddedIdsDB);
                             }
                         }
