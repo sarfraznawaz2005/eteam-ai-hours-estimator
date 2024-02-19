@@ -203,16 +203,16 @@ class ReplyToEmails extends Task
                                 $emailSent = EmailSender::sendEmail($fromEmail, $fromName, $subject, $response, $ccEmails, ['sarfraz@eteamid.com']);
 
                                 if ($emailSent) {
-                                    logMessage(__CLASS__ . " : Email has been sent: {$subject}", 'success');
+                                    logMessage(__CLASS__ . " : Email has been sent: $subject", 'success');
 
                                     // Mark the message for deletion after successfully sending the reply
                                     imap_delete($inbox, $emailNumber);
 
                                 } else {
-                                    logMessage(__CLASS__ . " : Error or no response: {$subject}", 'danger');
+                                    logMessage(__CLASS__ . " : Error or no response: $subject", 'danger');
                                 }
                             } else {
-                                logMessage(__CLASS__ . " : Error or no response: {$subject}", 'danger');
+                                logMessage(__CLASS__ . " : Error or no response: $subject", 'danger');
                             }
 
                         } catch (Exception $e) {
@@ -223,23 +223,23 @@ class ReplyToEmails extends Task
                 }
             }
 
-            imap_expunge($inbox);
+            @imap_expunge($inbox);
             @imap_close($inbox);
 
         }, 2);
 
     }
 
-    private static function imapCleanup($inbox, $emailNumber)
+    private static function imapCleanup($inbox, $emailNumber): void
     {
         try {
             // Mark the message for deletion after successfully sending the reply
-            imap_delete($inbox, $emailNumber);
+            @imap_delete($inbox, $emailNumber);
 
             // Clean up and expunge messages marked for deletion
-            imap_expunge($inbox);
+            @imap_expunge($inbox);
 
-            imap_close($inbox);
+            @imap_close($inbox);
         } catch (Exception) {
         }
     }
