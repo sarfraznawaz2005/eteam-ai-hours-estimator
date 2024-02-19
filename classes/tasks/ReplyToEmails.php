@@ -223,8 +223,13 @@ class ReplyToEmails extends Task
                 }
             }
 
-            @imap_expunge($inbox);
-            @imap_close($inbox);
+            try {
+                // Clean up and expunge messages marked for deletion
+                @imap_expunge($inbox);
+
+                @imap_close($inbox);
+            } catch (Exception) {
+            }
 
         }, 2);
 
