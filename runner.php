@@ -34,7 +34,7 @@ $tasks = [
     PostProjectIdea::class,
     ReplyToEmails::class,
     ReplyToBaseCampMessages::class,
-    ReplyToBaseCampComments::class,
+    //ReplyToBaseCampComments::class, // taking too much time making basecamp go down temporarily
     RemindBaseCampCustomers::class,
 ];
 
