@@ -16,6 +16,7 @@ class MarkAttendance extends Task
 
         // we do not run this after this time
         if (!isTimeInRange('3:00PM')) {
+            logMessage('no time range: ' . __CLASS__);
             return;
         }
 
@@ -48,6 +49,7 @@ class MarkAttendance extends Task
 
                 // we only process for today post
                 if (!isDateToday($messageDate)) {
+                    logMessage('not today: ' . __CLASS__);
                     return;
                 }
             }
@@ -87,6 +89,8 @@ class MarkAttendance extends Task
 
                             if (!in_array($commentId, $lastAddedIdsDB)) {
                                 static::checkAndMarkAttendance($messageId, $commentDetails, $commentId, $lastAddedIdsDB);
+                            } else {
+                                logMessage('already done for comment: ' . $commentId . __CLASS__);
                             }
                         }
                     }
@@ -106,15 +110,19 @@ class MarkAttendance extends Task
 
         // we do this only for company employees
         if (!in_array($details['author-id'], $userIds)) {
+            logMessage('not company user: ' . __CLASS__);
             return;
         }
 
         // do not count mr-x
         if (BasecampClassicAPI::$userId == $details['author-id']) {
+            logMessage('not for mrx: ' . __CLASS__);
             return;
         }
 
         $messageAuthorName = $details['author-name'];
+
+        logMessage('going to mark attendance for : ' . $messageAuthorName . ' ' . __CLASS__);
 
         $result = self::getAttendance($messageAuthorName);
 
