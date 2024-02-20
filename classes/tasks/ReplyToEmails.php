@@ -122,7 +122,7 @@ class ReplyToEmails extends Task
                         continue;
                     }
 
-                    logMessage(__CLASS__ . " : Going to send email to: $toEmail");
+                    logMessage(__CLASS__ . " : Going to send email to: $fromEmail");
 
                     // include CC recipients in the reply
                     $ccEmails = [];
