@@ -10,6 +10,18 @@ abstract class Task
     {
         $lockFile = basePath() . '/' . get_called_class() . '.lock';
 
+        // delete the $lockFile if it's older than x minutes
+        // cause no task should take this much time
+        $minutes = 5;
+        if (file_exists($lockFile)) {
+            $fileModificationTime = filemtime($lockFile);
+            $timeNow = time();
+
+            if (($timeNow - $fileModificationTime) >= ($minutes * 60)) {
+                @unlink($lockFile);
+            }
+        }
+
         if (file_exists($lockFile)) {
             return true;
         }
