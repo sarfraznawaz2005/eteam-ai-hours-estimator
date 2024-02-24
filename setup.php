@@ -17,7 +17,7 @@ function autoloader($className): void
 
         if (file_exists($file)) {
             require_once $file;
-            break; // Stop the loop once the file is found and required
+            break;
         }
     }
 }
@@ -30,9 +30,7 @@ define('MENTION_TEXT', '@mrx');
 define('CONFIG', require_once 'config.php');
 
 // setup our error handler to convert erros into exceptions
-set_error_handler(/**
- * @throws ErrorException
- */function ($errorNumber, $errorText, $errorFile, $errorLine) {
+set_error_handler(function ($errorNumber, $errorText, $errorFile, $errorLine) {
     throw new ErrorException($errorText, 0, $errorNumber, $errorFile, $errorLine);
 });
 
@@ -49,21 +47,17 @@ function logMessage($message, $type = 'info', $logFile = 'application.log')
 
     // Check if file exists and delete it if it has more than 100 entries
     if (file_exists($filePath)) {
-        $lineCount = count(file($filePath)); // Count the number of lines in the file
+        $lineCount = count(file($filePath));
         if ($lineCount > 100) {
-            @unlink($filePath); // Delete the file if more than 100 entries
+            @unlink($filePath);
             logMessage($message, $type);
             return;
         }
     }
 
-    // Open the file depending on its size: 'w' mode if it's larger than 1MB, 'a+' otherwise
-    // Note: The logic to open in 'w' mode if larger than 1MB is removed, as it's conflicting
-    // with the requirement to delete based on the line count.
     $fileHandle = fopen($filePath, 'a+');
 
     if ($fileHandle === false) {
-        // Unable to open the file, possibly due to permissions or other errors
         return;
     }
 
@@ -130,18 +124,10 @@ function isTimeInRange($endTimeAmPm)
 
     $currentTime = strtotime(date('Y-m-d H:i'));
 
-    // Start time (6 AM) as a timestamp for today, ensuring comparison is at the start of the minute
     $startTime = strtotime('today 6:00 AM');
 
-    // Adjust end time to the end of the minute (59 seconds past) for inclusivity in comparison
     $endTime = strtotime("today " . $endTimeAmPm) + 59;
 
-    // Debugging output to understand what's being compared
-    //echo "Start Time: " . date('h:i A', $startTime) . "\n";
-    //echo "End Time: " . date('h:i A', $endTime) . "\n";
-    //echo "Current Time: " . date('h:i A', $currentTime) . "\n";
-
-    // Check if current timestamp is between start time and end time timestamps
     if ($currentTime >= $startTime && $currentTime <= $endTime) {
         return true;
     }
@@ -177,7 +163,6 @@ function runTasksParallel(array $tasks)
         $pid = pcntl_fork();
 
         if ($pid == -1) {
-            // Handle fork failure
             logMessage('Could not fork a child process', 'danger');
             continue; // Optionally, decide how to handle this failure: skip, retry, or abort
         } elseif ($pid) {
@@ -202,7 +187,6 @@ function runTasksParallel(array $tasks)
             $res = pcntl_waitpid($pid, $status, WNOHANG);
 
             if ($res == -1) {
-                // Handle waitpid failure
                 logMessage("Failed to wait for process $pid", 'danger');
                 unset($children[$pid]); // Remove the child from the list to avoid infinite loop
             } elseif ($res > 0) {

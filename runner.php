@@ -42,7 +42,7 @@ if (function_exists('pcntl_fork')) {
     runTasksParallel($tasks);
 } else {
     foreach ($tasks as $task) {
-        usleep(500000); // 0.5 seconds
+        usleep(300000); // 0.3 seconds
 
         $task::execute();
     }
