@@ -68,8 +68,6 @@ function logMessage($message, $type = 'info', $logFile = 'application.log')
         fwrite($fileHandle, $formattedMessage);
 
         flock($fileHandle, LOCK_UN);
-    } else {
-        // The file is busy or locked by another process, so we skip writing to it
     }
 
     fclose($fileHandle);
@@ -212,4 +210,11 @@ function retry(callable $callable, int $maxAttempts = 3)
             }
         }
     }
+}
+
+function isLuckyEnough($guessNumber): bool
+{
+    $number = rand(0, 3);
+
+    return $number === $guessNumber;
 }

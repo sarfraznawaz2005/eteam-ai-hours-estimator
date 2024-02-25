@@ -8,8 +8,12 @@ class ReplyToBaseCampMessages extends Task
     {
         logMessage('Running: ' . __CLASS__);
 
+        if (!isLuckyEnough(1)) {
+            return;
+        }
+
         if (static::isAlreadyRunning()) {
-            exit(1);
+            return;
         }
 
         // we do not run this after this time
@@ -60,7 +64,7 @@ class ReplyToBaseCampMessages extends Task
                     $messageBody = $messageDetails['body'] ?? '';
 
                     // do not reply to self
-                    if ((string) $authorId === BasecampClassicAPI::$userId) {
+                    if ((string)$authorId === BasecampClassicAPI::$userId) {
                         continue;
                     }
 

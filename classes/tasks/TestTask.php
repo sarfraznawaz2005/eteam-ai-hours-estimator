@@ -7,11 +7,11 @@ class TestTask extends Task
         logMessage('Running: ' . __CLASS__);
 
         if (static::isAlreadyRunning()) {
-            exit(1);
+            return;
         }
 
         // we do not run this after this time
-        if (!isTimeInRange('6:53PM')) {
+        if (!isTimeInRange('1:00PM')) {
             return;
         }
 

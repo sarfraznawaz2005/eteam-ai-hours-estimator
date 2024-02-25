@@ -36,6 +36,7 @@ $tasks = [
     ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class, // taking too much time making basecamp go down temporarily
     RemindBaseCampCustomers::class,
+    RemindHours::class,
 ];
 
 if (function_exists('pcntl_fork')) {
@@ -44,6 +45,9 @@ if (function_exists('pcntl_fork')) {
     foreach ($tasks as $task) {
         usleep(300000); // 0.3 seconds
 
+        /**
+         * @var Task $task
+         */
         $task::execute();
     }
 }

@@ -7,7 +7,7 @@ class PostProjectIdea extends Task
         logMessage('Running: ' . __CLASS__);
 
         if (static::isAlreadyRunning()) {
-            exit(1);
+            return;
         }
 
         // only on Mondays
