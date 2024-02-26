@@ -4,7 +4,10 @@ class PostWorkPlan extends Task
 {
     protected static int $totalNewPostsToFetch = 1;
 
-    public static function execute()
+    /**
+     * @throws Exception
+     */
+    public static function execute(): void
     {
         logMessage('Running: ' . __CLASS__);
 

@@ -6,7 +6,10 @@ class IniReader
     private static array $data = [];
     private static string $section = 'settings'; // Default section for all operations
 
-    public static function initialize()
+    /**
+     * @throws Exception
+     */
+    public static function initialize(): void
     {
         $rootFolder = __DIR__;
 
@@ -36,7 +39,7 @@ class IniReader
         }
     }
 
-    private static function read()
+    private static function read(): void
     {
         if (file_exists(self::$filePath)) {
             self::$data = parse_ini_file(self::$filePath, true);
@@ -58,7 +61,10 @@ class IniReader
         return null;
     }
 
-    public static function set($key, $value)
+    /**
+     * @throws Exception
+     */
+    public static function set($key, $value): void
     {
         // Sanitize the key to make it valid for INI files
         $sanitizedKey = self::sanitizeKey($key);
@@ -68,7 +74,10 @@ class IniReader
         self::write();
     }
 
-    private static function write($initialize = false)
+    /**
+     * @throws Exception
+     */
+    private static function write($initialize = false): void
     {
         if (!$initialize) {
             // Acquire an exclusive lock to prevent concurrent writes
@@ -92,7 +101,7 @@ class IniReader
         }
     }
 
-    private static function generateContent()
+    private static function generateContent(): string
     {
         $content = "[" . self::$section . "]\n";
 
@@ -103,7 +112,10 @@ class IniReader
         return $content;
     }
 
-    public static function delete($key)
+    /**
+     * @throws Exception
+     */
+    public static function delete($key): void
     {
         $sanitizedKey = self::sanitizeKey($key);
 
@@ -114,7 +126,7 @@ class IniReader
         }
     }
 
-    public static function isLocked()
+    public static function isLocked(): bool
     {
         $locked = false;
 
@@ -133,7 +145,7 @@ class IniReader
         return $locked;
     }
 
-    private static function sanitizeKey($key)
+    private static function sanitizeKey($key): array|string|null
     {
         // Replace spaces with underscores, remove special characters, and ensure it doesn't start with numbers
         $sanitizedKey = preg_replace('/[^a-zA-Z0-9_-]/', '', $key);

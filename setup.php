@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 header('jSGCacheBypass: 1');
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -30,11 +32,13 @@ define('MENTION_TEXT', '@mrx');
 define('CONFIG', require_once 'config.php');
 
 // setup our error handler to convert erros into exceptions
-set_error_handler(function ($errorNumber, $errorText, $errorFile, $errorLine) {
+set_error_handler(/**
+ * @throws ErrorException
+ */ function ($errorNumber, $errorText, $errorFile, $errorLine) {
     throw new ErrorException($errorText, 0, $errorNumber, $errorFile, $errorLine);
 });
 
-function logMessage($message, $type = 'info', $logFile = 'application.log')
+function logMessage($message, $type = 'info', $logFile = 'application.log'): void
 {
     $rootFolder = __DIR__;
     $validTypes = ['info', 'success', 'warning', 'danger'];
@@ -73,7 +77,7 @@ function logMessage($message, $type = 'info', $logFile = 'application.log')
     fclose($fileHandle);
 }
 
-function dd(...$vars)
+#[NoReturn] function dd(...$vars): void
 {
     $isCli = php_sapi_name() === 'cli';
 
@@ -92,22 +96,25 @@ function dd(...$vars)
     die(1);
 }
 
-function basePath()
+function basePath(): string
 {
     return __DIR__;
 }
 
-function isLocalhost()
+function isLocalhost(): bool
 {
     return CONFIG['db_pass'] === '';
 }
 
-function now()
+function now(): string
 {
     return date("Y-m-d H:i:s");
 }
 
-function isDateToday($date)
+/**
+ * @throws Exception
+ */
+function isDateToday($date): bool
 {
     $inputDate = new DateTime($date);
     $today = new DateTime();
@@ -116,7 +123,7 @@ function isDateToday($date)
 }
 
 // compares time between 6am and the given time
-function isTimeInRange($endTimeAmPm)
+function isTimeInRange($endTimeAmPm): bool
 {
     date_default_timezone_set('Asia/Karachi');
 
@@ -133,7 +140,7 @@ function isTimeInRange($endTimeAmPm)
     return false;
 }
 
-function xSignature()
+function xSignature(): string
 {
     return <<<body
 <br><br>
@@ -153,7 +160,7 @@ Phone: +(9221) 37120414
 body;
 }
 
-function runTasksParallel(array $tasks)
+function runTasksParallel(array $tasks): void
 {
     $children = [];
 
@@ -162,7 +169,7 @@ function runTasksParallel(array $tasks)
 
         if ($pid == -1) {
             logMessage('Could not fork a child process', 'danger');
-            continue; // Optionally, decide how to handle this failure: skip, retry, or abort
+            // Optionally, decide how to handle this failure: skip, retry, or abort
         } elseif ($pid) {
             // Parent process
             $children[$pid] = true;
@@ -197,7 +204,7 @@ function runTasksParallel(array $tasks)
     }
 }
 
-function retry(callable $callable, int $maxAttempts = 3)
+function retry(callable $callable, int $maxAttempts = 3): void
 {
     for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
         try {

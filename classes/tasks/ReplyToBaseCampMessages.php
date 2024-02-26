@@ -4,7 +4,7 @@ class ReplyToBaseCampMessages extends Task
 {
     protected static int $totalNewPostsToFetch = 3; // can reply to that number of most recent messages only
 
-    public static function execute()
+    public static function execute(): void
     {
         logMessage('Running: ' . __CLASS__);
 
@@ -31,7 +31,7 @@ class ReplyToBaseCampMessages extends Task
             $projectMessages = BasecampClassicAPI::getAllMessages($projectId);
             //dd($projectMessages);
 
-            if (is_array($projectMessages) && $projectMessages) {
+            if ($projectMessages) {
 
                 $lastAddedIdsDB = $DB->get(
                     "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT 100",

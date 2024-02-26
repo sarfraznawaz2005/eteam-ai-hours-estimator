@@ -2,7 +2,10 @@
 
 class RemindBaseCampCustomers extends Task
 {
-    public static function execute()
+    /**
+     * @throws Exception
+     */
+    public static function execute(): void
     {
         logMessage('Running: ' . __CLASS__);
 

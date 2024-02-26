@@ -12,11 +12,11 @@ class EmailSender
     private static string $secure = 'ssl'; // Use 'tls' if required
     private static int $priority = 3; // normal
 
-    public static function sendEmail(string $toEmail, string $toName, string $subject, string $body, array $ccs = [], array $bccs = [])
+    public static function sendEmail(string $toEmail, string $toName, string $subject, string $body, array $ccs = [], array $bccs = []): bool
     {
         // do not reply to self
         if ($toEmail === 'mr-x@eteamid.com') {
-            return;
+            return false;
         }
 
         $mail = new PHPMailer(true);
@@ -47,7 +47,7 @@ class EmailSender
             }
 
             // Content
-            $mail->isHTML(true);
+            $mail->isHTML();
             $mail->Subject = $subject;
             $mail->Body = $body;
 
@@ -59,18 +59,18 @@ class EmailSender
                 return false;
             }
 
-        } catch (Exception $e) {
+        } catch (Exception) {
             logMessage('Email could not be sent. Mailer Error: ' . $mail->ErrorInfo, 'danger');
             return false;
         }
     }
 
-    public static function setHighPriority()
+    public static function setHighPriority(): void
     {
         static::$priority = 1;
     }
 
-    public static function resetHighPriority()
+    public static function resetHighPriority(): void
     {
         static::$priority = 3;
     }

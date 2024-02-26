@@ -2,7 +2,7 @@
 
 class ReadBaseCampUrlContents extends Task
 {
-    public static function execute()
+    public static function execute(): void
     {
         logMessage('Running: ' . __CLASS__);
 

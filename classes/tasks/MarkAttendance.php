@@ -6,7 +6,10 @@ class MarkAttendance extends Task
 
     protected static int $totalNewPostsToFetch = 1; // since we check only latest single post
 
-    public static function execute()
+    /**
+     * @throws Exception
+     */
+    public static function execute(): void
     {
         logMessage('Running: ' . __CLASS__);
 
@@ -86,7 +89,7 @@ class MarkAttendance extends Task
                             usleep(500000); // 0.5 seconds
 
                             if (!in_array($commentId, $lastAddedIdsDB)) {
-                                static::checkAndMarkAttendance($messageId, $commentDetails, $commentId, $lastAddedIdsDB);
+                                static::checkAndMarkAttendance($messageId, $commentDetails, $commentId);
                             }
                         }
                     }
@@ -95,7 +98,7 @@ class MarkAttendance extends Task
         }
     }
 
-    private static function checkAndMarkAttendance($messageId, $details, $activityId, $prevAddedIds = [])
+    private static function checkAndMarkAttendance($messageId, $details, $activityId): void
     {
         if (DEMO_MODE) {
             logMessage('DEMO_MODE: ' . __CLASS__ . " : Going to mark attendance for " . $details['author-name']);

@@ -6,7 +6,7 @@ abstract class Task
 
     // for tasks running longer than a minute (cron time), we can avoid
     // double entries using lock file mechanism.
-    public static function isAlreadyRunning()
+    public static function isAlreadyRunning(): bool
     {
         $lockFile = basePath() . '/' . get_called_class() . '.lock';
 
@@ -31,6 +31,8 @@ abstract class Task
         register_shutdown_function(function () use ($lockFile) {
             @unlink($lockFile);
         });
+
+        return false;
     }
 
     public static function getInfo(string $activityId)

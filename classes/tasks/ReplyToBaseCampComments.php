@@ -2,7 +2,7 @@
 
 class ReplyToBaseCampComments extends Task
 {
-    public static function execute()
+    public static function execute(): void
     {
         logMessage('Running: ' . __CLASS__);
 
@@ -29,7 +29,7 @@ class ReplyToBaseCampComments extends Task
             $projectMessages = BasecampClassicAPI::getAllMessages($projectId);
             //dd($projectMessages);
 
-            if (is_array($projectMessages) && $projectMessages) {
+            if ($projectMessages) {
 
                 // mrx can reply to only "latest" $numMessages messages of the project
                 $numMessages = 3;
@@ -42,7 +42,7 @@ class ReplyToBaseCampComments extends Task
 
                     $messageComments = BasecampClassicAPI::getAllComments($messageId);
 
-                    if (is_array($messageComments) && $messageComments) {
+                    if ($messageComments) {
 
                         $messageTitle = $messageDetails['title'] ?? '';
 

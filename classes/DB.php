@@ -9,7 +9,7 @@ class DB
         $this->connect();
     }
 
-    private function connect()
+    private function connect(): void
     {
         try {
 
@@ -33,17 +33,17 @@ class DB
         }
     }
 
-    public function beginTransaction()
+    public function beginTransaction(): void
     {
         $this->conn->beginTransaction();
     }
 
-    public function commit()
+    public function commit(): void
     {
         $this->conn->commit();
     }
 
-    public function rollBack()
+    public function rollBack(): void
     {
         $this->conn->rollBack();
     }

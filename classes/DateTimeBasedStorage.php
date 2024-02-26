@@ -23,7 +23,10 @@ class DateTimeBasedStorage
         $this->deleteOldFiles();
     }
 
-    private function validateModeAndInterval()
+    /**
+     * @throws Exception
+     */
+    private function validateModeAndInterval(): void
     {
         if (!in_array($this->mode, ['date', 'time'])) {
             throw new Exception("Invalid mode specified. Use 'date' or 'time'.");
@@ -33,7 +36,10 @@ class DateTimeBasedStorage
         }
     }
 
-    private function createDirectoryIfNeeded()
+    /**
+     * @throws Exception
+     */
+    private function createDirectoryIfNeeded(): void
     {
         $this->directory = basePath() . '/' . $this->directory;
 
@@ -43,7 +49,7 @@ class DateTimeBasedStorage
     }
 
     // Updates the file path based on the current date
-    private function updateFilePath()
+    private function updateFilePath(): void
     {
         $now = new DateTime();
         $dateTimeFormat = $this->mode === 'time' ? 'd-m-Y-H-i' : 'd-m-Y';
@@ -87,7 +93,7 @@ class DateTimeBasedStorage
     }
 
     // Deletes files with the same prefix that are older than today
-    private function deleteOldFiles()
+    private function deleteOldFiles(): void
     {
         $files = glob($this->directory . '/' . $this->prefix . '-*.dat');
 
@@ -98,7 +104,7 @@ class DateTimeBasedStorage
         }
     }
 
-    private function isFileExpired($file)
+    private function isFileExpired($file): bool
     {
         $filename = basename($file, ".dat");
         $datetimePart = substr($filename, strlen($this->prefix) + 1);
@@ -138,7 +144,7 @@ class DateTimeBasedStorage
     /**
      * @throws Exception
      */
-    public function save($data)
+    public function save($data): void
     {
         if (!$data) {
             return;
@@ -169,6 +175,10 @@ class DateTimeBasedStorage
     }
 
     // Modify the read method to potentially convert arrays back to SimpleXMLElement
+
+    /**
+     * @throws Exception
+     */
     public function read()
     {
         if (isset($this->filePath) && file_exists($this->filePath)) {
@@ -195,13 +205,17 @@ class DateTimeBasedStorage
     }
 
     // Sets new data (overwrites existing)
-    public function set($newData)
+
+    /**
+     * @throws Exception
+     */
+    public function set($newData): void
     {
         $this->save($newData);
     }
 
     // Utility function to manually delete the current day's file (optional)
-    public function delete()
+    public function delete(): void
     {
         if (isset($this->filePath) && file_exists($this->filePath)) {
             @unlink($this->filePath);

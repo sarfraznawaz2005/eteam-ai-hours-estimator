@@ -14,7 +14,7 @@ class ReplyToEmails extends Task
         'sarfraz@eteamid.com' => 'Sarfraz',
     ];
 
-    public static function execute()
+    public static function execute(): void
     {
         //logMessage('Running: ' . __CLASS__);
 
@@ -55,7 +55,7 @@ class ReplyToEmails extends Task
                     // Fetch full header information
                     $header = imap_headerinfo($inbox, $emailNumber);
 
-                    $overview = imap_fetch_overview($inbox, $emailNumber, 0);
+                    $overview = imap_fetch_overview($inbox, $emailNumber);
                     $subject = $overview[0]->subject;
                     $emailBody = imap_fetchbody($inbox, $emailNumber, 2);
 
@@ -109,7 +109,7 @@ class ReplyToEmails extends Task
 
                                 static::imapCleanup($inbox, $emailNumber);
 
-                                continue;
+                                break;
                             }
                         }
                     }

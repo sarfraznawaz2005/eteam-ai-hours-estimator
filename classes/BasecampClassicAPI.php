@@ -79,35 +79,9 @@ class BasecampClassicAPI
         ];
     }
 
-    public static function deleteResource($action): int|bool
-    {
-        $url = 'https://' . static::$companyName . '.basecamphq.com/' . $action;
-
-        $session = static::getCurlInstance();
-        curl_setopt($session, CURLOPT_URL, $url);
-        curl_setopt($session, CURLOPT_HEADER, false);
-        curl_setopt($session, CURLOPT_POST, true);
-        curl_setopt($session, CURLOPT_CUSTOMREQUEST, 'DELETE');
-
-        curl_exec($session);
-        curl_close($session);
-
-        return curl_getinfo($session, CURLINFO_HTTP_CODE);
-    }
-
-    public static function getResourceCreatedId($content): array|string|null
-    {
-        preg_match('#location: .+#', $content, $matches);
-
-        if (isset($matches[0])) {
-            $id = @array_slice(explode('/', $matches[0]), -1)[0];
-
-            return preg_replace('/\D/', '', $id);
-        }
-
-        return '';
-    }
-
+    /**
+     * @throws Exception
+     */
     public static function getAllProjects(): array
     {
         $storage = new DateTimeBasedStorage(__FUNCTION__);
@@ -148,6 +122,9 @@ class BasecampClassicAPI
 
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getAllUsers(array $excludedUserIds = []): array
     {
         $storage = new DateTimeBasedStorage(__FUNCTION__);
@@ -315,6 +292,9 @@ class BasecampClassicAPI
         return $finalData;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getAllMessagesForAllProjectsParallel(): array
     {
         $multiHandle = curl_multi_init();
@@ -404,6 +384,9 @@ class BasecampClassicAPI
         return $finalData;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getAllCommentsForAllPostsForAllProjectsParallel(): array
     {
         $allPosts = static::getAllMessagesForAllProjectsParallel();
@@ -484,7 +467,10 @@ class BasecampClassicAPI
         return $finalCommentsData;
     }
 
-    public static function getEteamMiscTasksProjectId()
+    /**
+     * @throws Exception
+     */
+    public static function getEteamMiscTasksProjectId(): bool|int|string
     {
         $projects = static::getAllProjects();
 
@@ -493,7 +479,10 @@ class BasecampClassicAPI
         return array_search(strtolower(static::$eteamMiscTasksProjectName), $projects);
     }
 
-    public static function getEteamKnowledgeSharingProjectId()
+    /**
+     * @throws Exception
+     */
+    public static function getEteamKnowledgeSharingProjectId(): bool|int|string
     {
         $projects = static::getAllProjects();
 
@@ -502,7 +491,7 @@ class BasecampClassicAPI
         return array_search(strtolower(static::$eteamKnowledgeSharingProjectName), $projects);
     }
 
-    public static function getUrlContents(string $url)
+    public static function getUrlContents(string $url): bool|string
     {
         $session = curl_init();
 

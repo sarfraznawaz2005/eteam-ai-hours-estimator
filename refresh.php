@@ -13,7 +13,7 @@ foreach ($files as $file) {
 
     // Check if file name starts with one of the prefixes in $skipLockFiles
     foreach ($skipLockFiles as $prefix) {
-        if (strpos($file, $prefix) === 0) {
+        if (str_starts_with($file, $prefix)) {
             $skipFile = true;
             break;
         }

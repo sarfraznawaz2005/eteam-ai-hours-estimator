@@ -2,7 +2,10 @@
 
 class RemindHours extends Task
 {
-    public static function execute()
+    /**
+     * @throws Exception
+     */
+    public static function execute(): void
     {
         logMessage('Running: ' . __CLASS__);
 
@@ -65,6 +68,10 @@ class RemindHours extends Task
     }
 
     // remind only if it's working day, check if users have posted workplan
+
+    /**
+     * @throws Exception
+     */
     private static function shouldRemind(): bool
     {
         // don't do for weekends
