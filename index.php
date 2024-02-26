@@ -55,3 +55,7 @@
 </div>
 
 <?php require_once './layout/foot.php';?>
+
+<!-- Chatbot Embed Code -->
+<script src="https://ai.eteamprojects.com/chatbot/chatbot-embed.js"></script>
+
