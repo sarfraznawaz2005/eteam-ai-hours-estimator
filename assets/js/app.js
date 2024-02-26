@@ -1,32 +1,35 @@
-$(document).ready(function() {
-    $('form').on('submit', function(e) {
-      
+$(document).ready(function () {
+    $('form').on('submit', function (e) {
+
         e.preventDefault();
 
         let formData = $(this).serialize();
 
-        let formObject = $(this).serializeArray().reduce(function(obj, item) {
+        let formObject = $(this).serializeArray().reduce(function (obj, item) {
             obj[item.name] = item.value;
             return obj;
         }, {});
 
         // these options can be passed via hidden fields from forms
         let config = {
-            "processor" : formObject.processor,
-            "output_element" : formObject.output_element || 'div.success',
-            "output_element_html" : formObject.output_element_html || 'div.success pre',
-            "output_element_error" : formObject.output_element_error || 'div.alert-danger',
-            "element_loading" : formObject.element_loading || 'div.loading',
-            "element_loading_image" : formObject.element_loading_image || '#loadingImg',
-            "show_random_loading" : formObject.show_random_loading || true,
-            "show_lotti_animation" : formObject.show_lotti_animation || true,
-            "hide_modal" : formObject.hide_modal || true,
+            "processor": formObject.processor,
+            "output_element": formObject.output_element || 'div.success',
+            "output_element_html": formObject.output_element_html || 'div.success pre',
+            "output_element_error": formObject.output_element_error || 'div.alert-danger',
+            "element_loading": formObject.element_loading || 'div.loading',
+            "element_loading_image": formObject.element_loading_image || '#loadingImg',
+            "show_random_loading": formObject.show_random_loading || true,
+            "show_lotti_animation": formObject.show_lotti_animation || true,
+            "hide_modal": formObject.hide_modal || true,
         };
+
+        if (!$(config.element_loading).length) {
+            return;
+        }
 
         if (config.show_random_loading) {
             $(config.element_loading_image).attr('src', getRandomLoadingImage());
-        }
-        else {
+        } else {
             $(config.element_loading_image).attr('src', '/assets/loading.gif');
         }
 
@@ -43,13 +46,13 @@ $(document).ready(function() {
         if (config.hide_modal) {
             $('.modal').modal('hide');
         }
-        
+
         $.ajax({
             type: 'POST',
             url: config.processor,
             dataType: 'json',
             data: formData,
-            success: function(response) {
+            success: function (response) {
 
                 if (response.error) {
                     $(config.output_element_error).text(response.error);
@@ -61,7 +64,7 @@ $(document).ready(function() {
                             $("lottie-player").show();
                         }
                     }
-                    
+
                     $(config.element_loading).hide();
                     $(config.output_element_html).html(response.result);
                     $(config.output_element).show(1500);
@@ -70,16 +73,18 @@ $(document).ready(function() {
 
                     $('html, body').animate({
                         scrollTop: $(config.output_element).offset().top + 15
-                    }, 1000, function() {
-                        setTimeout(function() { $("lottie-player").hide(); }, 1000);
+                    }, 1000, function () {
+                        setTimeout(function () {
+                            $("lottie-player").hide();
+                        }, 1000);
                     });
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 $(config.output_element_error).text(error);
                 $(config.output_element_error).show();
             },
-            complete: function() {
+            complete: function () {
                 $("button[type='submit']").prop('disabled', false);
                 $(config.element_loading).hide();
             }
@@ -107,8 +112,8 @@ function getRandomLoadingImage() {
         '/assets/giphy17.gif',
         '/assets/giphy18.gif',
     ];
-    
+
     const randomIndex = Math.floor(Math.random() * loadingImages.length);
-    
+
     return loadingImages[randomIndex];
 }
