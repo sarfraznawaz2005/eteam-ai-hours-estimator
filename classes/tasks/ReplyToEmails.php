@@ -4,8 +4,14 @@ class ReplyToEmails extends Task
 {
     const MRX_EMAIL_ADDRESS = 'mr-x@eteamid.com';
 
+    // do not reply to these sender emails, must be lowercase
     private static array $excludedEmails = [
         'notifications@eteamid.basecamphq.com',
+    ];
+
+    // do not reply to emails with these subjects, must be lowercase
+    private static array $ignoreSubjects = [
+        'hours reminder'
     ];
 
     // for basecampe, if email body contains these words (value of array),
@@ -115,8 +121,15 @@ class ReplyToEmails extends Task
                     }
                     ////////////////////////////////////////////////
 
+                    // do not reply to excluded email subjects
+                    if (in_array(strtolower($subject), static::$ignoreSubjects, true)) {
+                        static::imapCleanup($inbox, $emailNumber);
+
+                        continue;
+                    }
+
                     // do not reply to excluded sender emails
-                    if (in_array($fromEmail, static::$excludedEmails, true)) {
+                    if (in_array(strtolower($fromEmail), static::$excludedEmails, true)) {
                         static::imapCleanup($inbox, $emailNumber);
 
                         continue;
