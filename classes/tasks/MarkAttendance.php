@@ -141,11 +141,8 @@ class MarkAttendance extends Task
 
             if ($result) {
 
-                // we only mark for comment id.
-                if ($activityId != $messageId) {
-                    static::markDone($activityId, __CLASS__);
-                    logMessage(__CLASS__ . " :  $messageAuthorName", 'success');
-                }
+                static::markDone($activityId, __CLASS__);
+                logMessage(__CLASS__ . " :  $messageAuthorName", 'success');
 
                 $comment = "Dear $messageAuthorName, I have marked your attendance for today, Thanks!";
 
