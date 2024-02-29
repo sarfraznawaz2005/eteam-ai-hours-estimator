@@ -122,10 +122,10 @@ class ReplyToEmails extends Task
                     ////////////////////////////////////////////////
 
                     // do not reply to excluded email subjects
-                    if (in_array(strtolower($subject), static::$ignoreSubjects, true)) {
-                        static::imapCleanup($inbox, $emailNumber);
-
-                        continue;
+                    foreach (static::$ignoreSubjects as $ignoreSubject) {
+                        if (str_contains(strtolower($subject), strtolower($ignoreSubject))) {
+                            break;
+                        }
                     }
 
                     // do not reply to excluded sender emails
