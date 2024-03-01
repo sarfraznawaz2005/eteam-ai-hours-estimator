@@ -161,7 +161,7 @@ class MarkAttendance extends Task
             }
 
         } else {
-            logMessage(__CLASS__ . " :  Attendance already marked by $messageAuthorName");
+            logMessage(__CLASS__ . " :  Attendance already marked by $messageAuthorName - value: $result");
         }
     }
 
