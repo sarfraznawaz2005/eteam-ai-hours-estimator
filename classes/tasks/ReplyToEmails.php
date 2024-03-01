@@ -126,7 +126,8 @@ class ReplyToEmails extends Task
                         if (str_contains(strtolower($subject), strtolower($ignoreSubject))) {
                             static::imapCleanup($inbox, $emailNumber);
 
-                            break;
+                            // break both inner and outer loop
+                            break 2;
                         }
                     }
 
