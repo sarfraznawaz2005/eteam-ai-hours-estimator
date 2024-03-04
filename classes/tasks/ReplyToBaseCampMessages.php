@@ -62,6 +62,12 @@ class ReplyToBaseCampMessages extends Task
                     $messageTitle = $messageDetails['title'] ?? '';
                     $authorId = $messageDetails['author-id'] ?? '';
                     $messageBody = $messageDetails['body'] ?? '';
+                    $messageDate = $messageDetails['posted-on'] ?? '';
+
+                    // if message is older than 3 days, we don't reply to it
+                    if (strtotime($messageDate) < strtotime('-3 days')) {
+                        continue;
+                    }
 
                     // do not reply to self
                     if ((string)$authorId === BasecampClassicAPI::$userId) {

@@ -77,6 +77,12 @@ class ReplyToBaseCampComments extends Task
 
                             $authorId = $commentDetails['author-id'] ?? '';
                             $commentBody = $commentDetails['body'] ?? '';
+                            $commentDate = $commentDetails['created-at'] ?? '';
+
+                            // if comment is older than 3 days, we don't reply to it
+                            if (strtotime($commentDate) < strtotime('-3 days')) {
+                                continue;
+                            }
 
                             if (!trim($commentBody)) {
                                 continue;
