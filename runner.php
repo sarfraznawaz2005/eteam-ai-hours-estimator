@@ -37,6 +37,7 @@ $tasks = [
     ReplyToBaseCampComments::class, // taking too much time making basecamp go down temporarily
     RemindBaseCampCustomers::class,
     RemindHours::class,
+    MyPersonalReminder::class,
 ];
 
 if (function_exists('pcntl_fork')) {
