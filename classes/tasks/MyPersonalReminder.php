@@ -27,10 +27,7 @@ class MyPersonalReminder extends Task
             $isAlreadyDone = static::isDoneForToday($id, __CLASS__);
 
             if (!$isAlreadyDone) {
-                $emailBody = "Dear Sarfraz,<br><br>Kindly pay internet bill today.";
-                $emailBody .= xSignature();
-
-                $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', 'Net Bill Reminder', $emailBody);
+                $emailSent = self::sendEmail('Net Bill Reminder', "Dear Sarfraz,<br><br>Kindly pay internet bill today.");
 
                 if ($emailSent) {
                     logMessage(__CLASS__ . ' : Net Bill Reminder', 'success');
@@ -47,10 +44,7 @@ class MyPersonalReminder extends Task
             $isAlreadyDone = static::isDoneForToday($id, __CLASS__);
 
             if (!$isAlreadyDone) {
-                $emailBody = "Dear Sarfraz,<br><br>Kindly pay K-Electric bills today.";
-                $emailBody .= xSignature();
-
-                $emailSent = EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', 'K-Electric Bill Reminder', $emailBody);
+                $emailSent = self::sendEmail('K-Electric Bill Reminder', "Dear Sarfraz,<br><br>Kindly pay K-Electric bills today.");
 
                 if ($emailSent) {
                     logMessage(__CLASS__ . ' : K-Electric Bill Reminder', 'success');
@@ -60,6 +54,11 @@ class MyPersonalReminder extends Task
             }
         }
 
+    }
+
+    private static function sendEmail($subject, $body): bool
+    {
+        return EmailSender::sendEmail('sarfraz@eteamid.com', 'Sarfraz', $subject, $body . xSignature());
     }
 
     private static function markItDone($id): void
