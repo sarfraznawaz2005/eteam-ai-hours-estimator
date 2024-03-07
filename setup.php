@@ -1,7 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
 header('jSGCacheBypass: 1');
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -77,7 +75,7 @@ function logMessage($message, $type = 'info', $logFile = 'application.log'): voi
     fclose($fileHandle);
 }
 
-#[NoReturn] function dd(...$vars): void
+function dd(...$vars): void
 {
     $isCli = php_sapi_name() === 'cli';
 

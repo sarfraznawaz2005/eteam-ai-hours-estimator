@@ -7,3 +7,7 @@ tmp_data/*
 /.idea
 /.fleet
 /.vscode
+/.settings
+.buildpath
+.foopad
+.project

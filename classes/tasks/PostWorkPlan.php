@@ -15,7 +15,7 @@ class PostWorkPlan extends Task
 			return;
 		}
 
-		// we do not run this after this time...
+		// we do not run this after this time.
 		if (!isTimeInRange('1:00PM')) {
 			return;
 		}

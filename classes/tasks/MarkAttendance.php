@@ -4,7 +4,7 @@ class MarkAttendance extends Task
 {
     const SPREAD_SHEET_ID = '1A6VP8uTogoO1xMXvfpkFidPl1ER791OYOhoYnLMbRsQ';
 
-    protected static int $totalNewPostsToFetch = 1; // since we check only latest single post
+    protected static int $totalNewPostsToFetch = 1; // since we check only latest single basecamp message
 
     /**
      * @throws Exception
