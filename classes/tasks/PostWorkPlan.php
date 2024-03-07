@@ -2,133 +2,133 @@
 
 class PostWorkPlan extends Task
 {
-    protected static int $totalNewPostsToFetch = 1;
+	protected static int $totalNewPostsToFetch = 1;
 
-    /**
-     * @throws Exception
-     */
-    public static function execute(): void
-    {
-        logMessage('Running: ' . __CLASS__);
+	/**
+	 * @throws Exception
+	 */
+	public static function execute(): void
+	{
+		logMessage('Running: ' . __CLASS__);
 
-        if (static::isAlreadyRunning()) {
-            return;
-        }
+		if (static::isAlreadyRunning()) {
+			return;
+		}
 
-        // we do not run this after this time
-        if (!isTimeInRange('1:00PM')) {
-            return;
-        }
+		// we do not run this after this time...
+		if (!isTimeInRange('1:00PM')) {
+			return;
+		}
 
-        $eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
-        //dd($eteamMiscTasksProjectId);
+		$eteamMiscTasksProjectId = BasecampClassicAPI::getEteamMiscTasksProjectId();
+		//dd($eteamMiscTasksProjectId);
 
-        if (!$eteamMiscTasksProjectId) {
-            logMessage('Failed to get the eteam misc tasks project ID. Please verify that the project exists and is accessible.', 'danger');
-            return;
-        }
+		if (!$eteamMiscTasksProjectId) {
+			logMessage('Failed to get the eteam misc tasks project ID. Please verify that the project exists and is accessible.', 'danger');
+			return;
+		}
 
-        // returns 25 most recent messages by default
-        $eteamMiscProjectMessages = BasecampClassicAPI::getAllMessages($eteamMiscTasksProjectId);
-        //dd($eteamMiscProjectMessages);
+		// returns 25 most recent messages by default
+		$eteamMiscProjectMessages = BasecampClassicAPI::getAllMessages($eteamMiscTasksProjectId);
+		//dd($eteamMiscProjectMessages);
 
-        if ($eteamMiscProjectMessages) {
+		if ($eteamMiscProjectMessages) {
 
-            $DB = new DB();
+			$DB = new DB();
 
-            //////////////////////////////////
-            // delete older records
-            $description = __CLASS__;
-            $sql = "DELETE FROM activities WHERE description = '$description' AND DATE(created_at) < DATE(NOW() - INTERVAL 10 DAY)";
-            $DB->executeQuery($sql);
-            //////////////////////////////////
+			//////////////////////////////////
+			// delete older records
+			$description = __CLASS__;
+			$sql = "DELETE FROM activities WHERE description = '$description' AND DATE(created_at) < DATE(NOW() - INTERVAL 10 DAY)";
+			$DB->executeQuery($sql);
+			//////////////////////////////////
 
-            $messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
+			$messages = array_slice($eteamMiscProjectMessages, 0, static::$totalNewPostsToFetch, true);
 
-            if ($messages) {
-                $messageDate = $messages[key($messages)]['posted-on'];
+			if ($messages) {
+				$messageDate = $messages[key($messages)]['posted-on'];
 
-                // we only process for today post
-                if (!isDateToday($messageDate)) {
-                    return;
-                }
-            }
+				// we only process for today post
+				if (!isDateToday($messageDate)) {
+					return;
+				}
+			}
 
-            $lastAddedIdsDB = $DB->get(
-                "select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
-                [':description' => strtolower(__CLASS__)]
-            );
+			$lastAddedIdsDB = $DB->get(
+				"select activity_id from activities where LOWER(description) = :description ORDER BY id DESC LIMIT " . static::$totalNewPostsToFetch,
+				[':description' => strtolower(__CLASS__)]
+			);
 
-            $lastAddedIdsDB = $lastAddedIdsDB ?: [];
+			$lastAddedIdsDB = $lastAddedIdsDB ?: [];
 
-            $lastAddedIdsDB = array_map(function ($item) {
-                return intval($item['activity_id'] ?? '0');
-            }, $lastAddedIdsDB);
-            //dd($lastAddedIdsDB);
+			$lastAddedIdsDB = array_map(function ($item) {
+				return intval($item['activity_id'] ?? '0');
+			}, $lastAddedIdsDB);
+			//dd($lastAddedIdsDB);
 
-            foreach ($messages as $messageId => $messageDetails) {
+			foreach ($messages as $messageId => $messageDetails) {
 
-                if (in_array($messageId, $lastAddedIdsDB, true)) {
-                    continue;
-                }
+				if (in_array($messageId, $lastAddedIdsDB, true)) {
+					continue;
+				}
 
-                $messageTitle = $messageDetails['title'];
+				$messageTitle = $messageDetails['title'];
 
-                if (
-                    str_starts_with(strtolower(trim($messageTitle)), 'workplan') ||
-                    str_starts_with(strtolower(trim($messageTitle)), 'work plan')
-                ) {
+				if (
+					str_starts_with(strtolower(trim($messageTitle)), 'workplan') ||
+					str_starts_with(strtolower(trim($messageTitle)), 'work plan')
+				) {
 
-                    if (DEMO_MODE) {
-                        logMessage('DEMO_MODE: ' . __CLASS__ . " => ProjectID:$eteamMiscTasksProjectId, MessageID:$messageId");
-                        continue;
-                    }
+					if (DEMO_MODE) {
+						logMessage('DEMO_MODE: ' . __CLASS__ . " => ProjectID:$eteamMiscTasksProjectId, MessageID:$messageId");
+						continue;
+					}
 
-                    $message = <<<message
-                    AOA,<br><br>
+					$message = <<<message
+					AOA,<br><br>
 
-                    - Mark Attendances<br>
-                    - Post Project Ideas<br>
-                    - Code Reviews<br>
-                    - Email Communication<br>
-                    - Basecamp Communication<br>
-                    - Basecamp Customer Reply Reminders<br>
-                    - Provide AI Tools Services<br>
-                    - Coordinate with Team<br>
-                    - etc
-                    message;
+					- Mark Attendances<br>
+					- Post Project Ideas<br>
+					- Code Reviews<br>
+					- Email Communication<br>
+					- Basecamp Communication<br>
+					- Basecamp Customer Reply Reminders<br>
+					- Provide AI Tools Services<br>
+					- Coordinate with Team<br>
+					- etc
+					message;
 
-                    GoogleAI::setPrompt("Please provide a inspirational quote tailored to a software engineering company. This inspirational quote should boost the morale of our team. Quote can either be generated by you or saying of someone.");
+					GoogleAI::setPrompt("Please provide a inspirational quote tailored to a software engineering company. This inspirational quote should boost the morale of our team. Quote can either be generated by you or saying of someone.");
 
-                    $response = GoogleAI::GenerateContentWithRetry();
+					$response = GoogleAI::GenerateContentWithRetry();
 
-                    if (!str_contains(strtolower($response), 'no response')) {
-                        $message .= <<<message
-                            <br><br><b>Inspirational Quote Of The Day:</b><br>
+					if (!str_contains(strtolower($response), 'no response')) {
+						$message .= <<<message
+							<br><br><b>Inspirational Quote Of The Day:</b><br>
 
-                            $response
-                        message;
-                    }
+							$response
+						message;
+					}
 
-                    $action = "posts/$messageId/comments.xml";
+					$action = "posts/$messageId/comments.xml";
 
-                    $xmlData = <<<data
-                    <comment>
-                        <body><![CDATA[$message]]></body>
-                    </comment>
-                    data;
+					$xmlData = <<<data
+					<comment>
+						<body><![CDATA[$message]]></body>
+					</comment>
+					data;
 
-                    // send to basecamp
-                    $response = BasecampClassicAPI::postInfo($action, $xmlData);
+					// send to basecamp
+					$response = BasecampClassicAPI::postInfo($action, $xmlData);
 
-                    if ($response && $response['code'] === 201) {
-                        static::markDone($messageId, __CLASS__);
-                        logMessage(__CLASS__ . " :  Workplan Post Success", 'success');
-                    } else {
-                        logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
-                    }
-                }
-            }
-        }
-    }
+					if ($response && $response['code'] === 201) {
+						static::markDone($messageId, __CLASS__);
+						logMessage(__CLASS__ . " :  Workplan Post Success", 'success');
+					} else {
+						logMessage(__CLASS__ . " :  Could not post workplan", 'danger');
+					}
+				}
+			}
+		}
+	}
 }
