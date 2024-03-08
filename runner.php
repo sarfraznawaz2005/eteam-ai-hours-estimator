@@ -32,6 +32,7 @@ $tasks = [
     PostWorkPlan::class,
     MarkAttendance::class,
     PostProjectIdea::class,
+    CodingTipOfTheDay::class,
     ReplyToEmails::class,
     ReplyToBaseCampMessages::class,
     ReplyToBaseCampComments::class, // taking too much time making basecamp go down temporarily
