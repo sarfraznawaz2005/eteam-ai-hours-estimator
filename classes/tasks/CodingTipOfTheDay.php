@@ -78,10 +78,8 @@ class CodingTipOfTheDay extends Task
             } else {
                 logMessage(__CLASS__ . " : Could not post Idea", 'danger');
             }
-
         } else {
             logMessage(__CLASS__ . " : Error or no response", 'danger');
         }
-
     }
 }

@@ -11,3 +11,5 @@ tmp_data/*
 .buildpath
 .foopad
 .project
+/nbproject/private/
+

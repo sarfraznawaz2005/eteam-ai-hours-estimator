@@ -155,11 +155,9 @@ class MarkAttendance extends Task
                 data;
 
                 BasecampClassicAPI::postInfo($action, $xmlData);
-
             } else {
                 logMessage(__CLASS__ . " :  Unable to mark attendance for $messageAuthorName", 'error');
             }
-
         } else {
             logMessage(__CLASS__ . " :  Attendance already marked by $messageAuthorName - value: $result");
         }
