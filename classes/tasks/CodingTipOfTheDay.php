@@ -33,7 +33,7 @@ class CodingTipOfTheDay extends Task
             return;
         }
 
-        GoogleAI::setPrompt("\n\nPlease generate a detailed and useful tip tailored to software engineering or web designing with example code if needed. It should be based on PHP, laravel, javascript, reactjs, devops, git, css, etc");
+        GoogleAI::setPrompt("\n\nPlease generate a detailed and useful tip tailored to software engineering or web designing with example code (wrapped in pre tag) if needed. It should be based on PHP, laravel, javascript, reactjs, devops, git, css, etc");
 
         $response = GoogleAI::GenerateContentWithRetry();
 
@@ -48,6 +48,14 @@ class CodingTipOfTheDay extends Task
             }
 
             $postTitle = 'Tip of the Day - ' . date('d-m-Y');
+
+            if (preg_match('/Tip: (.*?)\n/i', strip_tags($response), $matches)) {
+                $ideaName = $matches[1] ?? '';
+
+                if (trim($ideaName)) {
+                    $postTitle .= " [$ideaName]";
+                }
+            }
 
             $action = "projects/$eteamKnowledgeSharingProjectId/posts.xml";
 
