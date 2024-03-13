@@ -47,7 +47,7 @@ class CodingTipOfTheDay extends Task
                 $notifyPersonsXml .= "<notify>$key</notify>\n";
             }
 
-            $postTitle = 'Tip of the Day - ' . date('d-m-Y');
+            $postTitle = 'Tip of the Day - ';
 
             if (preg_match('/Tip: (.*?)\n/i', strip_tags($response), $matches)) {
                 $ideaName = $matches[1] ?? '';

@@ -52,7 +52,7 @@ class PostProjectIdea extends Task
                 $notifyPersonsXml .= "<notify>$key</notify>\n";
             }
 
-            $postTitle = 'Idea Of The Week - ' . date('d-m-Y');
+            $postTitle = 'Idea Of The Week - ';
 
             if (preg_match('/Idea Name: (.*?)\n/i', strip_tags($response), $matches)) {
                 $ideaName = $matches[1] ?? '';
