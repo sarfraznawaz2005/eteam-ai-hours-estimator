@@ -157,7 +157,7 @@ class RemindBaseCampCustomers extends Task
 
                 $emailBody .= xSignature();
 
-                EmailSender::sendEmail('sarfraz@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
+                EmailSender::sendEmail('everyone@eteamid.com', 'TEAM', 'Reminder - Un-Replied BaseCamp Customers', $emailBody);
 
                 logMessage(__CLASS__ . ' : Reminder Email Sent', 'success');
             }
