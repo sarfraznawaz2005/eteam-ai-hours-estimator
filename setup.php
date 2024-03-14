@@ -142,9 +142,8 @@ function xSignature(): string
 {
     return <<<body
 <br><br>
-Thanks
+Thanks<br>
 ---<br>
-<br>
 Mr-X (eTeam AI Bot)<br>
 Technical Assistant<br>
 <br>

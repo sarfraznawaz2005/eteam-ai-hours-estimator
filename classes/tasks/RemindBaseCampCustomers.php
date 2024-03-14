@@ -123,9 +123,22 @@ class RemindBaseCampCustomers extends Task
                     continue;
                 }
 
-                $dueReminders[] = $unrepliedMessages[$unrepliedMessageKey];
+                $prompt = <<<EOD
+                Check if customer has asked a question or has a query that we need to reply to. If yes, 
+                reply with only and exactly 'Customer Needs Response' and nothing else. If no, reply with 
+                "No Question".
+                
+                Customer Message: "$unrepliedMessages[$unrepliedMessageKey]"
+                EOD;
 
-                static::markDone($unrepliedMessageKey, __CLASS__);
+                GoogleAI::setPrompt($prompt);
+
+                $response = GoogleAI::GenerateContentWithRetry();
+
+                if (!str_contains(strtolower($response), 'no response') && $response === 'Customer Needs Response') {
+                    $dueReminders[] = $unrepliedMessages[$unrepliedMessageKey];
+                    static::markDone($unrepliedMessageKey, __CLASS__);
+                }
             }
 
             if (DEMO_MODE) {
