@@ -124,18 +124,18 @@ class RemindBaseCampCustomers extends Task
                 }
 
                 $prompt = <<<EOD
-                Check if customer has asked a question or has a query that we need to reply to. If yes, 
-                reply with only and exactly 'Customer Needs Response' and nothing else. If no, reply with 
-                "No Question".
+                See given customer message and figure out if we should reply to it in case it is a question/query or 
+                even a general comment that you think is worth replying. If it's worth replying, reply with only and 
+                exactly "Worth Replying" and nothing else. If it's not worth replying, reply with "All Good" instead.
                 
                 Customer Message: "$unrepliedMessages[$unrepliedMessageKey]"
                 EOD;
 
                 GoogleAI::setPrompt($prompt);
 
-                $response = GoogleAI::GenerateContentWithRetry();
+                $response = strtolower(GoogleAI::GenerateContentWithRetry());
 
-                if (!str_contains(strtolower($response), 'no response') && $response === 'Customer Needs Response') {
+                if (str_contains($response, 'worth replying')) {
                     $dueReminders[] = $unrepliedMessages[$unrepliedMessageKey];
                     static::markDone($unrepliedMessageKey, __CLASS__);
                 }
