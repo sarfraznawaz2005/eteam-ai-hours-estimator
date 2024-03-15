@@ -18,15 +18,14 @@ class PersonalReminders extends Task
             return;
         }
 
-        logMessage("DATE:" . date('Y-m-d'), 'warning');
         self::checkReminder('Sarfraz Net Bill Reminder', '15', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
 
-        self::checkReminder('Sarfraz Net Bill Reminder', date('Y-m-t', strtotime(date('Y-m-d'))), 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
+        self::checkReminder('Net Bill Reminder', date('Y-m-t', strtotime(date('Y-m-d'))), 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
         self::checkReminder('K-Electric Bill Reminder', '15', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay K-Electric bills today.');
-        self::checkReminder('Team Salaries Reminder', '4', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for Team Salaries.');
-        self::checkReminder('FBL Hoe Loan Instalment Reminder', '6', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for FBL Hoe Loan Instalment.');
-        self::checkReminder('Complete Invoicing Reminder', '7', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for Complete Invoicing.');
-        self::checkReminder('Office and Home Utilities Reminder', '8', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for Office and Home Utilities.');
+        self::checkReminder('Team Salaries Reminder', '04', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for Team Salaries.');
+        self::checkReminder('FBL Hoe Loan Instalment Reminder', '06', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for FBL Hoe Loan Instalment.');
+        self::checkReminder('Complete Invoicing Reminder', '07', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for Complete Invoicing.');
+        self::checkReminder('Office and Home Utilities Reminder', '08', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for Office and Home Utilities.');
         self::checkReminder('Team Allowances Reminder', '12', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for Team Allowances.');
         self::checkReminder('FBR & SRB Tax Challans Reminder', '13', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for FBR & SRB Tax Challans.');
         self::checkReminder('CC Payments Reminder', '20', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for CC Payments.');
@@ -38,7 +37,7 @@ class PersonalReminders extends Task
         $todayDate = date('Y-m-d');
 
         if (date('d') === $day) {
-            $id = "${$prefix}_$todayDate";
+            $id = "{$prefix}_{$todayDate}_$to";
 
             $isAlreadyDone = static::isDoneForToday($id, __CLASS__);
 
