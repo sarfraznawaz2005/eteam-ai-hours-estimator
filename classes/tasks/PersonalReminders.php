@@ -18,7 +18,7 @@ class PersonalReminders extends Task
             return;
         }
 
-        logMessage("DATE:" . date('Y-m-d'), 'info');
+        logMessage("DATE:" . date('Y-m-d'), 'warning');
         self::checkReminder('Sarfraz Net Bill Reminder', '15', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
 
         self::checkReminder('Sarfraz Net Bill Reminder', date('Y-m-t', strtotime(date('Y-m-d'))), 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
