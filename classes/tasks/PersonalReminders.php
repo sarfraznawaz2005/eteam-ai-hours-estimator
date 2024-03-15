@@ -19,6 +19,8 @@ class PersonalReminders extends Task
         }
 
         self::chekcReminder('Sarfraz Net Bill Reminder', '15', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
+        self::chekcReminder('Sarfraz Net Bill Reminder', '14', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
+        self::chekcReminder('Sarfraz Net Bill Reminder', '16', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
 
         self::chekcReminder('Sarfraz Net Bill Reminder', date('Y-m-t', strtotime(date('Y-m-d'))), 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
         self::chekcReminder('K-Electric Bill Reminder', '15', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay K-Electric bills today.');
