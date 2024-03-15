@@ -18,8 +18,7 @@ class PersonalReminders extends Task
             return;
         }
 
-        self::checkReminder('Sarfraz Net Bill Reminder', '15', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
-
+        self::checkReminder('Hours Upload Reminder', date('Y-m-t', strtotime(date('Y-m-d'))), 'everyone@eteamid.com', 'Dear Team,<br><br>Kindly upload all hours for this month.');
         self::checkReminder('Net Bill Reminder', date('Y-m-t', strtotime(date('Y-m-d'))), 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay internet bill today.');
         self::checkReminder('K-Electric Bill Reminder', '15', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Kindly pay K-Electric bills today.');
         self::checkReminder('Team Salaries Reminder', '04', 'riaz@eteamid.com', 'Dear Riaz,<br><br>This is your reminder for Team Salaries.');
