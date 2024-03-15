@@ -14,7 +14,7 @@ class PersonalReminders extends Task
         }
 
         // we do not run this after this time
-        if (!isTimeInRange('2:00PM')) {
+        if (!isTimeInRange('5:00PM')) {
             return;
         }
 
