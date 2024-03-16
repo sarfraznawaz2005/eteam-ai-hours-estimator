@@ -217,9 +217,7 @@ function retry(callable $callable, int $maxAttempts = 3): void
     }
 }
 
-function isLuckyEnough($guessNumber): bool
+function isLucky($max = 3): bool
 {
-    $number = rand(0, 3);
-
-    return $number === $guessNumber;
+    return rand(0, $max) === rand(0, $max);
 }

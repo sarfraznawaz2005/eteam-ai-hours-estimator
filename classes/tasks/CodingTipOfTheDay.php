@@ -33,7 +33,7 @@ class CodingTipOfTheDay extends Task
             return;
         }
 
-        GoogleAI::setPrompt("\n\nPlease generate a detailed and useful tip tailored to software engineering or web designing with example code (wrapped in div tag) if needed. It should be based on PHP, laravel, javascript, reactjs, devops, git, css, etc");
+        GoogleAI::setPrompt("\n\nPlease generate a detailed and useful tip tailored to software engineering or web designing with example code (wrapped in div tag) if needed. It should be based on PHP, laravel, javascript, reactjs, devops, git, css, or some other web technology.");
 
         $response = GoogleAI::GenerateContentWithRetry();
 
@@ -77,9 +77,9 @@ class CodingTipOfTheDay extends Task
 
             if ($response && $response['code'] === 201) {
                 static::markDone(__CLASS__, __CLASS__);
-                logMessage(__CLASS__ . " :  Post Idea Success", 'success');
+                logMessage(__CLASS__ . " :  Post Tip Success", 'success');
             } else {
-                logMessage(__CLASS__ . " : Could not post Idea", 'danger');
+                logMessage(__CLASS__ . " : Could not post tip", 'danger');
             }
         } else {
             logMessage(__CLASS__ . " : Error or no response", 'danger');

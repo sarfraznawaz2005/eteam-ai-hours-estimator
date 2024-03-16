@@ -6,7 +6,7 @@ class ReplyToBaseCampComments extends Task
     {
         logMessage('Running: ' . __CLASS__);
 
-        if (!isLuckyEnough(1)) {
+        if (!isLucky()) {
             return;
         }
 
