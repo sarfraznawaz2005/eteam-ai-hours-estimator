@@ -2,6 +2,9 @@
 
 class PostProjectIdea extends Task
 {
+    /**
+     * @throws Exception
+     */
     public static function execute(): void
     {
         logMessage('Running: ' . __CLASS__);
