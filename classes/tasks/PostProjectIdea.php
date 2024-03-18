@@ -21,7 +21,7 @@ class PostProjectIdea extends Task
         }
         
         // we do not run this after this time
-        if (!isTimeInRange('3:00PM')) {
+        if (!isTimeInRange('12:00PM')) {
             return;
         }
 

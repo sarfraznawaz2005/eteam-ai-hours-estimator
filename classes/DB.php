@@ -30,6 +30,8 @@ class DB
             logMessage('DB Connection Error: ' . $e->getMessage(), 'danger');
 
             $this->conn = null;
+
+            exit(1);
         }
     }
 
