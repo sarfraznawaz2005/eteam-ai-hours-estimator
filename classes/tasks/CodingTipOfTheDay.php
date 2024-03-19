@@ -33,9 +33,12 @@ class CodingTipOfTheDay extends Task
             return;
         }
 
-        GoogleAI::setPrompt("\n\nPlease generate a detailed and useful tip tailored to software engineering or web designing with example code (wrapped in div tag) if needed. It should be based on PHP, laravel, javascript, reactjs, devops, git, css, or some other web technology.");
+        GoogleAI::setPrompt("\n\nPlease generate a detailed and useful tip tailored to software engineering or web designing with example code (wrapped in pre tag) if needed. It should be based on PHP, laravel, javascript, reactjs, devops, git, css, or some other web technology.");
 
         $response = GoogleAI::GenerateContentWithRetry();
+
+        $response = str_replace('=&lt;', '<', $response);
+        $response = str_replace('=&gt;', '>', $response);
 
         if (!str_contains(strtolower($response), 'no response')) {
 
@@ -59,14 +62,11 @@ class CodingTipOfTheDay extends Task
 
             $action = "projects/$eteamKnowledgeSharingProjectId/posts.xml";
 
-            $response = str_replace('=&lt;', '<', $response);
-            $response = str_replace('=&gt;', '>', $response);
-
             $xmlData = <<<data
             <request>
                 <post>
                     <title>$postTitle</title>
-                    <body><![CDATA[$response]]></body>
+                    <body><pre><![CDATA[$response]]></pre></body>
                 </post>
                 $notifyPersonsXml
             </request>

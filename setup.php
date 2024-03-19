@@ -219,5 +219,5 @@ function retry(callable $callable, int $maxAttempts = 3): void
 
 function isLucky($max = 3): bool
 {
-    return rand(0, $max) === rand(0, $max);
+    return 1 === rand(0, $max);
 }
