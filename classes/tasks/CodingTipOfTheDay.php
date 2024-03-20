@@ -66,7 +66,7 @@ class CodingTipOfTheDay extends Task
             <request>
                 <post>
                     <title>$postTitle</title>
-                    <body><pre><![CDATA[$response]]></pre></body>
+                    <body><![CDATA[<pre>$response</pre>]]></body>
                 </post>
                 $notifyPersonsXml
             </request>
