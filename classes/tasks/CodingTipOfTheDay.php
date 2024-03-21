@@ -58,7 +58,6 @@ class CodingTipOfTheDay extends Task
             }
 
             $response = strip_tags($response);
-            $response = nl2br($response);
 
             $action = "projects/$eteamKnowledgeSharingProjectId/posts.xml";
 
