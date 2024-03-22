@@ -47,13 +47,13 @@ class CodingTipOfTheDay extends Task
                 $notifyPersonsXml .= "<notify>$key</notify>\n";
             }
 
-            $postTitle = 'Tip of the Day - ';
+            $postTitle = 'Tip of the Day - ' . date('d-m-Y');
 
             if (preg_match('/Tip: (.*?)\n/i', strip_tags($response), $matches)) {
                 $ideaName = $matches[1] ?? '';
 
                 if (trim($ideaName)) {
-                    $postTitle .= " [$ideaName]";
+                    $postTitle .= " - [$ideaName]";
                 }
             }
 
