@@ -7,7 +7,9 @@ class ReplyToEmails extends Task
     // do not reply to these sender emails, must be lowercase
     private static array $excludedEmails = [
         'notifications@eteamid.basecamphq.com',
+        'notifications@writeboard.com',
         'system@writeboard.com',
+        'system@eteamid.basecamphq.com',
     ];
 
     // do not reply to emails with these subjects, must be lowercase
