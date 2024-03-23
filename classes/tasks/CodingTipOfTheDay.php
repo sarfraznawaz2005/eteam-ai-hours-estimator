@@ -37,6 +37,9 @@ class CodingTipOfTheDay extends Task
 
         $response = GoogleAI::GenerateContentWithRetry();
 
+        $response = preg_replace('/\n{2,}/', "\n", $response);
+        $response = preg_replace('/\n/', "\n\n", $response);
+
         if (!str_contains(strtolower($response), 'no response')) {
 
             $userIds = BasecampClassicAPI::getAllUsers();
