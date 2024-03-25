@@ -55,13 +55,13 @@ class PostProjectIdea extends Task
                 $notifyPersonsXml .= "<notify>$key</notify>\n";
             }
 
-            $postTitle = 'Idea Of The Week - ';
+            $postTitle = 'Idea Of The Week';
 
             if (preg_match('/Idea Name: (.*?)\n/i', strip_tags($response), $matches)) {
                 $ideaName = $matches[1] ?? '';
 
                 if (trim($ideaName)) {
-                    $postTitle .= " [$ideaName]";
+                    $postTitle .= " - [$ideaName]";
                 }
             }
 

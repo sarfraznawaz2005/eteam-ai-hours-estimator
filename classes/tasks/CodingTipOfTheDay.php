@@ -37,8 +37,10 @@ class CodingTipOfTheDay extends Task
 
         $response = GoogleAI::GenerateContentWithRetry();
 
-        $response = preg_replace('/\n{2,}/', "\n", $response);
-        $response = preg_replace('/\n/', "\n\n", $response);
+        //$response = preg_replace('/\n{2,}/', "\n", $response);
+        //$response = preg_replace('/\n/', "\n\n", $response);
+        //$response = "<pre>$response</pre>";
+        //$response = strip_tags($response);
 
         if (!str_contains(strtolower($response), 'no response')) {
 
@@ -50,7 +52,7 @@ class CodingTipOfTheDay extends Task
                 $notifyPersonsXml .= "<notify>$key</notify>\n";
             }
 
-            $postTitle = 'Tip of the Day - ' . date('d-m-Y');
+            $postTitle = 'Tip of the Day';
 
             if (preg_match('/Tip: (.*?)\n/i', strip_tags($response), $matches)) {
                 $ideaName = $matches[1] ?? '';
@@ -60,15 +62,13 @@ class CodingTipOfTheDay extends Task
                 }
             }
 
-            $response = strip_tags($response);
-
             $action = "projects/$eteamKnowledgeSharingProjectId/posts.xml";
 
             $xmlData = <<<data
             <request>
                 <post>
                     <title>$postTitle</title>
-                    <body><![CDATA[<pre>$response</pre>]]></body>
+                    <body><![CDATA[$response]]></body>
                 </post>
                 $notifyPersonsXml
             </request>
