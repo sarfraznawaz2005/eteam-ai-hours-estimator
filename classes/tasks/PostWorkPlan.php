@@ -89,8 +89,10 @@ class PostWorkPlan extends Task
 
 					- Mark Attendances<br>
 					- Post Project Ideas<br>
+					- Post Daily Tips<br>
 					- Code Reviews<br>
 					- Email Communication<br>
+					- Personal Email Reminders<br>
 					- Basecamp Communication<br>
 					- Basecamp Customer Reply Reminders<br>
 					- Provide AI Tools Services<br>
