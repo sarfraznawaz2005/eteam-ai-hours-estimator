@@ -35,11 +35,11 @@ class PersonalReminders extends Task
     {
         $todayDate = date('Y-m-d');
 
-        if (date('d') === $day) {
+        if (date('d') == $day) {
             $id = "{$prefix}_{$todayDate}_$to";
 
             $isAlreadyDone = static::isDoneForToday($id, __CLASS__);
-            logMessage(__CLASS__ . " : date matched", 'success');
+
             if (!$isAlreadyDone) {
                 $emailSent = self::sendEmail($to, $prefix, $body);
 
@@ -49,8 +49,6 @@ class PersonalReminders extends Task
 
                 self::markItDone($id);
             }
-        }else {
-            logMessage(__CLASS__ . " : date NOT matched $todayDate", 'success');
         }
     }
 
