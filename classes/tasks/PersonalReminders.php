@@ -61,9 +61,7 @@ class PersonalReminders extends Task
     {
         $result = static::markDone($id, __CLASS__);
 
-        if ($result) {
-            logMessage(__CLASS__ . ' : Marked Done', 'success');
-        } else {
+        if (!$result) {
             logMessage(__CLASS__ . ' : Unable to mark done', 'danger');
         }
     }

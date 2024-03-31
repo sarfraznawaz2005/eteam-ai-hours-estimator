@@ -47,10 +47,10 @@ function logMessage($message, $type = 'info', $logFile = 'application.log'): voi
 
     $filePath = $rootFolder . DIRECTORY_SEPARATOR . $logFile;
 
-    // Check if file exists and delete it if it has more than 100 entries
+    // Check if file exists and delete it if it has more than x entries
     if (file_exists($filePath)) {
         $lineCount = count(file($filePath));
-        if ($lineCount > 100) {
+        if ($lineCount > 1000) {
             @unlink($filePath);
             logMessage($message, $type);
             return;
