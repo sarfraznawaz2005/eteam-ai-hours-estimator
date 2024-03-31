@@ -39,7 +39,7 @@ class PersonalReminders extends Task
             $id = "{$prefix}_{$todayDate}_$to";
 
             $isAlreadyDone = static::isDoneForToday($id, __CLASS__);
-
+            logMessage(__CLASS__ . " : date matched", 'success');
             if (!$isAlreadyDone) {
                 $emailSent = self::sendEmail($to, $prefix, $body);
 

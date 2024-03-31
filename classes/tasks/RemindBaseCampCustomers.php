@@ -124,9 +124,9 @@ class RemindBaseCampCustomers extends Task
                 }
 
                 $prompt = <<<EOD
-                See given customer message and figure out if we should reply to it in case it is a question/query or 
-                even a general comment that you think is worth replying. If it's worth replying, reply with only and 
-                exactly "Worth Replying" and nothing else. If it's not worth replying, reply with "All Good" instead.
+                Given below customer message, figure out if we should reply to it. If customer message is a question, 
+                query, or concern that you think is worth replying, reply with only and exactly "Worth Replying" and 
+                nothing else otherwise reply with only and exactly "All Good" and nothing else.
                 
                 Customer Message: "$unrepliedMessages[$unrepliedMessageKey]"
                 EOD;
@@ -149,7 +149,7 @@ class RemindBaseCampCustomers extends Task
             // send email
             if ($dueReminders) {
                 $emailBody = "Dear All,<br><br>";
-                $emailBody .= "Following customer messsages have not been replied since two days, please check if they need to be replied.<br><br>";
+                $emailBody .= "Following customer messsages have not been replied since two days, please check if they need to be replied. Ignore if it's general comment.<br><br>";
 
                 $emailBody .= implode('<br>', array_map(function ($link) {
                     return '<a href="' . htmlspecialchars($link) . '">' . htmlspecialchars($link) . '</a>';
