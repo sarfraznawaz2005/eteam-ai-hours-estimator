@@ -49,6 +49,8 @@ class PersonalReminders extends Task
 
                 self::markItDone($id);
             }
+        }else {
+            logMessage(__CLASS__ . " : date NOT matched $todayDate", 'success');
         }
     }
 
