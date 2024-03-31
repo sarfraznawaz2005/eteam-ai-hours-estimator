@@ -49,6 +49,8 @@ class PersonalReminders extends Task
 
                 self::markItDone($id);
             }
+        }else {
+            logMessage(date('d') .  "== $day - with body $body", 'success');
         }
     }
 
