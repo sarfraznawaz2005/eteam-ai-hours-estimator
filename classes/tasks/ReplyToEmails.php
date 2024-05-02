@@ -15,7 +15,7 @@ class ReplyToEmails extends Task
 
     // do not reply to emails with these subjects, must be lowercase
     private static array $ignoreSubjects = [
-        'hours reminder'
+        'hours upload reminder',
     ];
 
     // for basecampe, if email body contains these words (value of array),
