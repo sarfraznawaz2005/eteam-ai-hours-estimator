@@ -41,7 +41,7 @@ class PostProjectIdea extends Task
             return;
         }
 
-        GoogleAI::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random but realistic and unique web application or mobile product idea based on given instructions. Your answer must not go more than 3 indentations.");
+        GoogleAI::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random but realistic and unique web application or mobile product idea based on given instructions. Idea must not be trivial such as time tracker or todoist, etc and should be useful for a business or a consumer.");
 
         $response = GoogleAI::GenerateContentWithRetry();
 
