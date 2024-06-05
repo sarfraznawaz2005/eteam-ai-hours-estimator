@@ -33,7 +33,7 @@ class CodingTipOfTheDay extends Task
             return;
         }
 
-        GoogleAI::setPrompt("\n\nPlease generate a detailed and useful tip. It should be based on PHP, laravel, javascript, reactjs, devops, git, css, ai, project management, db, web development, mobile development, best practices, performance, security, tech tools, or some other web technology.");
+        GoogleAI::setPrompt("\n\nPlease generate a detailed and useful tip. It should be based on PHP, laravel, javascript, reactjs, devops, git, css, ai, project management, db, web development, mobile development, best practices, performance, security, tech tools, or some other web technology including any new tech we need to learn.");
 
         $response = GoogleAI::GenerateContentWithRetry();
 
