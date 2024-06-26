@@ -53,7 +53,7 @@ class GoogleAI extends AI
                 //    'Title',
                 //],
                 'maxOutputTokens' => 8192,
-                'temperature' => 1,
+                'temperature' => 2.0,
                 //'topP' => 0.5,
                 //'topK' => 20,
             ],
