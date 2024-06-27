@@ -41,7 +41,7 @@ class PostProjectIdea extends Task
             return;
         }
 
-        GoogleAI::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random but realistic and unique web application or mobile product idea.");
+        GoogleAI::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random but realistic and unique web application or mobile product idea based on given instructions. Idea must not be trivial such as time tracker or todoist, SkillSync, etc.");
 
         $response = GoogleAI::GenerateContentWithRetry();
 

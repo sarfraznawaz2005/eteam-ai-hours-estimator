@@ -7,6 +7,8 @@ Note that our skills are web and mobile development, therefore we would prefer i
 
 Rules you must follow:
 
+- Idea must be unique each time.
+- Idea must not be trivial such as todo list, calendar, etc.
 - You must provide idea only for sofware products.
 - You should try to give unique ideas preferably with low competition.
 - For cost of operation, Pakistani currency must be used, you can check current PKR currency value against US dollar if you can. 
