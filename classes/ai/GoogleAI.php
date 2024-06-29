@@ -20,6 +20,8 @@ class GoogleAI extends AI
         \n\n
         facts;
 
+        $prompt .= "\n\nPROMPT ID: " . (uniqid() . now()) . "\n\n";
+
         static::$prompts[] = [
             'role' => 'user',
             'parts' => [
