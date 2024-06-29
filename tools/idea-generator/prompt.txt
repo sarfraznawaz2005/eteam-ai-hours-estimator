@@ -10,6 +10,7 @@ Rules you must follow:
 - Idea must be unique each time.
 - Do not provide ideas that are already in the marke or you have already told us.
 - Idea must not be trivial such as todo list, calendar, SkillSync, Skill Sync, etc.
+- We are not interested in idea SkillSync, Skill Sync, etc.
 - You must provide idea only for sofware products.
 - You should try to give unique ideas preferably with low competition.
 - For cost of operation, Pakistani currency must be used, you can check current PKR currency value against US dollar if you can. 
