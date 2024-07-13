@@ -41,9 +41,11 @@ class PostProjectIdea extends Task
             return;
         }
 
-        GoogleAI::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random but realistic and unique web application or mobile product idea based on given instructions.");
+        $aiModel = AIFactory::getAIModel();
 
-        $response = GoogleAI::GenerateContentWithRetry();
+        $aiModel::setPrompt(file_get_contents(basePath() . '/tools/idea-generator/prompt.txt') . "\n\nPlease generate a random but realistic and unique web application or mobile product idea based on given instructions.");
+
+        $response = $aiModel::GenerateContentWithRetry();
 
         if (!str_contains(strtolower($response), 'no response')) {
 

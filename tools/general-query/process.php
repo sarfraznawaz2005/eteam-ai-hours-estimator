@@ -14,11 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
 
-        GoogleAI::setPrompt(file_get_contents('prompt.txt') . "\n\n $description");
-        $response = GoogleAI::GenerateContentWithRetry();
+        $aiModel = AIFactory::getAIModel();
+
+        $aiModel::setPrompt(file_get_contents('prompt.txt') . "\n\n $description");
+        $response = $aiModel::GenerateContentWithRetry();
 
         echo json_encode(['result' => $response]);
-        http_response_code(200); // OK
+        //http_response_code(200); // OK
     } catch (Exception $e) {
 
         if (str_contains(strtolower($e->getMessage()), 'candidates')) {

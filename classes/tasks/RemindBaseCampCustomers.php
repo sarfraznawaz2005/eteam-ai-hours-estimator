@@ -131,9 +131,11 @@ class RemindBaseCampCustomers extends Task
                 Customer Message: "$unrepliedMessages[$unrepliedMessageKey]"
                 EOD;
 
-                GoogleAI::setPrompt($prompt);
+                $aiModel = AIFactory::getAIModel();
 
-                $response = strtolower(GoogleAI::GenerateContentWithRetry());
+                $aiModel::setPrompt($prompt);
+
+                $response = strtolower($aiModel::GenerateContentWithRetry());
 
                 if (str_contains($response, 'worth replying')) {
                     $dueReminders[] = $unrepliedMessages[$unrepliedMessageKey];

@@ -188,9 +188,11 @@ class ReplyToEmails extends Task
                             Phone: +(9221) 37120414
                         PROMPT;
 
-                        GoogleAI::setPrompt($prompt);
+                        $aiModel = AIFactory::getAIModel();
 
-                        $response = GoogleAI::GenerateContentWithRetry();
+                        $aiModel::setPrompt($prompt);
+
+                        $response = $aiModel::GenerateContentWithRetry();
 
                         // if there is nothing to reply, don't do anything
                         if (strtolower(strip_tags($response)) === 'ok') {

@@ -39,20 +39,22 @@ PROMPT;
 
         $response = "<h4>TECHNICAL GUIDELINES:</h4>";
 
-        GoogleAI::setPrompt(file_get_contents('prompt.txt') . $prompt);
+        $aiModel = AIFactory::getAIModel();
 
-        $response .= GoogleAI::GenerateContentWithRetry();
+        $aiModel::setPrompt(file_get_contents('prompt.txt') . $prompt);
+
+        $response .= $aiModel::GenerateContentWithRetry();
 
         sleep(3);
 
         $response .= "<h4>GENERAL GUIDELINES:</h4>";
 
-        GoogleAI::setPrompt(file_get_contents('prompt_general.txt') . $promptGeneral);
+        $aiModel::setPrompt(file_get_contents('prompt_general.txt') . $promptGeneral);
 
-        $response .= GoogleAI::GenerateContentWithRetry();
+        $response .= $aiModel::GenerateContentWithRetry();
 
         echo json_encode(['result' => $response]);
-        http_response_code(200); // OK
+        //http_response_code(200); // OK
 
     } catch (Exception $e) {
 

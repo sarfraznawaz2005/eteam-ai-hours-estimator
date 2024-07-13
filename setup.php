@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 header('jSGCacheBypass: 1');
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -23,6 +25,9 @@ function autoloader($className): void
 }
 
 spl_autoload_register('autoloader');
+
+// set AI model we want to use
+AIFactory::setAIModel('google');
 
 //IniReader::initialize();
 
@@ -75,7 +80,7 @@ function logMessage($message, $type = 'info', $logFile = 'application.log'): voi
     fclose($fileHandle);
 }
 
-function dd(...$vars): void
+#[NoReturn] function dd(...$vars): void
 {
     $isCli = php_sapi_name() === 'cli';
 

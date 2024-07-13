@@ -110,9 +110,11 @@ class ReplyToBaseCampComments extends Task
 
                                 PROMPT;
 
-                                GoogleAI::setPrompt($prompt);
+                                $aiModel = AIFactory::getAIModel();
 
-                                $response = GoogleAI::GenerateContentWithRetry();
+                                $aiModel::setPrompt($prompt);
+
+                                $response = $aiModel::GenerateContentWithRetry();
 
                                 // if there is nothing to reply, don't do anything
                                 if (strtolower(trim(strip_tags($response))) === 'ok') {

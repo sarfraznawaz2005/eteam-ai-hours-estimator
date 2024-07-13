@@ -32,16 +32,19 @@ PROMPT;
     // send the request
     try {
 
+        $aiModel = AIFactory::getAIModel();
+        //logMessage('Model: ' . $aiModel::class, 'success');
+
         if (!empty($niche)) {
-            GoogleAI::setPrompt(file_get_contents('prompt_niche.txt') . $prompt);
+            $aiModel::setPrompt(file_get_contents('prompt_niche.txt') . $prompt);
         } else {
-            GoogleAI::setPrompt(file_get_contents('prompt.txt') . $prompt);
+            $aiModel::setPrompt(file_get_contents('prompt.txt') . $prompt);
         }
 
-        $response = GoogleAI::GenerateContentWithRetry();
+        $response = $aiModel::GenerateContentWithRetry();
 
         echo json_encode(['result' => $response]);
-        http_response_code(200); // OK
+        //http_response_code(200); // OK
     } catch (Exception $e) {
 
         if (str_contains(strtolower($e->getMessage()), 'candidates')) {

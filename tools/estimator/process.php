@@ -26,8 +26,10 @@ PROMPT;
     try {
 
 
-        GoogleAI::setPrompt(file_get_contents('prompt.txt') . $prompt);
-        $response = GoogleAI::GenerateContentWithRetry();
+        $aiModel = AIFactory::getAIModel();
+
+        $aiModel::setPrompt(file_get_contents('prompt.txt') . $prompt);
+        $response = $aiModel::GenerateContentWithRetry();
 
         // calculate total estimate manually since AI is weak in maths
         $pattern = '/\d+(?= hours)/';
@@ -38,7 +40,7 @@ PROMPT;
         $response = $response . "<hr><strong>TOTAL ESTIMATED HOURS: $total</strong>";
 
         echo json_encode(['result' => $response]);
-        http_response_code(200); // OK
+        //http_response_code(200); // OK
     } catch (Exception $e) {
 
         if (str_contains(strtolower($e->getMessage()), 'candidates')) {

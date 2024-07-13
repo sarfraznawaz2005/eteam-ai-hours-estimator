@@ -37,12 +37,14 @@ PROMPT;
 
     try {
 
-        GoogleAI::setPrompt($prompt . file_get_contents('prompt.txt'));
+        $aiModel = AIFactory::getAIModel();
 
-        $response = GoogleAI::GenerateContentWithRetry();
+        $aiModel::setPrompt($prompt . file_get_contents('prompt.txt'));
+
+        $response = $aiModel::GenerateContentWithRetry();
 
         echo json_encode(['result' => $response]);
-        http_response_code(200); // OK
+        //http_response_code(200); // OK
 
     } catch (Exception $e) {
 
