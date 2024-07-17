@@ -34,8 +34,8 @@ class GoogleAI extends AI
     {
         $apiKey = CONFIG['google_api_key'];
 
-        //$url = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=$apiKey";
-        $url = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=$apiKey";
+        //$url = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=$apiKey";
+        $url = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=$apiKey";
 
         // since currently we cannot find a way to send multiple prompts to api at once
         $prompt = end(static::$prompts);
