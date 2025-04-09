@@ -2,7 +2,9 @@
 
 return [
 
+    'openai_api_key' => 'xxxxxxxxxxxxxxxxx',
     'google_api_key' => 'xxxxxxxxxxxxxxxxx',
+    'google_model' => 'gemini-2.0-flash',
 
     'db_host' => 'localhost',
     'db_user' => 'root',

@@ -32,14 +32,10 @@ class GoogleAI extends AI
 
     public static function generateContent($useParseDown = true): string
     {
-        $apiKeys = [
-            CONFIG['google_api_key'],
-            'AIzaSyDNbDOArW2h_ETmp7PdIVF9fh66oyR8NCU',
-        ];
+        $apiKey = CONFIG['google_api_key'];
+        $model = CONFIG['google_model'];
 
-        $apiKey = array_values($apiKeys)[array_rand($apiKeys)];
-
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=$apiKey";
+        $url = "https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey";
         //$url = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=$apiKey";
 
         // since currently we cannot find a way to send multiple prompts to api at once
