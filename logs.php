@@ -1,3 +1,10 @@
+<?php
+require_once __DIR__ . '/setup.php';
+
+//$DB = new DB();
+//MarkAttendance::execute();
+
+?>
 <?php require_once './layout/head.php';?>
 
 <link href="/assets/css/jquery.dataTables.css" rel="stylesheet">
