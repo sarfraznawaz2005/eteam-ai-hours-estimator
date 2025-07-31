@@ -31,6 +31,8 @@ class PersonalReminders extends Task
         self::checkReminder('AC & Solar Plate Cleaning Reminder', '01', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Please clean AC & solar plates today');
         self::checkReminder('AC & Solar Plate Cleaning Reminder', '15', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>Please clean AC & solar plates today');
         self::checkReminder('House Rent Reminder', '03', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>This is reminder for hosue rent.');
+        self::checkReminder('House Rent Reminder', '05', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>This is reminder for hosue rent.');
+        self::checkReminder('House Rent Reminder', '10', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>This is reminder for hosue rent.');
 
     }
 
