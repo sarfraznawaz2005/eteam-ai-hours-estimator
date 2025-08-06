@@ -34,13 +34,18 @@ class PersonalReminders extends Task
         self::checkReminder('House Rent Reminder', '05', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>This is reminder for hosue rent.');
         self::checkReminder('House Rent Reminder', '10', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>This is reminder for hosue rent.');
 
+        self::checkReminder('Filer Reminder', '10', 'sarfraz@eteamid.com', 'Dear Sarfraz,<br><br>This is reminder for filer entry.', '08');
+
     }
 
-    private static function checkReminder($prefix, $day, $to, $body): void
+    private static function checkReminder($prefix, $day, $to, $body, $month = null): void
     {
-        $todayDate = date('Y-m-d');
+        $shouldRun = ($month === null)
+            ? (date('d') == $day)
+            : (date('m-d') == sprintf('%02d-%02d', $month, $day));
 
-        if (date('d') == $day) {
+        if ($shouldRun) {
+            $todayDate = date('Y-m-d');
             $id = "{$prefix}_{$todayDate}_$to";
 
             $isAlreadyDone = static::isDoneForToday($id, __CLASS__);
