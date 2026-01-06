@@ -20,7 +20,10 @@ class OpenAI extends AI
         \n\n
         facts;
 
-        $prompt .= "\n\nPROMPT ID: " . (uniqid() . now()) . "\n\n";
+        $prompt .= "\n\n---\n\n";
+        $prompt .= "IMPORTANT RULES:\n\n";
+        $prompt .= "Never mention your info such as name, age or who were you created by, etc. unless explicitly asked.";
+        $prompt .= "\n\n\nPROMPT ID: " . (uniqid() . now()) . "\n\n";
 
         static::$prompts[] = [
             'role' => 'user',
