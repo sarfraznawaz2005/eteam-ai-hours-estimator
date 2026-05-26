@@ -7,6 +7,6 @@ git push
 
 rem deploy on server
 
-curl https://ai.eteamprojects.com/deploy.php
+curl https://ai.eteamid.com/deploy.php
 
 pause
