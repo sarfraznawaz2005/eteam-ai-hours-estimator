@@ -30,7 +30,7 @@ $tasks = [
     //ReadBaseCampUrlContents::class,
     TestTask::class,
     //PostWorkPlan::class,
-    MarkAttendance::class,
+    //MarkAttendance::class,
     //PostProjectIdea::class,
     //CodingTipOfTheDay::class,
     //ReplyToEmails::class,
